@@ -1,9 +1,4 @@
 "use strict";
-/*
-    Base HTTP request
-    @url - from config (see more in Configure.ts)
-    @rdata - from function call
-*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -25,13 +20,13 @@ const axios_1 = __importDefault(require("axios"));
  * @param rdata - request data for api-request
  * @returns
  */
-function isAxis(url, rdata) {
+function isAxis(rurl, rdata) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('isAxis: ' + url);
+        console.log('isAxis makes request to: ' + rurl);
         try {
             const response = yield (0, axios_1.default)({
                 method: 'POST',
-                url: url,
+                url: rurl,
                 data: Object.assign({}, rdata),
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,7 +36,7 @@ function isAxis(url, rdata) {
             return response.data;
         }
         catch (error) {
-            console.log("isAxis(), Request failed: " + JSON.stringify(error));
+            console.error("isAxis(), Request failed: " + JSON.stringify(error));
             throw error;
         }
     });

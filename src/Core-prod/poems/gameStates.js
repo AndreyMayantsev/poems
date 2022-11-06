@@ -7,4 +7,3 @@ var GameStates;
     GameStates[GameStates["InRoomsListState"] = 1] = "InRoomsListState";
     GameStates[GameStates["InGameState"] = 2] = "InGameState";
 })(GameStates = exports.GameStates || (exports.GameStates = {}));
-console.log(GameStates.InGameState);

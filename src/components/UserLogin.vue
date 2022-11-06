@@ -15,8 +15,9 @@
 </template>
 
 <script>
-import { HttpRequestFactory, requestType } from '../Core-prod/api/HttpRequestFactory'
-import PopupMsg from './popup/PopupMsg.vue'
+import { HttpRequestFactory } from '../Core-prod/api/requests/HttpRequestFactory';
+import { requestType } from '../Core-prod/api/dataTypes';
+import { PopupMsg } from './popup/PopupMsg.vue'
 
 export default {
     name: 'UserLogin',

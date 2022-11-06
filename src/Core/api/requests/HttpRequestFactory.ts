@@ -1,13 +1,6 @@
 import { HttpAuthRequest } from "./HttpAuthRequest";
 import { UserLoginRequest } from "../dataTypes"
-
-export enum requestType {
-    UserAuth,
-    UserRegister,
-    RoomGet,
-    RoomMake
-}
-console.log(requestType)
+import { requestType } from "../dataTypes";
 
 export class HttpRequestFactory {
 

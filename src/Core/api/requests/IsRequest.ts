@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ServerResponseType } from './dataTypes';
+import { ServerResponseType } from '../dataTypes';
 
 /**
  * 

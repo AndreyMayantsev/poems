@@ -55,3 +55,10 @@ export type RoomCreateRequest = {
 export type RoomGetRequest = {
     // id in url string; 
 }
+
+export enum requestType {
+    UserAuth,
+    UserRegister,
+    RoomGet,
+    RoomMake
+}

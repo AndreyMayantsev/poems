@@ -1,6 +1,6 @@
-import { RegistrationResponse, ServerResponseType, UserLoginRequest } from "./dataTypes";
+import { RegistrationResponse, ServerResponseType, UserLoginRequest } from "../dataTypes";
 import { isAxis } from "./IsRequest";
-import { Configure } from "../Сonfigure";
+import { Configure } from "../../Сonfigure";
 import { HttpRequestInterface } from "./HttpRequestInterface";
 
 export class HttpAuthRequest implements HttpRequestInterface {

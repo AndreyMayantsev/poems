@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HttpAuthRequest = void 0;
 const IsRequest_1 = require("./IsRequest");
-const _onfigure_1 = require("../\u0421onfigure");
+const _onfigure_1 = require("../../\u0421onfigure");
 class HttpAuthRequest {
     constructor() {
         this.url = _onfigure_1.Configure.BASE_URL + _onfigure_1.Configure.URL_USER_REGISTER;

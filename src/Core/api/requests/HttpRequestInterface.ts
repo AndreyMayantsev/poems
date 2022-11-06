@@ -1,4 +1,4 @@
-import { ServerResponseType } from "./dataTypes";
+import { ServerResponseType } from "../dataTypes";
 
 
 export interface HttpRequestInterface {
