@@ -1,15 +1,31 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <UserLogin/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+// import core libraries
+import { Game } from './Core-prod/poems/game'
+import { GameStates } from './Core-prod/poems/gameStates'
+// import components
+import UserLogin from './components/UserLogin.vue'
+
+// Making new game;
+var GameInstance = new Game();
+
+// Check game state
+if (GameInstance.state == GameStates.NonAuthorizeState) {
+  console.log("[GAME STATE]: Non-Authorized!");
+}
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    UserLogin
+  },
+  methods: {
+
   }
 }
 </script>
