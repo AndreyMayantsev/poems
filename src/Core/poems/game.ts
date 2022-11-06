@@ -2,8 +2,8 @@
 import User from './user'
 import RoomManager from './roomManager';
 import { AuthorizationResponse, UserLoginRequest } from '../api/dataTypes';
-import { HttpRequestFactory } from '../api/HttpRequestFactory';
-import { requestType } from '../api/HttpRequestFactory';
+import { HttpRequestFactory } from '../api/requests/HttpRequestFactory';
+import { requestType } from '../api/requests/HttpRequestFactory';
 import { GameStates } from './gameStates';
 
 export class Game {
@@ -18,6 +18,7 @@ export class Game {
         
         this.HttpRequestsFactory = new HttpRequestFactory()
         this.state = GameStates.NonAuthorizeState;
+        console.log("[Game] Created.")
         
     }
 
