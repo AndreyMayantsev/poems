@@ -1,3 +1,5 @@
+// commited from windows maxhine!
+
 import { ServerResponseType } from '../api/dataTypes';
 import { AuthorizationResponse } from '../api/dataTypes'
 
@@ -17,7 +19,7 @@ export default class User {
     }
 
     public logOut() {
-        // 
+        // Exiting from game and app
         this.userID = 0;
         this.tokenExpired = 1;
         this.userToken = "";
