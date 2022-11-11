@@ -1,4 +1,5 @@
 // commited from windows maxhine!
+// test merge
 
 import { ServerResponseType } from '../api/dataTypes';
 import { AuthorizationResponse } from '../api/dataTypes'
