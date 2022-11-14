@@ -36,8 +36,7 @@ function isAxis(rurl, rdata) {
             return response.data;
         }
         catch (error) {
-            console.error("isAxis(), Request failed: " + JSON.stringify(error));
-            throw error;
+            throw ("[isAxis] Fatal: " + error);
         }
     });
 }

@@ -100,13 +100,17 @@ export default {
             console.log("Authentification data created.")
             this.showPopup("ОТПРАВЛЯЕМ НА СЕРВЕР => " + JSON.stringify(authInfo))
 
-            // Запрос на сервер
-            ReqFabric = new HttpRequestFactory();
-            ReqFabric.test_console("Testing...");
-            let answer = await ReqFabric.makeRequest( requestType.UserAuth, authInfo )
+            try {
+                
+                // Запрос на сервер
+                ReqFabric = new HttpRequestFactory();
+                let answer = await ReqFabric.makeRequest( requestType.UserAuth, authInfo )
 
-            console.log("ANSWER => " + JSON.stringify(answer))
+                console.log("ANSWER => " + JSON.stringify(answer))
 
+            } catch(error) {
+                this.showPopup("ОТСУТСВУЕТ СОЕДИНЕНИЕ С СЕТЬЮ! " + error);
+            }        
         }
     }
 

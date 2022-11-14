@@ -18,12 +18,18 @@ class HttpAuthRequest {
     }
     makeHttpRequest(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            let req;
-            req = yield (0, IsRequest_1.isAxis)(this.url, data).then((response) => {
-                return response;
-            });
-            console.log("makeHttpRequest(): " + JSON.stringify(req));
-            return req;
+            try {
+                let req;
+                req = yield (0, IsRequest_1.isAxis)(this.url, data).then((response) => {
+                    return response;
+                });
+                console.log("makeHttpRequest(): " + JSON.stringify(req));
+                return req;
+            }
+            catch (error) {
+                console.error("[MakeHttpRequest]: Fatal");
+                throw (error);
+            }
         });
     }
 }

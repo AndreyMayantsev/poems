@@ -1,4 +1,5 @@
 import { HttpAuthRequest } from "./HttpAuthRequest";
+import { HttpRegisterRequest } from "./HttpRegisterRequest";
 import { UserLoginRequest } from "../dataTypes"
 import { requestType } from "../dataTypes";
 
@@ -10,27 +11,44 @@ export class HttpRequestFactory {
     
     async makeRequest(rtype: requestType, rdata: UserLoginRequest) {
 
-        console.log("=> makeRequest starts work wirh type: ");
-        let HttpRequestObject = null;
-        let ans;
+        try {
 
-        switch (rtype) {
-            case requestType.UserAuth: {
-                console.log("Making request: " + requestType.UserAuth);
-                HttpRequestObject = new HttpAuthRequest();
-                ans = await HttpRequestObject.makeHttpRequest(rdata);
-                return ans;
-                break;
-            }
-            default: {
-                console.error("Unrecognized request type: " + JSON.stringify(rtype))
-                throw Error("[HttpRequestFactory] Unrecognized request type!");
-            }
-        }  
+            console.log("=> makeRequest starts work wirh type: ");
+            let HttpRequestObject = this.FactorySwitcher(rtype);
+            let answer = HttpRequestObject.makeHttpRequest(rdata);
+            console.log("[makeRequestData]: " + JSON.stringify(answer));
+            return answer;
+
+        } catch(error) {
+            console.error("[makeRequestError]: " + error);
+            throw(error);
+        }
+
     }
 
-    test_console(info: string) {
-        console.log("===TEST===: " + info);
+    private FactorySwitcher(rtype: requestType) {
+
+        let HttpRequestObject;
+        console.log("Making request: " + rtype);
+
+            switch (rtype) {
+                case requestType.UserAuth: {
+                    HttpRequestObject = new HttpAuthRequest();
+                    break;
+                }
+                case requestType.UserRegister: {
+                    HttpRequestObject = new HttpRegisterRequest();
+                    break;                    
+                }
+                default: {
+                    console.error("Unrecognized request type: " + JSON.stringify(rtype))
+                    throw Error("[HttpRequestFactory] Unrecognized request type!");
+                }
+            } 
+
+        return HttpRequestObject;
+
     }
 
 }
+

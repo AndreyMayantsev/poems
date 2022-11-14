@@ -3,7 +3,7 @@ import { isAxis } from "./IsRequest";
 import { Configure } from "../../Сonfigure";
 import { HttpRequestInterface } from "./HttpRequestInterface";
 
-export class HttpAuthRequest implements HttpRequestInterface {
+export class HttpRegisterRequest implements HttpRequestInterface {
 
     private url = Configure.BASE_URL + Configure.URL_USER_REGISTER;
 

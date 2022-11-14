@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.HttpAuthRequest = void 0;
+exports.HttpRegisterRequest = void 0;
 const IsRequest_1 = require("./IsRequest");
 const _onfigure_1 = require("../../\u0421onfigure");
-class HttpAuthRequest {
+class HttpRegisterRequest {
     constructor() {
         this.url = _onfigure_1.Configure.BASE_URL + _onfigure_1.Configure.URL_USER_REGISTER;
     }
@@ -32,4 +32,4 @@ class HttpAuthRequest {
         });
     }
 }
-exports.HttpAuthRequest = HttpAuthRequest;
+exports.HttpRegisterRequest = HttpRegisterRequest;

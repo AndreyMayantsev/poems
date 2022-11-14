@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HttpRequestFactory = void 0;
 const HttpAuthRequest_1 = require("./HttpAuthRequest");
+const HttpRegisterRequest_1 = require("./HttpRegisterRequest");
 const dataTypes_1 = require("../dataTypes");
 class HttpRequestFactory {
     constructor() {
@@ -18,26 +19,37 @@ class HttpRequestFactory {
     }
     makeRequest(rtype, rdata) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("=> makeRequest starts work wirh type: ");
-            let HttpRequestObject = null;
-            let ans;
-            switch (rtype) {
-                case dataTypes_1.requestType.UserAuth: {
-                    console.log("Making request: " + dataTypes_1.requestType.UserAuth);
-                    HttpRequestObject = new HttpAuthRequest_1.HttpAuthRequest();
-                    ans = yield HttpRequestObject.makeHttpRequest(rdata);
-                    return ans;
-                    break;
-                }
-                default: {
-                    console.error("Unrecognized request type: " + JSON.stringify(rtype));
-                    throw Error("[HttpRequestFactory] Unrecognized request type!");
-                }
+            try {
+                console.log("=> makeRequest starts work wirh type: ");
+                let HttpRequestObject = this.FactorySwitcher(rtype);
+                let answer = HttpRequestObject.makeHttpRequest(rdata);
+                console.log("[makeRequestData]: " + JSON.stringify(answer));
+                return answer;
+            }
+            catch (error) {
+                console.error("[makeRequestError]: " + error);
+                throw (error);
             }
         });
     }
-    test_console(info) {
-        console.log("===TEST===: " + info);
+    FactorySwitcher(rtype) {
+        let HttpRequestObject;
+        console.log("Making request: " + rtype);
+        switch (rtype) {
+            case dataTypes_1.requestType.UserAuth: {
+                HttpRequestObject = new HttpAuthRequest_1.HttpAuthRequest();
+                break;
+            }
+            case dataTypes_1.requestType.UserRegister: {
+                HttpRequestObject = new HttpRegisterRequest_1.HttpRegisterRequest();
+                break;
+            }
+            default: {
+                console.error("Unrecognized request type: " + JSON.stringify(rtype));
+                throw Error("[HttpRequestFactory] Unrecognized request type!");
+            }
+        }
+        return HttpRequestObject;
     }
 }
 exports.HttpRequestFactory = HttpRequestFactory;

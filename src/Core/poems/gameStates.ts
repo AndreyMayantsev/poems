@@ -4,3 +4,5 @@ export enum GameStates {
         InRoomsListState,
         InGameState
 }
+
+console.log(GameStates);
