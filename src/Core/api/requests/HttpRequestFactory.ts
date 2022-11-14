@@ -13,10 +13,10 @@ export class HttpRequestFactory {
 
         try {
 
-            console.log("=> makeRequest starts work wirh type: ");
+            console.log("=> makeRequest with data:  "+JSON.stringify(rdata));
             let HttpRequestObject = this.FactorySwitcher(rtype);
-            let answer = HttpRequestObject.makeHttpRequest(rdata);
-            console.log("[makeRequestData]: " + JSON.stringify(answer));
+            let answer = await HttpRequestObject.makeHttpRequest(rdata);
+            console.log("<= answerData: " + JSON.stringify(answer));
             return answer;
 
         } catch(error) {
@@ -29,7 +29,6 @@ export class HttpRequestFactory {
     private FactorySwitcher(rtype: requestType) {
 
         let HttpRequestObject;
-        console.log("Making request: " + rtype);
 
             switch (rtype) {
                 case requestType.UserAuth: {

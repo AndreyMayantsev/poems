@@ -109,7 +109,7 @@ export default {
                 console.log("ANSWER => " + JSON.stringify(answer))
 
             } catch(error) {
-                this.showPopup("ОТСУТСВУЕТ СОЕДИНЕНИЕ С СЕТЬЮ! " + error);
+                this.showPopup("[!] ОШИБКА ЗАПРОСА: " + error);
             }        
         }
     }
