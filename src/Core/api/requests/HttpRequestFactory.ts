@@ -10,26 +10,19 @@ export class HttpRequestFactory {
     }
     
     async makeRequest(rtype: requestType, rdata: UserLoginRequest) {
-
         try {
-
-            console.log("=> makeRequest with data:  "+JSON.stringify(rdata));
+            console.log("=> makeRequest with data: " + JSON.stringify(rdata));
             let HttpRequestObject = this.FactorySwitcher(rtype);
             let answer = await HttpRequestObject.makeHttpRequest(rdata);
-            console.log("<= answerData: " + JSON.stringify(answer));
             return answer;
-
         } catch(error) {
-            console.error("[makeRequestError]: " + error);
+            console.warn("makeRequest failed! " + error);
             throw(error);
         }
-
     }
 
     private FactorySwitcher(rtype: requestType) {
-
         let HttpRequestObject;
-
             switch (rtype) {
                 case requestType.UserAuth: {
                     HttpRequestObject = new HttpAuthRequest();
@@ -44,10 +37,7 @@ export class HttpRequestFactory {
                     throw Error("[HttpRequestFactory] Unrecognized request type!");
                 }
             } 
-
         return HttpRequestObject;
-
     }
-
 }
 

@@ -20,14 +20,13 @@ class HttpRequestFactory {
     makeRequest(rtype, rdata) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log("=> makeRequest with data:  " + JSON.stringify(rdata));
+                console.log("=> makeRequest with data: " + JSON.stringify(rdata));
                 let HttpRequestObject = this.FactorySwitcher(rtype);
                 let answer = yield HttpRequestObject.makeHttpRequest(rdata);
-                console.log("<= answerData: " + JSON.stringify(answer));
                 return answer;
             }
             catch (error) {
-                console.error("[makeRequestError]: " + error);
+                console.warn("makeRequest failed! " + error);
                 throw (error);
             }
         });

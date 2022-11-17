@@ -16,19 +16,19 @@ class HttpRegisterRequest {
     constructor() {
         this.url = _onfigure_1.Configure.BASE_URL + _onfigure_1.Configure.URL_USER_REGISTER;
     }
-    /**
-     *
-     * @param data - данные для запроса (словарь)
-     * @returns
-     */
     makeHttpRequest(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            let req;
-            req = yield (0, IsRequest_1.isAxis)(this.url, data).then((response) => {
-                return response;
-            });
-            console.log("makeHttpRequest(): " + JSON.stringify(req));
-            return req;
+            try {
+                let req;
+                req = yield (0, IsRequest_1.isAxis)(this.url, data).then((response) => {
+                    return response;
+                });
+                return req;
+            }
+            catch (error) {
+                console.error("[MakeHttpRequest]: Error occured!");
+                throw (error);
+            }
         });
     }
 }

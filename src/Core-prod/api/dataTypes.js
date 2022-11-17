@@ -8,3 +8,4 @@ var requestType;
     requestType[requestType["RoomGet"] = 2] = "RoomGet";
     requestType[requestType["RoomMake"] = 3] = "RoomMake";
 })(requestType = exports.requestType || (exports.requestType = {}));
+console.log(requestType);

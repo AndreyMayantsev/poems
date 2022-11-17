@@ -1,6 +1,8 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <UserLogin/>
+  <div><img alt="Vue logo" src="./assets/logo.png">
+    <UserLogin/>
+    <RegisterForm/>
+  </div>
 </template>
 
 <script>
@@ -9,7 +11,8 @@
 import { Game } from './Core-prod/poems/game'
 import { GameStates } from './Core-prod/poems/gameStates'
 // import components
-import UserLogin from './components/UserLogin.vue'
+import UserLogin from './components/UserLogin.vue';
+import RegisterForm from './components/Register.vue';
 
 // Making new game;
 var GameInstance = new Game();
@@ -22,7 +25,8 @@ if (GameInstance.state == GameStates.NonAuthorizeState) {
 export default {
   name: 'App',
   components: {
-    UserLogin
+    UserLogin,
+    RegisterForm
   },
   methods: {
 

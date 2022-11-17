@@ -23,11 +23,10 @@ class HttpAuthRequest {
                 req = yield (0, IsRequest_1.isAxis)(this.url, data).then((response) => {
                     return response;
                 });
-                console.log("makeHttpRequest(): " + JSON.stringify(req));
                 return req;
             }
             catch (error) {
-                console.error("[MakeHttpRequest]: Fatal");
+                console.error("[MakeHttpRequest]: Error occured!");
                 throw (error);
             }
         });

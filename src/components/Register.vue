@@ -1,11 +1,11 @@
 <template>
-    <div class="UserLogin">
+    <div class="RegisterForm">
         <popup-msg v-if="ifPopupMsgVisible" @closePopup="closePopup">
 
             <p> {{ PopupMsgInfo }} </p>
         </popup-msg>
         <div class="box">
-            <h2>Войти в игру:</h2>
+            <h2>Зарегистрироваться:</h2>
             <input type="text" size="12" v-model="login_verify" class="defaultinput" v-bind:class="{ verifyedinput: LoginValid }" placeholder="Логин">
             <input type="password" size="12" v-model="password_verify" class="defaultinput" v-bind:class="{ verifyedinput: PasswordValid }" placeholder="Пароль">
             <input class="startbutton" v-bind:disabled="isLoginButtonDisabled" type="button" value="Войти" v-on:click="letsGo"> 
@@ -17,10 +17,10 @@
 <script>
 import { HttpRequestFactory } from '../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../Core-prod/api/dataTypes';
-import { PopupMsg } from './popup/PopupMsg.vue'
+import { PopupMsg } from './popup/PopupMsg.vue';
 
 export default {
-    name: 'UserLogin',
+    name: 'RegisterForm',
 
     components: {
         PopupMsg
@@ -97,21 +97,19 @@ export default {
                 login : this.login_verify,
                 password : this.password_verify
             };
-            console.log("Authentification data created.")
+            console.log("Registration data created.")
             this.showPopup("ОТПРАВЛЯЕМ НА СЕРВЕР => " + JSON.stringify(authInfo))
 
             try {
                 
                 // Запрос на сервер
                 ReqFabric = new HttpRequestFactory();
-                let answer = await ReqFabric.makeRequest( requestType.UserAuth, authInfo );
-                console.log("Получе объект: " + JSON.stringify(answer) + " типа " + typeof(answer));
-                console.log("Результат: " + answer.data.success);
+                let answer = await ReqFabric.makeRequest( requestType.UserRegister, authInfo )
 
                 if(answer.data.success) {
-                    this.showPopup("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + answer.data.data.user_id);
+                    this.showPopup("ЗАРЕГИСТРИРОВАН ПОЛЬЗОВАТЕЛЬ №" + answer.data.data.user_id);
                 } else {
-                    this.showPopup("ОШИБКА АВТОРИЗАЦИИ: " + answer.data.message.login);
+                    this.showPopup("ОШИБКА РЕГИСТРАЦИИ: " + answer.data.message);
                 }
 
             } catch(error) {
@@ -129,7 +127,7 @@ export default {
         opacity: 0.9;
         margin: 100px auto;
         text-align: center;
-        background-color: #b3c9db;
+        background-color: #b3dbb6;
         border-radius: 4px;
         width: 350px;
         padding: 10px;

@@ -62,3 +62,5 @@ export enum requestType {
     RoomGet,
     RoomMake
 }
+
+console.log(requestType);

@@ -7,21 +7,17 @@ export class HttpRegisterRequest implements HttpRequestInterface {
 
     private url = Configure.BASE_URL + Configure.URL_USER_REGISTER;
 
-    /**
-     * 
-     * @param data - данные для запроса (словарь)
-     * @returns 
-     */
-
     async makeHttpRequest(data: {}): Promise<ServerResponseType<RegistrationResponse>> {
-        let req;
-        
-        req = await isAxis(this.url, data).then((response)=> {
-            return response;
-        });
-        
-        console.log("makeHttpRequest(): " + JSON.stringify(req))
-        return req;
+        try { 
+            let req;
+            req = await isAxis(this.url, data).then((response)=> {
+                return response;
+            });
+            return req;
+        } catch(error) {
+            console.error("[MakeHttpRequest]: Error occured!");
+            throw(error); 
+        }
     }
 
 }
