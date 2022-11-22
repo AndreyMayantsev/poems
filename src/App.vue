@@ -10,6 +10,7 @@
 // import core libraries
 import { Game } from './Core-prod/poems/game'
 import { GameStates } from './Core-prod/poems/gameStates'
+import { mainWindow } from './Core-prod/poems/mainWindow'
 // import components
 import UserLogin from './components/UserLogin.vue';
 import RegisterForm from './components/Register.vue';
@@ -22,14 +23,25 @@ if (GameInstance.state == GameStates.NonAuthorizeState) {
   console.log("[GAME STATE]: Non-Authorized!");
 }
 
+console.log("[APP] Initialize main window: ");
+var mainWindowInstance = new mainWindow();
+mainWindowInstance.check();
+
 export default {
   name: 'App',
   components: {
     UserLogin,
     RegisterForm
   },
+  
   methods: {
 
+  },
+
+  data() {
+    return {
+      mainWindow ,
+    }
   }
 }
 </script>

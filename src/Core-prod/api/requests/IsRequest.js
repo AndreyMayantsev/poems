@@ -20,18 +20,9 @@ const axios_1 = __importDefault(require("axios"));
  * @param rdata - request data for api-request
  * @returns
  */
-function isAxis(rurl, rdata) {
+function isAxis(config) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('[isAxis] makes request to: ' + rurl);
-        let response = (0, axios_1.default)({
-            method: 'POST',
-            url: rurl,
-            data: Object.assign({}, rdata),
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Develop-Mode': 'yes'
-            }
-        })
+        let response = (0, axios_1.default)(config)
             .then(resp => {
             console.log("[isAxis] Вошли в then: " + resp);
             return resp;

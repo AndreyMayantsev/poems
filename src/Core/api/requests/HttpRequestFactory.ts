@@ -1,6 +1,7 @@
 import { HttpAuthRequest } from "./HttpAuthRequest";
 import { HttpRegisterRequest } from "./HttpRegisterRequest";
-import { UserLoginRequest } from "../dataTypes"
+import { HttpGetRoomsRequest } from "./HttpGetRoomsRequest";
+import { ServerResponseType } from "../dataTypes"
 import { requestType } from "../dataTypes";
 
 export class HttpRequestFactory {
@@ -9,7 +10,7 @@ export class HttpRequestFactory {
         console.log("[HttpRequestFactory] Created...")
     }
     
-    async makeRequest(rtype: requestType, rdata: UserLoginRequest) {
+    async makeRequest(rtype: requestType, rdata: ServerResponseType<any> ) {
         try {
             console.log("=> makeRequest with data: " + JSON.stringify(rdata));
             let HttpRequestObject = this.FactorySwitcher(rtype);
@@ -31,6 +32,10 @@ export class HttpRequestFactory {
                 case requestType.UserRegister: {
                     HttpRequestObject = new HttpRegisterRequest();
                     break;                    
+                }
+                case requestType.RoomsGet: {
+                    HttpRequestObject = new HttpGetRoomsRequest();
+                    break;
                 }
                 default: {
                     console.error("Unrecognized request type: " + JSON.stringify(rtype))

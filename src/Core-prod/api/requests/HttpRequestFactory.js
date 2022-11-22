@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.HttpRequestFactory = void 0;
 const HttpAuthRequest_1 = require("./HttpAuthRequest");
 const HttpRegisterRequest_1 = require("./HttpRegisterRequest");
+const HttpGetRoomsRequest_1 = require("./HttpGetRoomsRequest");
 const dataTypes_1 = require("../dataTypes");
 class HttpRequestFactory {
     constructor() {
@@ -40,6 +41,10 @@ class HttpRequestFactory {
             }
             case dataTypes_1.requestType.UserRegister: {
                 HttpRequestObject = new HttpRegisterRequest_1.HttpRegisterRequest();
+                break;
+            }
+            case dataTypes_1.requestType.RoomsGet: {
+                HttpRequestObject = new HttpGetRoomsRequest_1.HttpGetRoomsRequest();
                 break;
             }
             default: {

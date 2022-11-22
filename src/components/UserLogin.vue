@@ -8,7 +8,8 @@
             <h2>Войти в игру:</h2>
             <input type="text" size="12" v-model="login_verify" class="defaultinput" v-bind:class="{ verifyedinput: LoginValid }" placeholder="Логин">
             <input type="password" size="12" v-model="password_verify" class="defaultinput" v-bind:class="{ verifyedinput: PasswordValid }" placeholder="Пароль">
-            <input class="startbutton" v-bind:disabled="isLoginButtonDisabled" type="button" value="Войти" v-on:click="letsGo"> 
+            <input class="startbutton" v-bind:disabled="isLoginButtonDisabled" type="button" value="Войти" v-on:click="letsGo">
+            <input class="roomsbutton" type="button" value="Комнаты" v-on:click="Rooms">
             <p>Верификация: {{ VerifyPassed }}</p>
         </div>
     </div>    
@@ -104,6 +105,7 @@ export default {
                 
                 // Запрос на сервер
                 ReqFabric = new HttpRequestFactory();
+                console.log("Пытаюсь отправить: " + requestType.RoomsGet);
                 let answer = await ReqFabric.makeRequest( requestType.UserAuth, authInfo );
                 console.log("Получе объект: " + JSON.stringify(answer) + " типа " + typeof(answer));
                 console.log("Результат: " + answer.data.success);
@@ -117,7 +119,20 @@ export default {
             } catch(error) {
                 this.showPopup("ОШИБКА ЗАПРОСА: " + error);
             }        
+        },
+        
+        async Rooms() {
+            let ReqFabric;
+
+            let getroom = { limit:10, offset:0 }
+            ReqFabric = new HttpRequestFactory();
+            console.log("Пытаюсь отправить: " + requestType.RoomsGet);
+            let answer = await ReqFabric.makeRequest( requestType.RoomsGet,  getroom );
+            console.log("Получе объект: " + JSON.stringify(answer) + " типа " + typeof(answer));
+            console.log("Результат: " + answer.data.success);
+
         }
+
     }
 
 }

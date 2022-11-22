@@ -8,5 +8,6 @@ exports.Configure = {
     URL_USER_REGISTER: "/api/user/register",
     URL_USER_LOGIN: "/api/user/login",
     URL_MAKE_ROOM: "/api/room",
+    URL_GET_ROOMS: "/api/rooms",
     URL_GET_ROOM: "/api/rooms" // rooms/{id} for get room, rooms/{id}/message for send messages
 };

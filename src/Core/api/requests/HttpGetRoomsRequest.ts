@@ -1,23 +1,24 @@
-import { RegistrationResponse, ServerResponseType, UserLoginRequest } from "../dataTypes";
+import { GetRoomsResponse, RoomsListGetRequest, ServerResponseType } from "../dataTypes";
 import { isAxis } from "./IsRequest";
 import { Configure } from "../../Сonfigure";
 import { HttpRequestInterface } from "./HttpRequestInterface";
 
-export class HttpRegisterRequest implements HttpRequestInterface {
+export class HttpGetRoomsRequest implements HttpRequestInterface {
 
-    private url = Configure.BASE_URL + Configure.URL_USER_REGISTER;
+    private url = Configure.BASE_URL + Configure.URL_GET_ROOMS;
 
-    async makeHttpRequest(data: {}): Promise<ServerResponseType<RegistrationResponse>> {
+    async makeHttpRequest(data: {}): Promise<ServerResponseType<GetRoomsResponse>> {
 
         let axiosConfig = {
-            method: 'POST',
+            method: 'GET',
             url: this.url,
             data: {
                 ...data
             },
             headers: {
                 'Content-Type': 'application/json',
-                'X-Develop-Mode': 'yes'
+                'X-Develop-Mode': 'yes',
+                'Authorization':'Bearer 22|MlH0fpK4eH4CsIL3aijT1nyqMPCqg8dDkiUiHYvD'
             }
         }
 
@@ -34,3 +35,4 @@ export class HttpRegisterRequest implements HttpRequestInterface {
     }
 
 }
+
