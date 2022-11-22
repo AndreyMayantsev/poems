@@ -1,5 +1,5 @@
 <template>
-  <div><img alt="Vue logo" src="./assets/logo.png">
+  <div>
     <UserLogin/>
     <RegisterForm/>
   </div>
@@ -8,9 +8,9 @@
 <script>
 
 // import core libraries
-import { Game } from './Core-prod/poems/game'
-import { GameStates } from './Core-prod/poems/gameStates'
-import { mainWindow } from './Core-prod/poems/mainWindow'
+import { Game } from './Core-prod/Poems/game'
+import { GameStates } from './Core-prod/Poems/gameStates'
+import { mainWindow } from './Core-prod/Poems/mainWindow'
 // import components
 import UserLogin from './components/UserLogin.vue';
 import RegisterForm from './components/Register.vue';
@@ -24,8 +24,6 @@ if (GameInstance.state == GameStates.NonAuthorizeState) {
 }
 
 console.log("[APP] Initialize main window: ");
-var mainWindowInstance = new mainWindow();
-mainWindowInstance.check();
 
 export default {
   name: 'App',

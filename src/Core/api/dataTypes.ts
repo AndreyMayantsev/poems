@@ -15,7 +15,7 @@ export type CreateRoomResponse = {
     room_id: number;
 }
 
-export type GetRoomsResponse =   {
+export type GetRoomsResponse = {
     "room_id": 3,
     "is_public": true,
     "places": 3,

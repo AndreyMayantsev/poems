@@ -7,17 +7,17 @@ import { requestType } from "../dataTypes";
 export class HttpRequestFactory {
 
     constructor() {
-        console.log("[HttpRequestFactory] Created...")
+        console.log("[HttpRequestFactory] Created...");
     }
     
-    async makeRequest(rtype: requestType, rdata: ServerResponseType<any> ) {
+    async makeRequest( rtype: requestType, rdata: any ): Promise<ServerResponseType<any>> {
         try {
             console.log("=> makeRequest with data: " + JSON.stringify(rdata));
             let HttpRequestObject = this.FactorySwitcher(rtype);
             let answer = await HttpRequestObject.makeHttpRequest(rdata);
             return answer;
         } catch(error) {
-            console.warn("makeRequest failed! " + error);
+            console.warn("[HttpRequestFactory] makeRequest failed! " + error);
             throw(error);
         }
     }
@@ -38,7 +38,7 @@ export class HttpRequestFactory {
                     break;
                 }
                 default: {
-                    console.error("Unrecognized request type: " + JSON.stringify(rtype))
+                    console.error("[HttpRequestFactory] Unrecognized request type: " + JSON.stringify(rtype))
                     throw Error("[HttpRequestFactory] Unrecognized request type!");
                 }
             } 

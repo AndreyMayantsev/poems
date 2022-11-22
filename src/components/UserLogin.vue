@@ -18,6 +18,7 @@
 <script>
 import { HttpRequestFactory } from '../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../Core-prod/api/dataTypes';
+import { User } from '../Core-prod/Poems/User/user'
 import { PopupMsg } from './popup/PopupMsg.vue'
 
 export default {
@@ -91,7 +92,7 @@ export default {
 
         // Функция отправвки данных авторизации
         async letsGo() {
-            let ReqFabric; 
+            let UserInstance = new User();
 
             // Тестовая реализация
             let authInfo = {
@@ -103,17 +104,12 @@ export default {
 
             try {
                 
-                // Запрос на сервер
-                ReqFabric = new HttpRequestFactory();
-                console.log("Пытаюсь отправить: " + requestType.RoomsGet);
-                let answer = await ReqFabric.makeRequest( requestType.UserAuth, authInfo );
-                console.log("Получе объект: " + JSON.stringify(answer) + " типа " + typeof(answer));
-                console.log("Результат: " + answer.data.success);
+                let _authResult = await UserInstance.userLogin(authInfo)
 
-                if(answer.data.success) {
-                    this.showPopup("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + answer.data.data.user_id);
+                if ( _authResult.result ) {
+                    this.showPopup("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + JSON.stringify( UserInstance.getPublicInfo() ));
                 } else {
-                    this.showPopup("ОШИБКА АВТОРИЗАЦИИ: " + answer.data.message.login);
+                    this.showPopup("ОШИБКА АВТОРИЗАЦИИ: " + JSON.stringify(_authResult.message) );
                 }
 
             } catch(error) {

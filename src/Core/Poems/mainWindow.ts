@@ -1,5 +1,5 @@
 import { Game } from "./game";
-import User from "./user";
+import { User } from "./User/user";
 
 export default class mainWindow {
 

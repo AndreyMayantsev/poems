@@ -15,8 +15,7 @@
 </template>
 
 <script>
-import { HttpRequestFactory } from '../Core-prod/api/requests/HttpRequestFactory';
-import { requestType } from '../Core-prod/api/dataTypes';
+import { User } from '../Core-prod/Poems/User/user'
 import { PopupMsg } from './popup/PopupMsg.vue';
 
 export default {
@@ -90,7 +89,7 @@ export default {
 
         // Функция отправвки данных авторизации
         async letsGo() {
-            let ReqFabric; 
+            let UserInstance = new User();
 
             // Тестовая реализация
             let authInfo = {
@@ -102,14 +101,12 @@ export default {
 
             try {
                 
-                // Запрос на сервер
-                ReqFabric = new HttpRequestFactory();
-                let answer = await ReqFabric.makeRequest( requestType.UserRegister, authInfo )
+                let _authResult = await UserInstance.userRegistration(authInfo)
 
-                if(answer.data.success) {
-                    this.showPopup("ЗАРЕГИСТРИРОВАН ПОЛЬЗОВАТЕЛЬ №" + answer.data.data.user_id);
+                if ( _authResult.result ) {
+                    this.showPopup("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + JSON.stringify( UserInstance.getPublicInfo() ));
                 } else {
-                    this.showPopup("ОШИБКА РЕГИСТРАЦИИ: " + answer.data.message);
+                    this.showPopup("ОШИБКА АВТОРИЗАЦИИ: " + JSON.stringify(_authResult.message) );
                 }
 
             } catch(error) {

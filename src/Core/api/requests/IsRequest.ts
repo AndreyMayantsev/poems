@@ -1,13 +1,6 @@
 import axios from 'axios'
 import { ServerResponseType } from '../dataTypes';
 
-/**
- * 
- * @param url - api entrypoint url 
- * @param rdata - request data for api-request
- * @returns 
- */
-
 export async function isAxis(config: any): Promise<ServerResponseType<any>> {
     
     let response = axios(config)
