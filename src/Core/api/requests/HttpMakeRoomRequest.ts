@@ -1,14 +1,14 @@
-import { GetRoomsResponse, RoomsListGetRequest, ServerResponseType } from "../dataTypes";
+import { CreateRoomResponse, ServerResponseType } from "../dataTypes";
 import { isAxis } from "./IsRequest";
 import { Configure } from "../../Сonfigure";
 import { HttpRequestInterface } from "./HttpRequestInterface";
 import getCookie from '../getCookie';
 
-export class HttpGetRoomsRequest implements HttpRequestInterface {
+export class HttpMakeRoomRequest implements HttpRequestInterface {
 
     private url = Configure.BASE_URL + Configure.URL_GET_ROOMS;
 
-    async makeHttpRequest(data: {}): Promise<ServerResponseType<GetRoomsResponse>> {
+    async makeHttpRequest(data: {}): Promise<ServerResponseType<CreateRoomResponse>> {
 
         let axiosConfig = {
             method: 'GET',

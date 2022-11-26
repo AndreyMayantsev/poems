@@ -1,8 +1,8 @@
-import { createConditionalExpression } from '@vue/compiler-core';
 import { requestType, ServerResponseType, UserLoginRequest, UserRegisterRequest } from '../../api/dataTypes';
-import { AuthorizationResponse } from '../../api/dataTypes'
 import { HttpRequestFactory } from '../../api/requests/HttpRequestFactory';
 import { authResult, UserInterface } from './userInterface';
+import getCookie from '../../api/getCookie';
+//import { setCookie } from cookielib;
 
 
 export class User implements UserInterface {
@@ -26,10 +26,6 @@ export class User implements UserInterface {
 
     }
 
-    /**
-     * I think is safety =)
-     * @returns public information about user. 
-     */
     public getPublicInfo() {
         let _publicInfo = {
             "name": this.userName,
@@ -38,77 +34,32 @@ export class User implements UserInterface {
         return _publicInfo;
     }
 
+    public getTokenFromCookies() {
+        return getCookie("Token");
+    }
+
     public async userLogin( _loginData: UserLoginRequest ): Promise<authResult> {
-        let _result: authResult = {result: false, message: ""};
-
         try {
-     
             let HttpFabricInstance = new HttpRequestFactory();
-            let Response = await HttpFabricInstance.makeRequest( requestType.UserAuth, _loginData );
-
-            if (Response.data.success) {
-                console.log("Успешно получен ответ на запрос авторизации: " + JSON.stringify(Response));
-
-                this.userName = "Тестовый Тест";
-                this.userID = Response.data.data.user_id;
-                this.userToken = Response.data.data.token;
-                this.tokenExpired = Response.data.data.expired_at;
-                this.autorized = true;
-
-                console.log(JSON.stringify(this.getPublicInfo()));
-                console.log("Пользователь авторизован!");
-
-                _result.message = JSON.stringify( this.getPublicInfo );
-                _result.result = true;
-
-                return _result;
-            } 
-
-            _result.message = Response.data.message;
-            _result.result = false;
-
-            console.log("При авторизации произошла ошибка!");
-            return _result;
-                
+            let HttpResponse = await HttpFabricInstance.makeRequest( requestType.UserAuth, _loginData );
+            let Response = this.requestComposer(HttpResponse);
+            document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
+            console.log("COOKIE SET: " + this.getTokenFromCookies());
+            return Response;
         } catch(error) {
-            console.log("[User] Authorization error!")
+            console.log("[User] Http server returns error!" + error)
             throw(error);
         }
     }
 
     public async userRegistration( _regData: UserRegisterRequest ): Promise<authResult> {
-        let _result: authResult = {result: false, message: ""};
-
         try {
-     
             let HttpFabricInstance = new HttpRequestFactory();
-            let Response = await HttpFabricInstance.makeRequest( requestType.UserRegister, _regData );
-
-            if(Response.data.success) {
-                console.log("Успешно получен ответ на запрос регистрации: " + JSON.stringify(Response));
-
-                this.userName = "Зарегистрировавшийся Тест";
-                this.userID = Response.data.data.user_id;
-                this.userToken = Response.data.data.token;
-                this.tokenExpired = Response.data.data.expired_at;
-                this.autorized = true;
-
-                console.log(JSON.stringify(this.getPublicInfo()));
-                console.log("Пользователь зарегистрирован!");
-
-                _result.message = JSON.stringify( this.getPublicInfo );
-                _result.result = true;
-                return _result;
-            } 
-
-            _result.message = Response.data.message;
-            _result.result = false;
-
-            console.log("При регистрации произошла ошибка!");
-            return _result;
-
+            let HttpResponse = await HttpFabricInstance.makeRequest( requestType.UserRegister, _regData );
+            let Response = this.requestComposer(HttpResponse);
+            return Response;
         } catch(error) {
-            console.log("[User] Registration error!")
+            console.log("[User] Http server returns error!" + error)
             throw(error);
         }
     }
@@ -118,14 +69,50 @@ export class User implements UserInterface {
     }
 
     public userLogout() {
-
-        // Exiting from game and app
         this.userID = 0;
         this.tokenExpired = 1;
         this.userToken = "";
         this.autorized = false;
-
     }
+
+    // Compose authRequest answer to frontend
+    private requestComposer(Response: ServerResponseType<any>): authResult {
+        let _result: authResult = {result: false, message: ""};
+        try {
+             if(Response.data.success) {
+                this.authDataAccept(Response);
+                _result.message = JSON.stringify( this.getPublicInfo );
+                _result.result = true;
+                return _result;
+            } 
+            _result.message = Response.data.message;
+            _result.result = false;
+            console.log("При регистрации/авторизации произошла ошибка!");
+            return _result;
+        } catch(error) {
+            console.warn("[User] UserRequest error: " + error)
+            throw(error);
+        }
+    }
+
+    // Apply user data from server to this user
+    private authDataAccept(ResponseData: ServerResponseType<any>) {
+        try {
+            console.log("Успешно получен ответ на запрос регистрации: " + JSON.stringify(ResponseData.data));
+            this.userName = "Тестовый Тест";
+            this.userID = ResponseData.data.data.user_id;
+            this.userToken = ResponseData.data.data.token;
+            this.tokenExpired = ResponseData.data.data.expired_at;
+            this.autorized = true;
+            console.log(JSON.stringify(this.getPublicInfo()));
+            console.log("Пользователь зарегистрирован/автороизован!");
+        } catch(error) {
+            console.log("[User] AuthDataAcceptor error: " + error);
+            throw(error);
+        } 
+    }
+
+
 
 }
 

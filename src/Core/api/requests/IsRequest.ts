@@ -5,7 +5,7 @@ export async function isAxis(config: any): Promise<ServerResponseType<any>> {
     
     let response = axios(config)
             .then(resp => {
-                console.log("[isAxis] Вошли в then: " + resp);
+                console.log("[isAxis] OK");
                 return resp;
             })
             .catch(result => {

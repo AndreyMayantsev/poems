@@ -28,7 +28,7 @@ export class HttpAuthRequest implements HttpRequestInterface {
             });
             return req;
         } catch(error) {
-            console.error("[MakeHttpRequest]: Error occured!");
+            console.error("[MakeHttpRequest]: Error occured! " + error);
             throw(error); 
         }
     }

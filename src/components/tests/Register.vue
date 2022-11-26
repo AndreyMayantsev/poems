@@ -1,31 +1,28 @@
 <template>
-    <div class="UserLogin">
-        <popup-msg v-if="ifPopupMsgVisible" @closePopup="closePopup">
+    <div class="RegisterForm">
+        <PopupMsg v-if="ifPopupMsgVisible" @closePopup="closePopup">
 
             <p> {{ PopupMsgInfo }} </p>
-        </popup-msg>
+        </PopupMsg>
         <div class="box">
-            <h2>Войти в игру:</h2>
+            <h2>Зарегистрироваться:</h2>
             <input type="text" size="12" v-model="login_verify" class="defaultinput" v-bind:class="{ verifyedinput: LoginValid }" placeholder="Логин">
             <input type="password" size="12" v-model="password_verify" class="defaultinput" v-bind:class="{ verifyedinput: PasswordValid }" placeholder="Пароль">
-            <input class="startbutton" v-bind:disabled="isLoginButtonDisabled" type="button" value="Войти" v-on:click="letsGo">
-            <input class="roomsbutton" type="button" value="Комнаты" v-on:click="Rooms">
+            <input class="startbutton" v-bind:disabled="isLoginButtonDisabled" type="button" value="Войти" v-on:click="letsGo"> 
             <p>Верификация: {{ VerifyPassed }}</p>
         </div>
     </div>    
 </template>
 
 <script>
-import { HttpRequestFactory } from '../Core-prod/api/requests/HttpRequestFactory';
-import { requestType } from '../Core-prod/api/dataTypes';
-import { User } from '../Core-prod/Poems/User/user'
-import { PopupMsg } from './popup/PopupMsg.vue'
+import { User } from '../../Core-prod/Poems/User/user'
+import { PopupMsg } from './PopupMsg.vue';
 
 export default {
-    name: 'UserLogin',
+    name: 'RegisterForm',
 
     components: {
-        PopupMsg
+        PopupMsg 
     },
 
     //Свойства компонента
@@ -99,12 +96,12 @@ export default {
                 login : this.login_verify,
                 password : this.password_verify
             };
-            console.log("Authentification data created.")
+            console.log("Registration data created.")
             this.showPopup("ОТПРАВЛЯЕМ НА СЕРВЕР => " + JSON.stringify(authInfo))
 
             try {
                 
-                let _authResult = await UserInstance.userLogin(authInfo)
+                let _authResult = await UserInstance.userRegistration(authInfo)
 
                 if ( _authResult.result ) {
                     this.showPopup("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + JSON.stringify( UserInstance.getPublicInfo() ));
@@ -115,20 +112,7 @@ export default {
             } catch(error) {
                 this.showPopup("ОШИБКА ЗАПРОСА: " + error);
             }        
-        },
-        
-        async Rooms() {
-            let ReqFabric;
-
-            let getroom = { limit:10, offset:0 }
-            ReqFabric = new HttpRequestFactory();
-            console.log("Пытаюсь отправить: " + requestType.RoomsGet);
-            let answer = await ReqFabric.makeRequest( requestType.RoomsGet,  getroom );
-            console.log("Получе объект: " + JSON.stringify(answer) + " типа " + typeof(answer));
-            console.log("Результат: " + answer.data.success);
-
         }
-
     }
 
 }
@@ -140,7 +124,7 @@ export default {
         opacity: 0.9;
         margin: 100px auto;
         text-align: center;
-        background-color: #b3c9db;
+        background-color: #b3dbb6;
         border-radius: 4px;
         width: 350px;
         padding: 10px;

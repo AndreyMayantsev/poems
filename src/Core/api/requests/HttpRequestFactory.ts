@@ -3,6 +3,7 @@ import { HttpRegisterRequest } from "./HttpRegisterRequest";
 import { HttpGetRoomsRequest } from "./HttpGetRoomsRequest";
 import { ServerResponseType } from "../dataTypes"
 import { requestType } from "../dataTypes";
+import { HttpMakeRoomRequest } from "./HttpMakeRoomRequest";
 
 export class HttpRequestFactory {
 
@@ -35,6 +36,10 @@ export class HttpRequestFactory {
                 }
                 case requestType.RoomsGet: {
                     HttpRequestObject = new HttpGetRoomsRequest();
+                    break;
+                }
+                case requestType.MakeRoom: {
+                    HttpRequestObject = new HttpMakeRoomRequest();
                     break;
                 }
                 default: {

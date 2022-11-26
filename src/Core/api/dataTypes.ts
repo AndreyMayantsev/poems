@@ -66,13 +66,7 @@ export enum requestType {
     UserRegister,
     RoomsGet, 
     RoomGet,
-    RoomMake
+    MakeRoom,
 }
-
-/* export enum requestMethod {
-    post = "POST",
-    get = "GET",
-    head = "HEAD"
-} */
 
 console.log(requestType);

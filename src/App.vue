@@ -2,34 +2,34 @@
   <div>
     <UserLogin/>
     <RegisterForm/>
+    <RoomsList/>
+    <RoomCreate/>
   </div>
 </template>
 
 <script>
 
 // import core libraries
-import { Game } from './Core-prod/Poems/game'
-import { GameStates } from './Core-prod/Poems/gameStates'
 import { mainWindow } from './Core-prod/Poems/mainWindow'
+import { User } from './Core-prod/Poems/User/user'
 // import components
-import UserLogin from './components/UserLogin.vue';
-import RegisterForm from './components/Register.vue';
+import UserLogin from './components/tests/UserLogin.vue';
+import RegisterForm from './components/tests/Register.vue';
+import RoomsList from './components/tests/RoomsList.vue';
+import RoomCreate from './components/tests/RoomCreate.vue'
 
-// Making new game;
-var GameInstance = new Game();
-
-// Check game state
-if (GameInstance.state == GameStates.NonAuthorizeState) {
-  console.log("[GAME STATE]: Non-Authorized!");
-}
+let UserInstance = new User();
+console.log("Создан пользователь, авторизуйтесь!\n " + JSON.stringify(UserInstance.getPublicInfo()));
 
 console.log("[APP] Initialize main window: ");
 
 export default {
   name: 'App',
   components: {
-    UserLogin,
-    RegisterForm
+    UserLogin, 
+    RoomsList,
+    RegisterForm,
+    RoomCreate
   },
   
   methods: {
