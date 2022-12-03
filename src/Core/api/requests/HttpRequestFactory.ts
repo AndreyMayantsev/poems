@@ -4,6 +4,8 @@ import { HttpGetRoomsRequest } from "./HttpGetRoomsRequest";
 import { ServerResponseType } from "../dataTypes"
 import { requestType } from "../dataTypes";
 import { HttpMakeRoomRequest } from "./HttpMakeRoomRequest";
+import { HttpGetRoomRequest } from "./httpGetRoomRequest";
+import { HttpSendMessageRequest } from "./HttpSendMessageRequest";
 
 export class HttpRequestFactory {
 
@@ -11,14 +13,14 @@ export class HttpRequestFactory {
         console.log("[HttpRequestFactory] Created...");
     }
     
-    async makeRequest( rtype: requestType, rdata: any ): Promise<ServerResponseType<any>> {
+    async makeRequest( rtype: requestType, rdata?: any, id?: any ): Promise<ServerResponseType<any>> {
         try {
             console.log("=> makeRequest with data: " + JSON.stringify(rdata));
             let HttpRequestObject = this.FactorySwitcher(rtype);
-            let answer = await HttpRequestObject.makeHttpRequest(rdata);
+            let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
             return answer;
         } catch(error) {
-            console.warn("[HttpRequestFactory] makeRequest failed! " + error);
+            console.warn("[HttpRequestFactory] makeRequest failed! " + error + id);
             throw(error);
         }
     }
@@ -38,8 +40,16 @@ export class HttpRequestFactory {
                     HttpRequestObject = new HttpGetRoomsRequest();
                     break;
                 }
+                case requestType.RoomGet: {
+                    HttpRequestObject = new HttpGetRoomRequest();
+                    break;
+                }
                 case requestType.MakeRoom: {
                     HttpRequestObject = new HttpMakeRoomRequest();
+                    break;
+                }
+                case requestType.SendMessage: {
+                    HttpRequestObject = new HttpSendMessageRequest();
                     break;
                 }
                 default: {

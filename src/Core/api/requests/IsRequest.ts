@@ -17,11 +17,11 @@ export async function isAxis(config: any): Promise<ServerResponseType<any>> {
             } else if (result.request) {
             // Запрос был сделан, но ответ не получен
             // `error.request`- это экземпляр XMLHttpRequest в браузере и экземпляр
-                console.log("[isAxios] Bad request: " + result.response.status);
+                console.log("[isAxios] Bad request: " + result.response.status + ' -> ' + config.url);
                 return result;
             } else {
             // Произошло что-то при настройке запроса, вызвавшее ошибку
-                console.error('[isAxios] Fatal error:', result.message);
+                console.error('[isAxios] Fatal error: ' + result.message + ' -> ' + config.url);
                 throw result;
             }
         }); 

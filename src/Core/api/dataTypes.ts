@@ -15,15 +15,29 @@ export type CreateRoomResponse = {
     room_id: number;
 }
 
+export type SendMessageResponse = {
+    "success": boolean
+}
+
 export type GetRoomsResponse = {
-    "room_id": 3,
-    "is_public": true,
-    "places": 3,
-    "rows_visible": 2,
-    "finish_type": "moves",
-    "finish_time_cond": 600,
-    "finish_moves_cond": 40
-  }
+    "room_id": number,
+    "is_public": boolean,
+    "places": number,
+    "rows_visible": number,
+    "finish_type": string,
+    "finish_time_cond": number,
+    "finish_moves_cond": number
+}
+
+export type GetRoomResponse = {
+    "room_id": number,
+    "is_public": boolean,
+    "places": number,
+    "rows_visible": number,
+    "finish_type": string,
+    "finish_time_cond": number,
+    "finish_moves_cond": number
+}
 
 export type ServerResponseType<D> = {
     success: boolean;
@@ -32,6 +46,10 @@ export type ServerResponseType<D> = {
 } 
 
 // Requests types
+export type SendMessageRequest = {
+    message: string
+}
+
 export type UserLoginRequest = {
     login: string;
     password: string;
@@ -67,6 +85,7 @@ export enum requestType {
     RoomsGet, 
     RoomGet,
     MakeRoom,
+    SendMessage
 }
 
 console.log(requestType);

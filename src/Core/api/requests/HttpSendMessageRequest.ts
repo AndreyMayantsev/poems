@@ -1,25 +1,25 @@
-import { CreateRoomResponse, ServerResponseType } from "../dataTypes";
+import { SendMessageResponse, ServerResponseType } from "../dataTypes";
 import { isAxis } from "./IsRequest";
 import { Configure } from "../../Сonfigure";
 import { HttpRequestInterface } from "./HttpRequestInterface";
 import getCookie from '../getCookie';
 
-export class HttpMakeRoomRequest implements HttpRequestInterface {
+export class HttpSendMessageRequest implements HttpRequestInterface {
 
-    private url = Configure.BASE_URL + Configure.URL_MAKE_ROOM;
+    private url = Configure.BASE_URL + Configure.URL_GET_ROOMS;
 
-    async makeHttpRequest(rdata: {}): Promise<ServerResponseType<CreateRoomResponse>> {
+    async makeHttpRequest(rdata: {}, id: number): Promise<ServerResponseType<SendMessageResponse>> {
 
         let axiosConfig = {
             method: 'POST',
-            url: this.url,
-            data: {
-                ...rdata
-            },
+            url: this.url + "/" + id + "/message",
             headers: {
                 'Content-Type': 'application/json',
                 'X-Develop-Mode': 'yes',
                 'Authorization': getCookie("Token"),
+            },
+            data: {
+                ...rdata
             }
         }
 
@@ -37,3 +37,4 @@ export class HttpMakeRoomRequest implements HttpRequestInterface {
 
 }
 
+// message
