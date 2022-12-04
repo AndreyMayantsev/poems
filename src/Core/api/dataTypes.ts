@@ -45,6 +45,10 @@ export type ServerResponseType<D> = {
     data: D;
 } 
 
+export type EndPoemResponse = {
+    poem: string
+}
+
 // Requests types
 export type SendMessageRequest = {
     message: string
@@ -85,7 +89,10 @@ export enum requestType {
     RoomsGet, 
     RoomGet,
     MakeRoom,
-    SendMessage
+    SendMessage,
+    EnterRoom,
+    EndPoem,
+    LeaveRoom
 }
 
 console.log(requestType);

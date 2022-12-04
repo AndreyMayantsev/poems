@@ -12,7 +12,7 @@ export class HttpSendMessageRequest implements HttpRequestInterface {
 
         let axiosConfig = {
             method: 'POST',
-            url: this.url + "/" + id + "/message",
+            url: this.url + id + "/message",
             headers: {
                 'Content-Type': 'application/json',
                 'X-Develop-Mode': 'yes',

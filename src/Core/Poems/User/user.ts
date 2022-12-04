@@ -2,7 +2,6 @@ import { requestType, ServerResponseType, UserLoginRequest, UserRegisterRequest 
 import { HttpRequestFactory } from '../../api/requests/HttpRequestFactory';
 import { authResult, UserInterface } from './userInterface';
 import getCookie from '../../api/getCookie';
-//import { setCookie } from cookielib;
 
 
 export class User implements UserInterface {
@@ -43,8 +42,10 @@ export class User implements UserInterface {
             let HttpFabricInstance = new HttpRequestFactory();
             let HttpResponse = await HttpFabricInstance.makeRequest( requestType.UserAuth, _loginData );
             let Response = this.requestComposer(HttpResponse);
-            document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
-            console.log("COOKIE SET: " + this.getTokenFromCookies());
+            if(Response.result) {
+                document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
+                console.log("[AUTH] COOKIE SET: " + this.getTokenFromCookies());
+            }
             return Response;
         } catch(error) {
             console.log("[User] Http server returns error!" + error)
@@ -57,6 +58,10 @@ export class User implements UserInterface {
             let HttpFabricInstance = new HttpRequestFactory();
             let HttpResponse = await HttpFabricInstance.makeRequest( requestType.UserRegister, _regData );
             let Response = this.requestComposer(HttpResponse);
+            if(Response.result) {
+                document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
+                console.log("[REG] COOKIE SET: " + this.getTokenFromCookies());
+            }
             return Response;
         } catch(error) {
             console.log("[User] Http server returns error!" + error)
@@ -87,7 +92,7 @@ export class User implements UserInterface {
             } 
             _result.message = Response.data.message;
             _result.result = false;
-            console.log("При регистрации/авторизации произошла ошибка!");
+            console.log("При регистрации/авторизации произошла ошибка! " + JSON.stringify(_result));
             return _result;
         } catch(error) {
             console.warn("[User] UserRequest error: " + error)
@@ -98,7 +103,6 @@ export class User implements UserInterface {
     // Apply user data from server to this user
     private authDataAccept(ResponseData: ServerResponseType<any>) {
         try {
-            console.log("Успешно получен ответ на запрос регистрации: " + JSON.stringify(ResponseData.data));
             this.userName = "Тестовый Тест";
             this.userID = ResponseData.data.data.user_id;
             this.userToken = ResponseData.data.data.token;

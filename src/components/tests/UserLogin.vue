@@ -104,6 +104,8 @@ export default {
                 
                 let _authResult = await UserInstance.userLogin(authInfo)
 
+                console.log("[User-Vue] " + JSON.stringify(_authResult))
+
                 if ( _authResult.result ) {
                     this.showPopup("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + JSON.stringify( UserInstance.getPublicInfo() ));
                 } else {

@@ -6,6 +6,9 @@ import { requestType } from "../dataTypes";
 import { HttpMakeRoomRequest } from "./HttpMakeRoomRequest";
 import { HttpGetRoomRequest } from "./httpGetRoomRequest";
 import { HttpSendMessageRequest } from "./HttpSendMessageRequest";
+import { HttpEnterRoomRequest } from "./HttpEnterRoomRequest";
+import { HttpEndPoemRequest } from "./HttpEndPoemRequest";
+import { HttpLeaveRoomRequest } from "./HttpLeaveRoom";
 
 export class HttpRequestFactory {
 
@@ -21,7 +24,8 @@ export class HttpRequestFactory {
             return answer;
         } catch(error) {
             console.warn("[HttpRequestFactory] makeRequest failed! " + error + id);
-            throw(error);
+            let standartResponse = { success: false, message: "Произошла ошибка!", data: { message: error } }
+            return standartResponse;
         }
     }
 
@@ -50,6 +54,18 @@ export class HttpRequestFactory {
                 }
                 case requestType.SendMessage: {
                     HttpRequestObject = new HttpSendMessageRequest();
+                    break;
+                }
+                case requestType.EnterRoom: {
+                    HttpRequestObject = new HttpEnterRoomRequest();
+                    break;
+                }
+                case requestType.EndPoem: {
+                    HttpRequestObject = new HttpEndPoemRequest();
+                    break;
+                }
+                case requestType.LeaveRoom: {
+                    HttpRequestObject = new HttpLeaveRoomRequest();
                     break;
                 }
                 default: {
