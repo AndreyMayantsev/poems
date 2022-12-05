@@ -10,18 +10,15 @@
   <script>
   
   // import core libraries
-  import { mainWindow } from '../../Core-prod/Poems/mainWindow'
-  import { User } from '../../Core-prod/Poems/User/user'
+  //import { MainWindow } from '../../Core-prod/Poems/mainWindow'
+  //import { User } from '../../Core-prod/Poems/User/user'
   // import components
-  import UserLogin from 'UserLogin.vue';
-  import RegisterForm from 'Register.vue';
-  import RoomsList from 'RoomsList.vue';
-  import RoomCreate from 'RoomCreate.vue'
+  import UserLogin from './UserLogin.vue';
+  import RegisterForm from './Register.vue';
+  import RoomsList from './RoomsList.vue';
+  import RoomCreate from './RoomCreate.vue'
   
-  let UserInstance = new User();
-  console.log("Создан пользователь, авторизуйтесь!\n " + JSON.stringify(UserInstance.getPublicInfo()));
-  
-  console.log("[APP] Initialize main window: ");
+ // let UserInstance = new User();
   
   export default {
     name: 'TestWindow',
@@ -38,7 +35,7 @@
   
     data() {
       return {
-        mainWindow ,
+        
       }
     }
   }

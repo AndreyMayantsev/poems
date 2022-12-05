@@ -37,7 +37,7 @@ export default {
             this.rooms = {
                 ...answer.data
             }
-            console.log("ROOMS: " + JSON.stringify(answer.data));
+            console.log("ROOMS: " + JSON.stringify(answer));
             } catch(error) {
                 console.log("[RoomsList] RoomsList not loaded. Server returns an error: " + error)
             }
@@ -47,7 +47,7 @@ export default {
             let HttpRequestFactoryInstance = new HttpRequestFactory();
             let answer = await HttpRequestFactoryInstance.makeRequest(requestType.RoomGet, id);
 
-            console.log("ROOM: " + JSON.stringify(answer.data));
+            console.log("ROOM: " + JSON.stringify(answer));
             } catch(error) {
                 console.log("[RoomsList] RoomsList not loaded. Server returns an error: " + error)
             }
@@ -57,7 +57,7 @@ export default {
             let HttpRequestFactoryInstance = new HttpRequestFactory();
             let answer = await HttpRequestFactoryInstance.makeRequest(requestType.EnterRoom, id);
 
-            console.log("ROOM: " + JSON.stringify(answer.data));
+            console.log("ROOM: " + JSON.stringify(answer));
             } catch(error) {
                 console.log("[RoomsList] RoomsList not loaded. Server returns an error: " + error)
             }

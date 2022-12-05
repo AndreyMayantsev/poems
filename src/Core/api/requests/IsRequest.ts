@@ -3,28 +3,41 @@ import { ServerResponseType } from '../dataTypes';
 
 export async function isAxis(config: any): Promise<ServerResponseType<any>> {
     
+    // Enable sending stacktrace in server response
+    let debug = false;
+
     let response = axios(config)
-            .then(resp => {
-                console.log("[Axios] OK");
-                return resp;
-            })
-            .catch(result => {
+        .then(resp => {
+            // Success codes response
+            console.log("[Axios] OK");
+            return resp;
+        })
+        .catch(result => {
+            // Error from server (ISE)
             if (result.response) {
-            // Запрос был сделан, и сервер ответил кодом состояния, который
-            // выходит за пределы 2xx
                 console.log("[Axios] Server returns error: " + result.response.status);
-                return result.response;
+                let errorFromServer: ServerResponseType<any> = {
+                    success: false,
+                    message: result.response.data.message,
+                    data: debug ? result.response.data : { trace: "Only in debug mode!" }
+                }
+                console.log(JSON.stringify(errorFromServer))
+                return errorFromServer;
+            // Bad request codes (without response)  
             } else if (result.request) {
-            // Запрос был сделан, но ответ не получен
-            // `error.request`- это экземпляр XMLHttpRequest в браузере и экземпляр
                 console.log("[Axios] Bad request returnes from " + config.url);
-                return result;
+                let errorFromServer: ServerResponseType<any> = {
+                    success: false,
+                    message: result.response.data.message,
+                    data: debug ? result.response.data : { trace: "Only in debug mode!" }
+                }
+                return errorFromServer;
+            // Local connection errors    
             } else {
-            // Произошло что-то при настройке запроса, вызвавшее ошибку
                 console.error('[Axios] Can not connect to: ' + config.url);
-                throw result;
+                return result
             }
-        }); 
+    }); 
      
     return response;
 }

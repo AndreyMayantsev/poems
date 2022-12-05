@@ -1,22 +1,24 @@
 <template>
   <div>
-    <UserLogin/>
+  <!--  <UserLogin/>
     <RegisterForm/>
     <RoomsList/>
-    <RoomCreate/>
+    <RoomCreate/> -->
+    <MainWindow/>
   </div>
 </template>
 
 <script>
 
 // import core libraries
-import { mainWindow } from './Core-prod/Poems/mainWindow'
+//import { mainWindow } from './Core-prod/Poems/mainWindow'
 import { User } from './Core-prod/Poems/User/user'
 // import components
-import UserLogin from './components/tests/UserLogin.vue';
-import RegisterForm from './components/tests/Register.vue';
-import RoomsList from './components/tests/RoomsList.vue';
-import RoomCreate from './components/tests/RoomCreate.vue'
+import MainWindow from './components/MainWindow.vue';
+// import UserLogin from './components/tests/UserLogin.vue';
+// import RegisterForm from './components/tests/Register.vue';
+// import RoomsList from './components/tests/RoomsList.vue';
+// import RoomCreate from './components/tests/RoomCreate.vue'
 
 let UserInstance = new User();
 console.log("Создан пользователь, авторизуйтесь!\n " + JSON.stringify(UserInstance.getPublicInfo()));
@@ -26,10 +28,11 @@ console.log("[APP] Initialize main window: ");
 export default {
   name: 'App',
   components: {
-    UserLogin, 
-    RoomsList,
-    RegisterForm,
-    RoomCreate
+    // UserLogin, 
+    // RoomsList,
+    // RegisterForm,
+    // RoomCreate
+    MainWindow
   },
   
   methods: {
@@ -38,7 +41,7 @@ export default {
 
   data() {
     return {
-      mainWindow ,
+      mainWindow: 1,
     }
   }
 }
