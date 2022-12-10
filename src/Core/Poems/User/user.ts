@@ -42,7 +42,7 @@ export class User implements UserInterface {
             let HttpFabricInstance = new HttpRequestFactory();
             let HttpResponse = await HttpFabricInstance.makeRequest( requestType.UserAuth, _loginData );
             let Response = this.requestComposer(HttpResponse);
-            if(Response.result) {
+            if(Response.success) {
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
                 console.log("[AUTH] COOKIE SET: " + this.getTokenFromCookies());
             }
@@ -58,7 +58,7 @@ export class User implements UserInterface {
             let HttpFabricInstance = new HttpRequestFactory();
             let HttpResponse = await HttpFabricInstance.makeRequest( requestType.UserRegister, _regData );
             let Response = this.requestComposer(HttpResponse);
-            if(Response.result) {
+            if(Response.success) {
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
                 console.log("[REG] COOKIE SET: " + this.getTokenFromCookies());
             }
@@ -82,17 +82,16 @@ export class User implements UserInterface {
 
     // Compose authRequest answer to frontend
     private requestComposer(Response: ServerResponseType<any>): authResult {
-        let _result: authResult = {result: false, message: ""};
+        let _result: authResult = {success: false, message: ""};
         try {
              if(Response.data.success) {
                 this.authDataAccept(Response);
                 _result.message = JSON.stringify( this.getPublicInfo );
-                _result.result = true;
+                _result.success = true;
                 return _result;
             } 
-            _result.message = Response.data.message;
-            _result.result = false;
-            console.log("При регистрации/авторизации произошла ошибка! " + JSON.stringify(_result));
+            _result.message = JSON.stringify(Response.message);
+            _result.success = false;
             return _result;
         } catch(error) {
             console.warn("[User] UserRequest error: " + error)

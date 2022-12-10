@@ -10,6 +10,6 @@ export interface UserInterface {
 }
 
 export type authResult = {
-    result: boolean,
+    success: boolean,
     message: string
 }

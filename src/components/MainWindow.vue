@@ -1,6 +1,7 @@
 <template>
     <div class = "MainWindow">
         <p>...Application with router...</p>
+        <p>......In this page we shows Navbar and other sugar.......</p>
         <router-view>
         </router-view>    
     </div>

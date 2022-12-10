@@ -28,7 +28,7 @@ export async function isAxis(config: any): Promise<ServerResponseType<any>> {
                 console.log("[Axios] Bad request returnes from " + config.url);
                 let errorFromServer: ServerResponseType<any> = {
                     success: false,
-                    message: result.response.data.message,
+                    message: 'Error was occured while sending request!', //result.response.data.message,
                     data: debug ? result.response.data : { trace: "Only in debug mode!" }
                 }
                 return errorFromServer;
