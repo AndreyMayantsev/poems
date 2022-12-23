@@ -8,17 +8,11 @@
   </template>
   
   <script>
-  
-  // import core libraries
-  //import { MainWindow } from '../../Core-prod/Poems/mainWindow'
-  //import { User } from '../../Core-prod/Poems/User/user'
-  // import components
+
   import UserLogin from './UserLogin.vue';
   import RegisterForm from './Register.vue';
   import RoomsList from './RoomsList.vue';
   import RoomCreate from './RoomCreate.vue'
-  
- // let UserInstance = new User();
   
   export default {
     name: 'TestWindow',

@@ -39,24 +39,24 @@ export class User implements UserInterface {
 
     public async userLogin( _loginData: UserLoginRequest ): Promise<authResult> {
         try {
-            let HttpFabricInstance = new HttpRequestFactory();
-            let HttpResponse = await HttpFabricInstance.makeRequest( requestType.UserAuth, _loginData );
+            let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserAuth, _loginData );
             let Response = this.requestComposer(HttpResponse);
             if(Response.success) {
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
                 console.log("[AUTH] COOKIE SET: " + this.getTokenFromCookies());
             }
+            localStorage.setItem('auth', "true");
             return Response;
         } catch(error) {
-            console.log("[User] Http server returns error!" + error)
+            console.log("[User] Http server returns error!" + error);
+            localStorage.setItem('auth', "false");
             throw(error);
         }
     }
 
     public async userRegistration( _regData: UserRegisterRequest ): Promise<authResult> {
         try {
-            let HttpFabricInstance = new HttpRequestFactory();
-            let HttpResponse = await HttpFabricInstance.makeRequest( requestType.UserRegister, _regData );
+            let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserRegister, _regData );
             let Response = this.requestComposer(HttpResponse);
             if(Response.success) {
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
@@ -78,6 +78,7 @@ export class User implements UserInterface {
         this.tokenExpired = 1;
         this.userToken = "";
         this.autorized = false;
+        localStorage.setItem('auth', "false");
     }
 
     // Compose authRequest answer to frontend
@@ -90,7 +91,7 @@ export class User implements UserInterface {
                 _result.success = true;
                 return _result;
             } 
-            _result.message = JSON.stringify(Response.message);
+            _result.message = JSON.stringify( Response.message );
             _result.success = false;
             return _result;
         } catch(error) {
@@ -107,7 +108,7 @@ export class User implements UserInterface {
             this.userToken = ResponseData.data.data.token;
             this.tokenExpired = ResponseData.data.data.expired_at;
             this.autorized = true;
-            console.log(JSON.stringify(this.getPublicInfo()));
+            console.log( JSON.stringify( this.getPublicInfo()) );
             console.log("Пользователь зарегистрирован/автороизован!");
         } catch(error) {
             console.log("[User] AuthDataAcceptor error: " + error);

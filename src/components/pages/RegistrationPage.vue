@@ -1,6 +1,11 @@
 <template>
     <div class="RegistrationPage">
-        <h1> Зарегисрироваться </h1>
+        <h1> Зарегистрироваться </h1>
+        <p>Пожалуйста зарегистрируйтесь в системе:</p>
+        <input type="text" size="12" placeholder="Логин"> | 
+        <input type="password" size="12" placeholder="Пароль"> |
+        <input type="password" size="12" placeholder="Повторите пароль"> |
+        <input type="button" value="Войти">
     </div>
 </template>
 

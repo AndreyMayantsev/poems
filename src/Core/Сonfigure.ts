@@ -1,10 +1,14 @@
 
 export let Configure = {
 
-    //http://app.test
-    POEMS_VERSION : "0.1",
-    POEMS_BUILD : "XZ",
+    //VERSION
+    POEMS_VERSION : "0.3",
+    POEMS_BUILD : "PRE-TEST",
 
+    //CONSTS
+    DEBUG_MODE: false,
+
+    //URLS
     BASE_URL : "http://127.0.0.1:80", 
     URL_USER_REGISTER : "/api/user/register/",
     URL_USER_LOGIN : "/api/user/login/",

@@ -1,7 +1,9 @@
 <template>
     <div class = "MainWindow">
-        <p>...Application with router...</p>
-        <p>......In this page we shows Navbar and other sugar.......</p>
+        <p>Стихи вслепую</p> 
+        <input type="button" value="Тесты" v-on:click="$router.push({ name: 'testpage'})">
+        <input type="button" value="Авторизация" v-on:click="$router.push({ name: 'auth'})"> |
+        <input type="button" value="Комнаты" v-on:click="$router.push({ name: 'roomslist'})">    
         <router-view>
         </router-view>    
     </div>

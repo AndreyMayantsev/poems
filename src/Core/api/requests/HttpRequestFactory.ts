@@ -16,10 +16,10 @@ export class HttpRequestFactory {
         console.log("[HttpRequestFactory] Created...");
     }
     
-    async makeRequest( rtype: requestType, rdata?: any, id?: any ): Promise<ServerResponseType<any>> {
+    public static async makeRequest( rtype: requestType, rdata?: any, id?: any ): Promise<ServerResponseType<any>> {
         try {
             console.log("=> makeRequest with data: " + JSON.stringify(rdata));
-            let HttpRequestObject = this.FactorySwitcher(rtype);
+            let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
             let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
             return answer;
         } catch(error) {
@@ -29,7 +29,7 @@ export class HttpRequestFactory {
         }
     }
 
-    private FactorySwitcher(rtype: requestType) {
+    private static FactorySwitcher(rtype: requestType) {
         let HttpRequestObject;
             switch (rtype) {
                 case requestType.UserAuth: {

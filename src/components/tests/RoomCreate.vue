@@ -47,8 +47,8 @@ export default {
                 finish_moves_cond: this.finish_moves_cond                
             }
             console.log("Пытаюсь создать комнату с данными: " + JSON.stringify(createroom));
-            let HttpRequestFactoryInstance = new HttpRequestFactory();
-            let answer = await HttpRequestFactoryInstance.makeRequest(requestType.MakeRoom, createroom);
+
+            let answer = await HttpRequestFactory.makeRequest(requestType.MakeRoom, createroom);
 
             console.log("makeRoom: " + JSON.stringify(answer));
         }

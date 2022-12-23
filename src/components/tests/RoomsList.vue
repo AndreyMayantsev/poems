@@ -1,9 +1,10 @@
-<template>
+<template> 
     <div class="RoomsList box">
         <input class="roomsbutton startbutton" type="button" value="Комнаты" v-on:click="ShowRooms">
         <div v-for="room in rooms.data" :key="room.id" class="roombox">
             <input class="startbutton" type="button" value="Инфо" v-on:click="GetRoom(room.id)"/>
             <input class="startbutton" type="button" value="Войти" v-on:click="EnterRoom(room.id)"/><br>
+            <input class="startbutton" type="button" value="Перейти" v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"/><br>
             <b>Комната №</b>{{ room.id }} <b>Играет </b>{{ room.users_rooms.length }} чел.
             <textarea value="" rows="2" cols="38"></textarea>
             <input class="startbutton" type="button" value="Отправить" v-on:click="SendMessage(room.id)"/>
@@ -32,8 +33,7 @@ export default {
         async ShowRooms() {
             try {
             let getroom = { limit:10, offset:0 }
-            let HttpRequestFactoryInstance = new HttpRequestFactory();
-            let answer = await HttpRequestFactoryInstance.makeRequest(requestType.RoomsGet, getroom);
+            let answer = await HttpRequestFactory.makeRequest(requestType.RoomsGet, getroom);
             this.rooms = {
                 ...answer.data
             }
@@ -44,8 +44,7 @@ export default {
         },
         async GetRoom(id) {
             try {
-            let HttpRequestFactoryInstance = new HttpRequestFactory();
-            let answer = await HttpRequestFactoryInstance.makeRequest(requestType.RoomGet, id);
+            let answer = await HttpRequestFactory.makeRequest(requestType.RoomGet, id);
 
             console.log("ROOM: " + JSON.stringify(answer));
             } catch(error) {
@@ -54,8 +53,7 @@ export default {
         },
         async EnterRoom(id) {
             try {
-            let HttpRequestFactoryInstance = new HttpRequestFactory();
-            let answer = await HttpRequestFactoryInstance.makeRequest(requestType.EnterRoom, id);
+            let answer = await HttpRequestFactory.makeRequest(requestType.EnterRoom, id);
 
             console.log("ROOM: " + JSON.stringify(answer));
             } catch(error) {
@@ -65,8 +63,7 @@ export default {
         async SendMessage(id) {
             let messageBody = { message: "Тут первый стих я напишу\nИ есть пойду свою лапшу!" }
             try {
-            let HttpRequestFactoryInstance = new HttpRequestFactory();
-            let answer = await HttpRequestFactoryInstance.makeRequest(requestType.SendMessage, messageBody, id);
+            let answer = await HttpRequestFactory.makeRequest(requestType.SendMessage, messageBody, id);
 
             console.log("MSG: " + JSON.stringify(answer));
             } catch(error) {
@@ -75,8 +72,7 @@ export default {
         },
         async EndPoem(id) {
             try {
-            let HttpRequestFactoryInstance = new HttpRequestFactory();
-            let answer = await HttpRequestFactoryInstance.makeRequest(requestType.EndPoem, id);
+            let answer = await HttpRequestFactory.makeRequest(requestType.EndPoem, id);
 
             console.log("MSG: " + JSON.stringify(answer));
             } catch(error) {
@@ -85,9 +81,7 @@ export default {
         },
         async LeaveRoom(id) {
             try {
-            let HttpRequestFactoryInstance = new HttpRequestFactory();
-            let answer = await HttpRequestFactoryInstance.makeRequest(requestType.LeaveRoom, id);
-
+            let answer = await HttpRequestFactory.makeRequest(requestType.LeaveRoom, id);
             console.log("MSG: " + JSON.stringify(answer));
             } catch(error) {
                 console.log("[LeaveRoom] RoomsList not loaded. Server returns an error: " + error)

@@ -99,22 +99,17 @@ export default {
             };
             console.log("Authentification data created.")
             this.showPopup("ОТПРАВЛЯЕМ НА СЕРВЕР => " + JSON.stringify(authInfo))
-
-            try {
-                
+               
                 let _authResult = await UserInstance.userLogin(authInfo)
 
                 console.log("[User-Vue] " + JSON.stringify(_authResult))
 
-                if ( _authResult.result ) {
+                if ( _authResult.success ) {
                     this.showPopup("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + JSON.stringify( UserInstance.getPublicInfo() ));
                 } else {
                     this.showPopup("ОШИБКА АВТОРИЗАЦИИ: " + JSON.stringify(_authResult.message) );
                 }
-
-            } catch(error) {
-                this.showPopup("ОШИБКА ЗАПРОСА: " + error);
-            }        
+     
         },
         
         async Rooms() {

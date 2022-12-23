@@ -1,10 +1,8 @@
 import axios from 'axios'
+import { Configure } from '../../Сonfigure'
 import { ServerResponseType } from '../dataTypes';
 
 export async function isAxis(config: any): Promise<ServerResponseType<any>> {
-    
-    // Enable sending stacktrace in server response
-    let debug = false;
 
     let response = axios(config)
         .then(resp => {
@@ -19,7 +17,7 @@ export async function isAxis(config: any): Promise<ServerResponseType<any>> {
                 let errorFromServer: ServerResponseType<any> = {
                     success: false,
                     message: result.response.data.message,
-                    data: debug ? result.response.data : { trace: "Only in debug mode!" }
+                    data: Configure.DEBUG_MODE ? result.response.data : { trace: "Only in debug mode!" }
                 }
                 console.log(JSON.stringify(errorFromServer))
                 return errorFromServer;
@@ -28,8 +26,8 @@ export async function isAxis(config: any): Promise<ServerResponseType<any>> {
                 console.log("[Axios] Bad request returnes from " + config.url);
                 let errorFromServer: ServerResponseType<any> = {
                     success: false,
-                    message: 'Error was occured while sending request!', //result.response.data.message,
-                    data: debug ? result.response.data : { trace: "Only in debug mode!" }
+                    message: "Unknown error of request execute.", 
+                    data: Configure.DEBUG_MODE ? result.response.data : { trace: "Only in debug mode!" }
                 }
                 return errorFromServer;
             // Local connection errors    
