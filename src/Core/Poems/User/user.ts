@@ -46,6 +46,7 @@ export class User implements UserInterface {
                 console.log("[AUTH] COOKIE SET: " + this.getTokenFromCookies());
             }
             localStorage.setItem('auth', "true");
+            localStorage.setItem('userID', "" + this.userID);
             return Response;
         } catch(error) {
             console.log("[User] Http server returns error!" + error);
@@ -115,8 +116,6 @@ export class User implements UserInterface {
             throw(error);
         } 
     }
-
-
 
 }
 

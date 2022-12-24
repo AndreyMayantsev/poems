@@ -23,7 +23,7 @@ export default createRouter({
         { path: '/rooms/:id', name: 'insideroom', component: InsideRoomPage },
         { path: '/error', name: 'errorpage', component: ErrorPage },
 
-        // allready in bottom!
+        // allready in bottom! 404 errorpage.
         { path: '/:pathMatch(.*)', name: 'NotFound', component: NotFound }
     ]
 })

@@ -3,7 +3,9 @@
        "react/no-set-state": "off",
        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
        "require-yield": "off",
-       "no-useless-escape": "off"
+       "no-useless-escape": "off",
+       "vue/valid-v-for": "off",
+       "vue/require-v-for-key": "off"
     },
     "parserOptions": {
         "ecmaVersion": 6,
