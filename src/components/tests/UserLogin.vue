@@ -1,8 +1,5 @@
 <template>
     <div class="UserLogin">
-        <PopupMsg v-if="ifPopupMsgVisible" @closePopup="closePopup">
-            <p> {{ PopupMsgInfo }} </p>
-        </PopupMsg>
         <div class="box">
             <h2>Войти в игру:</h2>
             <input type="text" size="12" v-model="login_verify" class="defaultinput" v-bind:class="{ verifyedinput: LoginValid }" placeholder="Логин">
@@ -17,13 +14,12 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
 import { User } from '../../Core-prod/Poems/User/user';
-import { PopupMsg } from './PopupMsg.vue';
 
 export default {
     name: 'UserLogin',
 
     components: {
-        PopupMsg
+        
     },
 
     //Свойства компонента
@@ -98,18 +94,11 @@ export default {
                 password : this.password_verify
             };
             console.log("Authentification data created.")
-            this.showPopup("ОТПРАВЛЯЕМ НА СЕРВЕР => " + JSON.stringify(authInfo))
                
                 let _authResult = await UserInstance.userLogin(authInfo)
 
                 console.log("[User-Vue] " + JSON.stringify(_authResult))
-
-                if ( _authResult.success ) {
-                    this.showPopup("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + JSON.stringify( UserInstance.getPublicInfo() ));
-                } else {
-                    this.showPopup("ОШИБКА АВТОРИЗАЦИИ: " + JSON.stringify(_authResult.message) );
-                }
-     
+    
         },
         
         async Rooms() {

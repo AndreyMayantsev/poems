@@ -11,7 +11,7 @@
             <input type="finish_moves_cond" size="12" v-model="finish_moves_cond" class="defaultinput" placeholder="Последний ход">
             
             
-            <input class="startbutton" v-bind:disabled="isLoginButtonDisabled" type="button" value="Создать" v-on:click="makeRoom">
+            <input class="startbutton" type="button" value="Создать" v-on:click="makeRoom">
 
         </div>
     </div>

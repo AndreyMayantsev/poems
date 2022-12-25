@@ -1,9 +1,5 @@
 <template>
     <div class="RegisterForm">
-        <PopupMsg v-if="ifPopupMsgVisible" @closePopup="closePopup">
-
-            <p> {{ PopupMsgInfo }} </p>
-        </PopupMsg>
         <div class="box">
             <h2>Зарегистрироваться:</h2>
             <input type="text" size="12" v-model="login_verify" class="defaultinput" v-bind:class="{ verifyedinput: LoginValid }" placeholder="Логин">
@@ -16,13 +12,12 @@
 
 <script>
 import { User } from '../../Core-prod/Poems/User/user'
-import { PopupMsg } from './PopupMsg.vue';
 
 export default {
     name: 'RegisterForm',
 
     components: {
-        PopupMsg 
+         
     },
 
     //Свойства компонента
