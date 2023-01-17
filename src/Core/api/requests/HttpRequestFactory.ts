@@ -21,7 +21,7 @@ export class HttpRequestFactory {
             console.log("=> makeRequest with data: " + JSON.stringify(rdata));
             let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
             let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
-            console.log("<= makeRequest answer data: " + JSON.stringify(answer.data));
+            console.log("<= makeRequest answer data: " + JSON.stringify(answer));
             return answer.data;
         } catch(error) {
             console.warn("[HttpRequestFactory] makeRequest failed! " + error + id);

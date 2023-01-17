@@ -25,6 +25,7 @@
 
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
+import { openWebSocket } from '../../Core-prod/api/notifications/webSocketIO'
 
 export default {
     name: "InsideRoomPage",
@@ -40,12 +41,13 @@ export default {
         try {
             this.room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
             console.log("INSIDE: " + JSON.stringify(this.room));
+            openWebSocket(3, 3);
         } catch(error) {
             console.log("[InsideRoom] Room not loaded. Server returns an error: " + error);
         }
     },
     activated() {
-
+        
     },
     methods: {
         async SendMessage() {

@@ -60,6 +60,7 @@ export class User implements UserInterface {
     public async userRegistration( _regData: UserRegisterRequest ): Promise<authResult> {
         try {
             let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserRegister, _regData );
+            console.log("[User] RESPONSE: " + JSON.stringify(HttpResponse))
             let Response = this.requestComposer(HttpResponse);
             if(Response.success) {
                 console.log("Install Cookie: " + this.userToken);

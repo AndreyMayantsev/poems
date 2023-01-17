@@ -12,7 +12,8 @@
   import UserLogin from './UserLogin.vue';
   import RegisterForm from './Register.vue';
   import RoomsList from './RoomsList.vue';
-  import RoomCreate from './RoomCreate.vue'
+  import RoomCreate from './RoomCreate.vue';
+  //import openWS from '../../Core-prod/api/notifications/webSocketIO'
   
   export default {
     name: 'TestWindow',

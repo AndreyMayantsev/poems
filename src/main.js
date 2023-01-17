@@ -8,3 +8,5 @@ const app = createApp(App)
 app.use(router)
 app.use(vuex)
 app.mount('#app')
+
+window.io = require('socket.io-client');

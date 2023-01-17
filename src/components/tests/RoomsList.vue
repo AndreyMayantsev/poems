@@ -35,7 +35,7 @@ export default {
             let getroom = { limit:10, offset:0 }
             let answer = await HttpRequestFactory.makeRequest(requestType.RoomsGet, getroom);
             this.rooms = {
-                ...answer.data
+                ...answer
             }
             console.log("ROOMS: " + JSON.stringify(answer));
             } catch(error) {
