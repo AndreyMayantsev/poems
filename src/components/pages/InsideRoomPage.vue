@@ -33,7 +33,9 @@ export default {
         return {
             message: "",
             room: {
-
+                data: {
+                    
+                }
             }
         }
     },

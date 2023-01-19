@@ -11,5 +11,5 @@ export interface UserInterface {
 
 export type authResult = {
     success: boolean,
-    message: string
+    message: object
 }

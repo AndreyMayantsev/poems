@@ -28,8 +28,9 @@ export class User implements UserInterface {
     public getPublicInfo() {
         let _publicInfo = {
             "name": this.userName,
-            "id:": this.userID
+            "id": this.userID
         }
+        console.log("getPublicInfo:: " + JSON.stringify(_publicInfo));
         return _publicInfo;
     }
 
@@ -88,15 +89,17 @@ export class User implements UserInterface {
 
     // Compose authRequest answer to frontend
     private requestComposer(Response: ServerResponseType<any>): authResult {
-        let _result: authResult = {success: false, message: ""};
+        
+        let _result: authResult = { success: false, message: {} };
         try {
-             if(Response.success) {
-                this.authDataAccept(Response);
-                _result.message = JSON.stringify( this.getPublicInfo );
+             if(Response.success) {    
+                this.authDataAccept(Response);       
+                _result.message = this.getPublicInfo();
                 _result.success = true;
+                console.log("_res.mess: " + JSON.stringify(_result))
                 return _result;
             } 
-            _result.message = JSON.stringify( Response.message );
+            _result.message =  Response.message;
             _result.success = false;
             return _result;
         } catch(error) {

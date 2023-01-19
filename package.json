@@ -14,7 +14,7 @@
     "laravel-echo": "^1.14.2",
     "material-design-icons-iconfont": "^6.4.1",
     "openssl": "^2.0.0",
-    "pusher-js": "^8.0.0",
+    "pusher-js": "^8.0.1",
     "socket.io-client": "^4.5.4",
     "vue": "^3.2.41",
     "vue-router": "^4.1.6",

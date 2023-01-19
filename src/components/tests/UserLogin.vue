@@ -72,17 +72,17 @@ export default {
             }
         },
 
-        // Показать попап окно
-        showPopup(msg) {
-            this.PopupMsgTitle = "Посмотри сюда!";
-            this.PopupMsgInfo = msg;
-            this.ifPopupMsgVisible = true;
-        },
+        // // Показать попап окно
+        // showPopup(msg) {
+        //     this.PopupMsgTitle = "Посмотри сюда!";
+        //     this.PopupMsgInfo = msg;
+        //     this.ifPopupMsgVisible = true;
+        // },
 
-        // Закрыть попап окно
-        closePopup() {
-            this.ifPopupMsgVisible = false;
-        },
+        // // Закрыть попап окно
+        // closePopup() {
+        //     this.ifPopupMsgVisible = false;
+        // },
 
         // Функция отправвки данных авторизации
         async letsGo() {
@@ -93,11 +93,10 @@ export default {
                 login : this.login_verify,
                 password : this.password_verify
             };
-            console.log("Authentification data created.")
-               
-                let _authResult = await UserInstance.userLogin(authInfo)
-
-                console.log("[User-Vue] " + JSON.stringify(_authResult))
+            console.log("Authentification data created.");
+            let _authResult = await UserInstance.userLogin(authInfo);
+            this.$store.commit('SET_USER_ID', _authResult.message.id);
+            console.log("[User-Vue] " + JSON.stringify(_authResult));
     
         },
         
