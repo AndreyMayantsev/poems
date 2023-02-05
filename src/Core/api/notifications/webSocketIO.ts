@@ -1,11 +1,12 @@
 import Echo from "laravel-echo"; 
+//import Pusher from "pusher-js";
 
 export default function openWebSocket(room_id: number, user_id: number) {
  
     let room = "poem_room_" + room_id +  "_user_" + user_id;
     console.log('WS room: ' + room);
 
-    window.Pusher = require('pusher-js');
+    //window.Pusher = require('pusher-js');
 
     console.log("WS...")
     //io = require('socket.io-client');

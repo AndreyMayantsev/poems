@@ -9,8 +9,6 @@
             <input type="finish_type" size="12" v-model="finish_type" class="defaultinput" placeholder="Тип завершения">
             <input type="finish_time_cond" size="12" v-model="finish_time_cond" class="defaultinput" placeholder="Время хода">
             <input type="finish_moves_cond" size="12" v-model="finish_moves_cond" class="defaultinput" placeholder="Последний ход">
-            
-            
             <input class="startbutton" type="button" value="Создать" v-on:click="makeRoom">
 
         </div>

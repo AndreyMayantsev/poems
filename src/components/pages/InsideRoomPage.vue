@@ -25,7 +25,7 @@
 
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
-import { openWebSocket } from '../../Core-prod/api/notifications/webSocketIO'
+//import { openWebSocket } from '../../Core-prod/api/notifications/webSocketIO'
 
 export default {
     name: "InsideRoomPage",
@@ -41,9 +41,9 @@ export default {
     },
     async created() {
         try {
-            this.room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
+            let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
+            this.room = Room.data;
             console.log("INSIDE: " + JSON.stringify(this.room));
-            openWebSocket(3, 3);
         } catch(error) {
             console.log("[InsideRoom] Room not loaded. Server returns an error: " + error);
         }
@@ -52,12 +52,22 @@ export default {
         
     },
     methods: {
+        async RefreshRoom() {
+            try {
+                let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
+                this.room = Room.data;
+                console.log("INSIDE: " + JSON.stringify(this.room));
+            } catch(error) {
+                console.log("[InsideRoom] Room not loaded. Server returns an error: " + error);
+            }
+        },
         async SendMessage() {
             let messageBody = { message: this.message };
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.SendMessage, messageBody, this.room.data.id);
                 this.message = "";
                 console.log("[SendMessage]: " + JSON.stringify(answer));
+                this.RefreshRoom()
             } catch(error) {
                 console.log("[SendMessage] RoomsList not loaded. Server returns an error: " + error)
             }
@@ -66,6 +76,7 @@ export default {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EndPoem, this.room.data.id);
                 console.log("[EndPoem]: " + JSON.stringify(answer));
+                this.RefreshRoom()
             } catch(error) {
                 console.log("[EndPoem] RoomsList not loaded. Server returns an error: " + error)
             }
@@ -85,6 +96,7 @@ export default {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EnterRoom, this.room.data.id);
                 console.log("[EnterRoom]: " + JSON.stringify(answer));
+                this.RefreshRoom()
             } catch(error) {
                 console.log("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)
             }

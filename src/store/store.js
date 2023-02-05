@@ -5,7 +5,8 @@ export default createStore({
 
     state () {
       return {
-        userid: 0
+        userid: 0,
+        userInstance: null
       }
     },
 
@@ -13,11 +14,17 @@ export default createStore({
         USER_ID: state => {
           return state.userid;
         },
+        USER_INSTANCE: state => {
+          return state.userInstance;
+        },
     },
 
     mutations: {
       SET_USER_ID(state, payload) {
         state.userid = payload;
+      },
+      SET_USER_INSTANCE(state, payload) {
+        state.userInstance = payload;
       }
     }
 

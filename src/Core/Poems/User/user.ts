@@ -20,8 +20,7 @@ export class User implements UserInterface {
         this.userToken = ""
         this.tokenExpired = 9999999999;
         this.userName = "Unautorized"
-        console.log("[User] Default user created!")
-        console.log(JSON.stringify(this.getPublicInfo()));
+        console.log("[User] Default user created: " + JSON.stringify(this.getPublicInfo()))
 
     }
 
@@ -30,7 +29,6 @@ export class User implements UserInterface {
             "name": this.userName,
             "id": this.userID
         }
-        console.log("getPublicInfo:: " + JSON.stringify(_publicInfo));
         return _publicInfo;
     }
 
@@ -41,18 +39,17 @@ export class User implements UserInterface {
     public async userLogin( _loginData: UserLoginRequest ): Promise<authResult> {
         try {
             let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserAuth, _loginData );
-            let Response = this.requestComposer(HttpResponse);
-            console.log("USERLOGIN R: " + JSON.stringify(Response))
+            console.log("[userLogin] : " + JSON.stringify(HttpResponse))
+            let Response = this.responseComposer(HttpResponse);
             if(Response.success) {
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
-                console.log("[AUTH] COOKIE SET: " + this.getTokenFromCookies());
             }
-            this.authDataAccept(HttpResponse);
+            //this.authDataAccept(HttpResponse);
             localStorage.setItem('auth', 'true');
             localStorage.setItem('userID', "" + this.userID);
             return Response;
         } catch(error) {
-            console.log("[User] Http server returns error!" + error);
+            console.log("[User] UserLogin returns error!" + error);
             localStorage.removeItem('auth');
             throw(error);
         }
@@ -61,16 +58,16 @@ export class User implements UserInterface {
     public async userRegistration( _regData: UserRegisterRequest ): Promise<authResult> {
         try {
             let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserRegister, _regData );
-            console.log("[User] RESPONSE: " + JSON.stringify(HttpResponse))
-            let Response = this.requestComposer(HttpResponse);
+            console.log("[before responseComposer]: " + JSON.stringify(HttpResponse)); 
+            let Response = this.responseComposer(HttpResponse);
             if(Response.success) {
-                console.log("Install Cookie: " + this.userToken);
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
-                console.log("[REG] COOKIE SET: " + this.getTokenFromCookies());
             }
+            localStorage.setItem('auth', 'true');
+            localStorage.setItem('userID', "" + this.userID);
             return Response;
         } catch(error) {
-            console.log("[User] Http server returns error!" + error)
+            console.log("[User] userRegistration returns error!" + error)
             throw(error);
         }
     }
@@ -88,18 +85,17 @@ export class User implements UserInterface {
     }
 
     // Compose authRequest answer to frontend
-    private requestComposer(Response: ServerResponseType<any>): authResult {
-        
+    private responseComposer(Response: ServerResponseType<any>): authResult {
         let _result: authResult = { success: false, message: {} };
         try {
-             if(Response.success) {    
+             if(Response.data.success) {    
                 this.authDataAccept(Response);       
                 _result.message = this.getPublicInfo();
                 _result.success = true;
-                console.log("_res.mess: " + JSON.stringify(_result))
                 return _result;
             } 
-            _result.message =  Response.message;
+            console.log("[responseComposer] Success False: " + JSON.stringify(Response));
+            _result.message = Response.message;
             _result.success = false;
             return _result;
         } catch(error) {
@@ -112,12 +108,11 @@ export class User implements UserInterface {
     private authDataAccept(ResponseData: ServerResponseType<any>) {
         try {
             this.userName = "Тестовый Тест";
-            this.userID = ResponseData.data.user_id;
-            this.userToken = ResponseData.data.token;
-            this.tokenExpired = ResponseData.data.expired_at;
+            this.userID = ResponseData.data.data.user_id;
+            this.userToken = ResponseData.data.data.token;
+            this.tokenExpired = ResponseData.data.data.expired_at;
             this.autorized = true;
-            console.log( JSON.stringify( this.getPublicInfo()) );
-            console.log("Пользователь зарегистрирован/автороизован! ID: " + ResponseData.data.user_id);
+            console.log("Пользователь зарегистрирован/автороизован! ID: " + ResponseData.data.data.user_id);
         } catch(error) {
             console.log("[User] AuthDataAcceptor error: " + error);
             throw(error);

@@ -22,7 +22,7 @@ export class HttpRequestFactory {
             let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
             let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
             console.log("<= makeRequest answer data: " + JSON.stringify(answer));
-            return answer.data;
+            return answer;
         } catch(error) {
             console.warn("[HttpRequestFactory] makeRequest failed! " + error + id);
             let standartResponse = { success: false, message: "Произошла ошибка!", data: { message: error } }
