@@ -41,6 +41,7 @@ export default {
     },
     async created() {
         try {
+            
             let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
             this.room = Room.data;
             console.log("INSIDE: " + JSON.stringify(this.room));

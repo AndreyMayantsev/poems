@@ -84,6 +84,15 @@ export class User implements UserInterface {
         localStorage.removeItem('auth');
     }
 
+    public loadUserFromBrowser() {
+        // localStorage.getItem('auth')
+        this.userID = 0;
+        this.tokenExpired = 1;
+        this.userToken = "" + getCookie("Token");
+        this.autorized = false;
+        localStorage.removeItem('auth');
+    }
+
     // Compose authRequest answer to frontend
     private responseComposer(Response: ServerResponseType<any>): authResult {
         let _result: authResult = { success: false, message: {} };

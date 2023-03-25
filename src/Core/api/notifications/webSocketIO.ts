@@ -1,23 +1,20 @@
 import Echo from "laravel-echo"; 
-//import Pusher from "pusher-js";
+import Pusher from "pusher-js";
+import { PusherSettings } from '../../Сonfigure'
 
-export default function openWebSocket(room_id: number, user_id: number) {
+
+
+export function openWebSocket(room_id: number, user_id: number) {
  
     let room = "poem_room_" + room_id +  "_user_" + user_id;
-    console.log('WS room: ' + room);
 
-    //window.Pusher = require('pusher-js');
+    console.log("WS:Pusher: " + JSON.stringify(PusherSettings));
+    console.log("WS_ROOM: " + room);
+    
+    //window.Pusher = Pusher;
 
-    console.log("WS...")
-    //io = require('socket.io-client');
- 
     let EchoInstance = new Echo({
-        broadcaster: 'pusher',
-        host: 'localhost:6001',
-        key: '645646',
-        cluster: 'mt1',
-        useTLS: false,
-        secret: '4234341'
+        ...PusherSettings.options
     });
 
     EchoInstance.private(room)

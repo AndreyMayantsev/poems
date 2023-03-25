@@ -12,6 +12,7 @@
 <script>
 //import router from '../router/router'
 
+
 export default {
 
     name: 'MainWindow',
@@ -19,8 +20,11 @@ export default {
     created() {
         this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
     },
+    mounted() {
+  
+    },
     methods: {
-    
+
     }
 
 }
