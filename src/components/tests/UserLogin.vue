@@ -1,13 +1,19 @@
 <template>
     <div class="UserLogin">
-        <div class="box">
-            <h2>Войти в игру:</h2>
+        <div class="q-gutter-md center-box">
+            Для входа в игру введите учетные данные и нажмите "Войти"
+            <!--
             <input type="text" size="12" v-model="login_verify" class="defaultinput" v-bind:class="{ verifyedinput: LoginValid }" placeholder="Логин">
             <input type="password" size="12" v-model="password_verify" class="defaultinput" v-bind:class="{ verifyedinput: PasswordValid }" placeholder="Пароль">
             <input class="startbutton" v-bind:disabled="isLoginButtonDisabled" type="button" value="Войти" v-on:click="letsGo">
-            <p>Верификация: {{ VerifyPassed }}</p>
+            -->
+            <q-input outlined v-model="login_verify" label="Логин" />
+            <q-input type="password" outlined v-model="password_verify" label="Пароль" />
+            <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
+            <q-btn push color="primary" label="Войти" v-on:click="letsGo"/>
+            
         </div>
-    </div>    
+    </div>
 </template>
 
 <script>
@@ -25,6 +31,7 @@ export default {
     //Свойства компонента
     data() {
         return {
+            dense: false,
             ifPopupMsgVisible: false,
             isLoginButtonDisabled: true,
             login_verify: "",
@@ -125,6 +132,13 @@ export default {
         width: 350px;
         padding: 10px;
         box-shadow: 0 0 10px rgba(0,1,0,0.5);
+    }
+    .center-box {
+        margin: 100px auto;
+        text-align: center;
+        border-radius: 4px;
+        padding: 10px;
+        max-width: 330px;
     }
     .verifyedinput {
         border-bottom: 2px solid #13b953;

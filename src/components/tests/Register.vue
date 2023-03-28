@@ -1,11 +1,16 @@
 <template>
     <div class="RegisterForm">
-        <div class="box">
-            <h2>Зарегистрироваться:</h2>
+        <div class="q-gutter-md center-box">
+            Для регистрации введите учетные данные и нажмите "Регистрация"
+            <!--
             <input type="text" size="12" v-model="login_verify" class="defaultinput" v-bind:class="{ verifyedinput: LoginValid }" placeholder="Логин">
             <input type="password" size="12" v-model="password_verify" class="defaultinput" v-bind:class="{ verifyedinput: PasswordValid }" placeholder="Пароль">
             <input class="startbutton" v-bind:disabled="isLoginButtonDisabled" type="button" value="Войти" v-on:click="letsGo"> 
             <p>Верификация: {{ VerifyPassed }}</p>
+            -->
+            <q-input outlined v-model="login_verify" label="Логин" />
+            <q-input type="password" outlined v-model="password_verify" label="Пароль" />
+            <q-btn push color="primary" label="Регистрация" v-on:click="letsGo"/>
         </div>
     </div>    
 </template>
@@ -99,13 +104,13 @@ export default {
                 let _authResult = await UserInstance.userRegistration(authInfo)
 
                 if ( _authResult.result ) {
-                    this.showPopup("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + JSON.stringify( UserInstance.getPublicInfo() ));
+                    console.log("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + JSON.stringify( UserInstance.getPublicInfo() ));
                 } else {
                     this.showPopup("ОШИБКА АВТОРИЗАЦИИ: " + JSON.stringify(_authResult.message) );
                 }
 
             } catch(error) {
-                this.showPopup("ОШИБКА ЗАПРОСА: " + error);
+                console.log("ОШИБКА ЗАПРОСА: " + error);
             }        
         }
     }
@@ -124,6 +129,13 @@ export default {
         width: 350px;
         padding: 10px;
         box-shadow: 0 0 10px rgba(0,1,0,0.5);
+    }
+    .center-box {
+        margin: 100px auto;
+        text-align: center;
+        border-radius: 4px;
+        padding: 10px;
+        max-width: 330px;
     }
     .verifyedinput {
         border-bottom: 2px solid #13b953;

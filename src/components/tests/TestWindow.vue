@@ -1,10 +1,12 @@
 <template>
-    <div class="TestWindow">
-      <UserLogin/>
-      <RegisterForm/>
-      <RoomsList/>
-      <RoomCreate/>
-    </div>
+    <q-layout view="hHh lpR fFf">
+      <q-page-container>
+        <UserLogin/><q-separator />
+        <RegisterForm/><q-separator />
+        <RoomsList/><q-separator />
+        <RoomCreate/><q-separator />
+      </q-page-container>
+    </q-layout>
   </template>
   
   <script>
