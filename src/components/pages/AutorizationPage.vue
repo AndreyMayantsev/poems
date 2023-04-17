@@ -1,11 +1,12 @@
 <template>
     <div class="AutorizationPage">
-        <h1> Авторизация </h1>
-        <p>Пожалуйста авторизуйтесь в системе:</p>
-        <input type="text" size="12" placeholder="Логин" v-model="login"> | 
-        <input type="password" size="12" placeholder="Пароль" v-model="password"> |
-        <input type="button" value="Войти" v-on:click="Autorize">
-        <p>Я не <a href="#" v-on:click="$router.push({ name:'register'})" >зарегистрирован</a> в игре</p>
+        <div class="q-gutter-md center-box">
+            Для входа в игру введите учетные данные и нажмите "Войти"
+            <q-input outlined v-model="login" label="Логин" />
+            <q-input type="password" outlined v-model="password" label="Пароль" />
+            <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
+            <q-btn push color="primary" label="Войти" v-on:click="Autorize"/>
+        </div>
     </div>
 </template>
 
@@ -47,4 +48,11 @@ export default {
 </script>
 
 <style scoped>
+    .center-box {
+        margin: 100px auto;
+        text-align: center;
+        border-radius: 4px;
+        padding: 10px;
+        max-width: 330px;
+    }
 </style>

@@ -44,21 +44,20 @@ export class User implements UserInterface {
             if(Response.success) {
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
             }
-            //this.authDataAccept(HttpResponse);
             localStorage.setItem('auth', 'true');
             localStorage.setItem('userID', "" + this.userID);
             return Response;
         } catch(error) {
             console.log("[User] UserLogin returns error!" + error);
             localStorage.removeItem('auth');
-            throw(error);
+            let Response = { "success": false, "message": {"message": "Unrecognazed error :(" }}
+            return Response;
         }
     }
 
     public async userRegistration( _regData: UserRegisterRequest ): Promise<authResult> {
         try {
             let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserRegister, _regData );
-            console.log("[before responseComposer]: " + JSON.stringify(HttpResponse)); 
             let Response = this.responseComposer(HttpResponse);
             if(Response.success) {
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
@@ -68,7 +67,8 @@ export class User implements UserInterface {
             return Response;
         } catch(error) {
             console.log("[User] userRegistration returns error!" + error)
-            throw(error);
+            let Response = { "success": false, "message": {"message": "Unrecognazed error :(" }}
+            return Response;
         }
     }
 
