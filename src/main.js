@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { Quasar } from 'quasar'
+import { Quasar, Notify } from 'quasar'
 import App from './App.vue'
 import router from './router/router.js'
 import createStore from './store/store.js'
@@ -15,7 +15,14 @@ const app = createApp(App);
 app.use(router);
 app.use(createStore);
 app.use(Quasar, {
-    plugins: {}, 
+    plugins: {
+        Notify
+    }, 
+    config: {
+      notify: { 
+        timeout: 5000
+       }
+    },
     iconSet: iconSet
 });
 

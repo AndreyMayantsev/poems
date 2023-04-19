@@ -10,7 +10,7 @@
             <input class="startbutton" type="button" value="Отправить" v-on:click="SendMessage(room.id)"/>
             <input class="startbutton" type="button" value="Завершить" v-on:click="EndPoem(room.id)"/>
             <input class="startbutton" type="button" value="Покинуть" v-on:click="LeaveRoom(room.id)"/>
-            <h6>Свободно: {{ room.places - room.users_rooms.length }} мест, создано: {{ Date.parse( room.created_at ) }} </h6>           
+            <h6>Свободно: {{ room.places - room.users_rooms.length }} мест, создано: {{ Date.parse( room.created_at ) }} </h6>      
         </div>
     </div>
 </template>
@@ -18,6 +18,8 @@
 <script>
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
+import { useQuasar } from 'quasar'
+const $q = useQuasar()
 
 export default {
     
@@ -37,8 +39,10 @@ export default {
             this.rooms = {
                 ...answer
             }
+            $q.notify("ROOMS: " + JSON.stringify(answer));
             console.log("ROOMS: " + JSON.stringify(answer));
             } catch(error) {
+                $q.notify("[RoomsList] RoomsList not loaded. Server returns an error: " + error)
                 console.log("[RoomsList] RoomsList not loaded. Server returns an error: " + error)
             }
         },
