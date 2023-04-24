@@ -41,6 +41,7 @@ export type GetRoomResponse = {
 
 export type ServerResponseType<D> = {
     success: boolean;
+    code: number;
     message: {};
     data: D;
 } 

@@ -40,7 +40,7 @@ export class User implements UserInterface {
         try {
             let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserAuth, _loginData );
             console.log("[userLogin] : " + JSON.stringify(HttpResponse))
-            let Response = this.responseComposer(HttpResponse);
+            let Response = HttpResponse;
             if(Response.success) {
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
             }
@@ -50,7 +50,7 @@ export class User implements UserInterface {
         } catch(error) {
             console.log("[User] UserLogin returns error!" + error);
             localStorage.removeItem('auth');
-            let Response = { "success": false, "message": {"message": "Unrecognazed error :(" }}
+            let Response = { "success": false, "message": {"message": "Unrecognazed auth error :(" }}
             return Response;
         }
     }
@@ -58,7 +58,7 @@ export class User implements UserInterface {
     public async userRegistration( _regData: UserRegisterRequest ): Promise<authResult> {
         try {
             let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserRegister, _regData );
-            let Response = this.responseComposer(HttpResponse);
+            let Response = HttpResponse;
             if(Response.success) {
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
             }
@@ -67,11 +67,12 @@ export class User implements UserInterface {
             return Response;
         } catch(error) {
             console.log("[User] userRegistration returns error!" + error)
-            let Response = { "success": false, "message": {"message": "Unrecognazed error :(" }}
-            return Response;
+            let Error = { "success": false, "message": {"message": "Unrecognazed reg error :(" }}
+            return Error;
         }
     }
 
+    
     public userTokenExpired(): boolean {
         return false;
     }

@@ -25,7 +25,7 @@ export class HttpRequestFactory {
             return answer;
         } catch(error) {
             console.warn("[HttpRequestFactory] makeRequest failed! " + error + id);
-            let standartResponse = { success: false, message: "Произошла ошибка!", data: { message: error } }
+            let standartResponse = { success: false, code: 0, message: "Произошла ошибка!", data: { message: error } }
             return standartResponse;
         }
     }

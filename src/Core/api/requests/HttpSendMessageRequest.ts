@@ -28,9 +28,10 @@ export class HttpSendMessageRequest implements HttpRequestInterface {
             req = await isAxis(axiosConfig).then((response)=> {
                 return response;
             });
+            console.error("[MakeHttpRequest]: Request: " + JSON.stringify(req));
             return req;
         } catch(error) {
-            console.error("[MakeHttpRequest]: Error occured!");
+            console.error("[MakeHttpRequest]: Error occured: " + error);
             throw(error); 
         }
     }

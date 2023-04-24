@@ -20,6 +20,7 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
 import { User } from '../../Core-prod/Poems/User/user';
+import { useQuasar } from 'quasar'
 
 export default {
     name: 'UserLogin',
@@ -40,7 +41,8 @@ export default {
             LoginValid: false,
             PasswordValid: false,
             PopupMsgInfo: "Info about error or warning",
-            PopupMsgTitle: "Error or warning"
+            PopupMsgTitle: "Error or warning",
+            Notifyer: useQuasar()
         }
     },
 
@@ -79,18 +81,6 @@ export default {
             }
         },
 
-        // // Показать попап окно
-        // showPopup(msg) {
-        //     this.PopupMsgTitle = "Посмотри сюда!";
-        //     this.PopupMsgInfo = msg;
-        //     this.ifPopupMsgVisible = true;
-        // },
-
-        // // Закрыть попап окно
-        // closePopup() {
-        //     this.ifPopupMsgVisible = false;
-        // },
-
         // Функция отправвки данных авторизации
         async letsGo() {
             let UserInstance = new User();
@@ -102,9 +92,13 @@ export default {
             };
             console.log("Authentification data created.");
             let _authResult = await UserInstance.userLogin(authInfo);
-            this.$store.commit('SET_USER_ID', _authResult.message.id);
-            console.log("[User-Vue] " + JSON.stringify(_authResult));
-    
+
+            if (_authResult.success) {
+                this.$store.commit('SET_USER_ID', _authResult.message.id);
+                console.log("[User-Vue] " + JSON.stringify(_authResult));
+            } else {
+                this.Notifyer.notify("Oh no")
+            }
         },
         
         async Rooms() {
