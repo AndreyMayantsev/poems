@@ -94,7 +94,7 @@ export default {
             let _authResult = await UserInstance.userLogin(authInfo);
 
             if (_authResult.success) {
-                this.$store.commit('SET_USER_ID', _authResult.message.id);
+                this.$store.commit('SET_USER_ID', _authResult.data.user_id);
                 console.log("[User-Vue] " + JSON.stringify(_authResult));
             } else {
                 this.Notifyer.notify("Oh no")

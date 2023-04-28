@@ -20,17 +20,11 @@ export class HttpAuthRequest implements HttpRequestInterface {
                 'X-Develop-Mode': 'yes'
             }
         }
-
-        try { 
-            let req;
-            req = await isAxis(axiosConfig).then((response)=> {
+            let req = await isAxis(axiosConfig).then((response)=> {
                 return response;
             });
             return req;
-        } catch(error) {
-            console.error("[MakeHttpRequest]: Error occured! " + error);
-            throw(error); 
-        }
+
     }
     
 }

@@ -37,41 +37,29 @@ export class User implements UserInterface {
     }
 
     public async userLogin( _loginData: UserLoginRequest ): Promise<authResult> {
-        try {
             let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserAuth, _loginData );
             console.log("[userLogin] : " + JSON.stringify(HttpResponse))
-            let Response = HttpResponse;
+            let Response = HttpResponse.data;
             if(Response.success) {
+                this.authDataAccept(Response);
+                localStorage.setItem('auth', 'true');
+                localStorage.setItem('userID', "" + this.userID);
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
             }
-            localStorage.setItem('auth', 'true');
-            localStorage.setItem('userID', "" + this.userID);
             return Response;
-        } catch(error) {
-            console.log("[User] UserLogin returns error!" + error);
-            localStorage.removeItem('auth');
-            let Response = { "success": false, "message": {"message": "Unrecognazed auth error :(" }}
-            return Response;
-        }
     }
 
     public async userRegistration( _regData: UserRegisterRequest ): Promise<authResult> {
-        try {
             let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserRegister, _regData );
-            let Response = HttpResponse;
+            let Response = HttpResponse.data;
             if(Response.success) {
+                this.authDataAccept(Response);
+                localStorage.setItem('auth', 'true');
+                localStorage.setItem('userID', "" + this.userID);
                 document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + this.userToken);
             }
-            localStorage.setItem('auth', 'true');
-            localStorage.setItem('userID', "" + this.userID);
             return Response;
-        } catch(error) {
-            console.log("[User] userRegistration returns error!" + error)
-            let Error = { "success": false, "message": {"message": "Unrecognazed reg error :(" }}
-            return Error;
-        }
     }
-
     
     public userTokenExpired(): boolean {
         return false;
@@ -83,10 +71,10 @@ export class User implements UserInterface {
         this.userToken = "";
         this.autorized = false;
         localStorage.removeItem('auth');
+        localStorage.removeItem('userID');
     }
 
     public loadUserFromBrowser() {
-        // localStorage.getItem('auth')
         this.userID = 0;
         this.tokenExpired = 1;
         this.userToken = "" + getCookie("Token");
@@ -94,35 +82,16 @@ export class User implements UserInterface {
         localStorage.removeItem('auth');
     }
 
-    // Compose authRequest answer to frontend
-    private responseComposer(Response: ServerResponseType<any>): authResult {
-        let _result: authResult = { success: false, message: {} };
-        try {
-             if(Response.data.success) {    
-                this.authDataAccept(Response);       
-                _result.message = this.getPublicInfo();
-                _result.success = true;
-                return _result;
-            } 
-            console.log("[responseComposer] Success False: " + JSON.stringify(Response));
-            _result.message = Response.message;
-            _result.success = false;
-            return _result;
-        } catch(error) {
-            console.warn("[User] UserRequest error: " + error)
-            throw(error);
-        }
-    }
-
     // Apply user data from server to this user
     private authDataAccept(ResponseData: ServerResponseType<any>) {
+        console.log("[USER_DATA_ACCEPTOR]" + JSON.stringify(ResponseData))
         try {
             this.userName = "Тестовый Тест";
-            this.userID = ResponseData.data.data.user_id;
-            this.userToken = ResponseData.data.data.token;
-            this.tokenExpired = ResponseData.data.data.expired_at;
+            this.userID = ResponseData.data.user_id;
+            this.userToken = ResponseData.data.token;
+            this.tokenExpired = ResponseData.data.expired_at;
             this.autorized = true;
-            console.log("Пользователь зарегистрирован/автороизован! ID: " + ResponseData.data.data.user_id);
+            console.log("Пользователь зарегистрирован/автороизован! ID: " + ResponseData.data.user_id);
         } catch(error) {
             console.log("[User] AuthDataAcceptor error: " + error);
             throw(error);

@@ -38,7 +38,7 @@ export default {
                 let _authResult = await UserInstance.userRegistration(authInfo);
 
                 if ( _authResult.success ) {
-                    this.$store.commit('SET_USER_ID', _authResult.message.id);
+                    this.$store.commit('SET_USER_ID', _authResult.data.user_id);
                     this.$store.commit('SET_USER_INSTANCE', UserInstance);
                     console.log("[REG_FORM_RESULT]: " + JSON.stringify(this.$store.getters.USER_INSTANCE.getPublicInfo()))
                     this.$router.push({ name:'roomslist'});

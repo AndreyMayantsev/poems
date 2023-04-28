@@ -17,17 +17,14 @@ export class HttpRequestFactory {
     }
     
     public static async makeRequest( rtype: requestType, rdata?: any, id?: any ): Promise<ServerResponseType<any>> {
-        try {
             console.log("=> makeRequest with data: " + JSON.stringify(rdata));
+
             let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
             let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
+
             console.log("<= makeRequest answer data: " + JSON.stringify(answer));
+            
             return answer;
-        } catch(error) {
-            console.warn("[HttpRequestFactory] makeRequest failed! " + error + id);
-            let standartResponse = { success: false, code: 0, message: "Произошла ошибка!", data: { message: error } }
-            return standartResponse;
-        }
     }
 
     private static FactorySwitcher(rtype: requestType) {

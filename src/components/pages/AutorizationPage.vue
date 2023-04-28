@@ -34,7 +34,7 @@ export default {
             let _authResult = await UserInstance.userLogin(authInfo);
 
             if ( _authResult.success ) {
-                this.$store.commit('SET_USER_ID', _authResult.message.id);
+                this.$store.commit('SET_USER_ID', _authResult.data.user_id);
                 this.$store.commit('SET_USER_INSTANCE', UserInstance);
                 console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.USER_INSTANCE.getPublicInfo()))
                 this.$router.push({ name:'roomslist'});

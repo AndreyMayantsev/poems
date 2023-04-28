@@ -10,8 +10,6 @@
 </template>
 
 <script>
-//import router from '../router/router'
-
 
 export default {
 
@@ -21,7 +19,7 @@ export default {
         this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
     },
     mounted() {
-  
+
     },
     methods: {
 
