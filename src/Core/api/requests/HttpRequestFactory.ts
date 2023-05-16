@@ -15,16 +15,16 @@ export class HttpRequestFactory {
     constructor() {
         console.log("[HttpRequestFactory] Created...");
     }
-    
-    public static async makeRequest( rtype: requestType, rdata?: any, id?: any ): Promise<ServerResponseType<any>> {
-            console.log("=> makeRequest with data: " + JSON.stringify(rdata));
 
-            let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
-            let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
+    public static async makeRequest( rtype: requestType, rdata?: any, id?: any ): Promise<ServerResponseType<any>>  {
+                console.log("=> makeRequest with data: " + JSON.stringify(rdata));
 
-            console.log("<= makeRequest answer data: " + JSON.stringify(answer));
-            
-            return answer;
+                let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
+                let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
+
+                console.log("<= makeRequest answer data: " + JSON.stringify(answer));
+                
+                return answer;
     }
 
     private static FactorySwitcher(rtype: requestType) {

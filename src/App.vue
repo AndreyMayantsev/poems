@@ -10,14 +10,13 @@
 import { User } from './Core-prod/Poems/User/user'
 // import components
 import MainWindow from './components/MainWindow.vue';
-import { HttpRequestFactory } from './Core/api/requests/HttpRequestFactory.ts'
-import { requestType } from './Core/api/dataTypes.ts'
-
-
+//import { requestType } from './Core-prod/api/dataTypes'
 
 let UserInstance = new User();
 console.log("Создан пользователь, авторизуйтесь!\n " + JSON.stringify(UserInstance.getPublicInfo()));
 console.log("[APP] Initialize main window: ");
+
+// Попробовать встроить сюда тест активности сессии
 
 export default {
   name: 'App',
@@ -26,22 +25,7 @@ export default {
   },
   
   methods: {
-      Initialize() {
-        console.log("=== Загрузка данных ===");
-        this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
-        console.log("-> USER_ID: " + this.$store.getters.USER_ID);
-        console.log("-> USER_AUTH_CHECKING: ");
-        if (localStorage.getItem('auth')) {
-            let getroom = { limit:10, offset:0 }
-            let answer = HttpRequestFactory.makeRequest(requestType.RoomsGet, getroom);
-            if(answer.success) {
-                console.log("--> AUTH ACCEPTED");
-            } else {
-                console.log("--> AUTH NOT ACCEPTED");
-                localStorage.removeItem("auth");
-            }
-        }
-      }
+
   },
 
   data() {

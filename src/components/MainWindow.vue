@@ -11,13 +11,25 @@
 
 <script>
 
+
+//import { requestType } from '../Core/api/dataTypes.ts'
+
 export default {
 
     name: 'MainWindow',
     components: {  },
     created() {
+        // initialization 
+        console.log("=== Загрузка данных ===");
         this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
-    },
+        console.log("-> USER_ID: " + this.$store.getters.USER_ID);
+        console.log("-> USER_AUTH_CHECKING: ");
+
+
+  
+        // Applying data
+        this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
+        },
     mounted() {
 
     },

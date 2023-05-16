@@ -20,7 +20,7 @@ export async function isAxis(config: any): Promise<ServerResponseType<any>> {
                 return errorFromServer;
             // Bad request codes (without response)  
             } else if (result.request) {
-                console.log("[Axios] Bad request returnes from " + config.url);
+                console.log("[Axios] BadRequest returnes from " + config.url);
                 console.log("[Axios] Response: " + JSON.stringify(result));
                 let errorFromServer: ServerResponseType<any> = ResponseComposer.responseCompose(result, false);
                 return errorFromServer;

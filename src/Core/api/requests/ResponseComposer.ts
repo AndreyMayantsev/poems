@@ -22,8 +22,8 @@ export class ResponseComposer {
 
             } else {
 
-            if (Response.response.status >= 400) { 
-
+            if (Response.response && Response.response.status >= 400) { 
+                console.log("[COMPOSER] ERROR from server: " + Response.response.status)
                 responseData.code = Response.response.status;
                 responseData.data = Response.response.data;
                 responseData.message = "ERROR";
@@ -32,7 +32,7 @@ export class ResponseComposer {
 
             } else {
 
-                console.log("[COMPOSER] Response.response data not founded!")
+                console.log("[COMPOSER] ERROR detected")
                 responseData.code = 0
                 responseData.data = { "message":"Fatal error: Network connection failed!"}
                 responseData.message = "Error"
