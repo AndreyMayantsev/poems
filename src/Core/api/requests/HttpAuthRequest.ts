@@ -20,10 +20,10 @@ export class HttpAuthRequest implements HttpRequestInterface {
                 'X-Develop-Mode': 'yes'
             }
         }
-            let req = await isAxis(axiosConfig).then((response)=> {
-                return response;
-            });
-            return req;
+        let req = await isAxis(axiosConfig).then((response)=> {
+            return response;
+        });
+        return req;
 
     }
     

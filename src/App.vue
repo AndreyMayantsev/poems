@@ -10,13 +10,10 @@
 import { User } from './Core-prod/Poems/User/user'
 // import components
 import MainWindow from './components/MainWindow.vue';
-//import { requestType } from './Core-prod/api/dataTypes'
+import { requestType } from './Core-prod/api/dataTypes';
+import { HttpRequestFactory } from './Core-prod/api/requests/HttpRequestFactory';
+import { ConsoleLogger } from './Core-prod/Logger/ConsoleLogger';
 
-let UserInstance = new User();
-console.log("Создан пользователь, авторизуйтесь!\n " + JSON.stringify(UserInstance.getPublicInfo()));
-console.log("[APP] Initialize main window: ");
-
-// Попробовать встроить сюда тест активности сессии
 
 export default {
   name: 'App',
@@ -32,6 +29,37 @@ export default {
     return {
       mainWindow: 1,
     }
+  },
+  async created() {
+
+    // ----------------------
+    // Initialize application
+    // ----------------------
+
+    let UserInstance = new User();
+    ConsoleLogger.writeLogInfo("Создан пользователь, авторизуйтесь!\n " + JSON.stringify(UserInstance.getPublicInfo()));
+    ConsoleLogger.writeLogInfo("=== Загрузка данных ===");
+    
+    //  useless?
+    if(localStorage.getItem('userID') !== null) {  
+        this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
+        ConsoleLogger.writeLogInfo("Обнаружен ID в LocalStorage: " + this.$store.getters.USER_ID);
+    }
+
+    let testAuth = await HttpRequestFactory.makeRequest(requestType.RoomsGet, { limit:1, offset:0 })
+
+    
+    if(testAuth.success) {
+        ConsoleLogger.writeLogInfo("Проверка авторизации прошла успешно!");
+        this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
+    } else {
+        ConsoleLogger.writeLogWarning("Проверка авторизации ПРОВАЛЕНА! Код: " + testAuth.code);
+        localStorage.removeItem('userID');
+        localStorage.removeItem('auth');
+    }
+    
+    // Попробовать встроить сюда тест активности сессии
+
   }
 }
 </script>

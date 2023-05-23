@@ -1,5 +1,5 @@
 import { ServerResponseType } from "../dataTypes"
-import { Configure } from "../../Сonfigure";
+import { ConsoleLogger } from "../../Logger/ConsoleLogger";
 
 export class ResponseComposer {
 
@@ -9,11 +9,9 @@ export class ResponseComposer {
 
         let responseData: ServerResponseType<any> = {success: false, code: 400, message: "loo", data: {}};
 
-        console.log("[COMPOSER] Enter");
-
             if(success == true) {
 
-                console.log("[COMPOSER] Response.data founded! Code OK")
+                ConsoleLogger.writeLogInfo("[COMPOSER] Response.data founded! Code OK")
                 responseData.code = 200;
                 responseData.data = Response.data;
                 responseData.message = "OK";
@@ -23,7 +21,7 @@ export class ResponseComposer {
             } else {
 
             if (Response.response && Response.response.status >= 400) { 
-                console.log("[COMPOSER] ERROR from server: " + Response.response.status)
+                ConsoleLogger.writeLogWarning("[COMPOSER] ERROR from server: " + Response.response.status)
                 responseData.code = Response.response.status;
                 responseData.data = Response.response.data;
                 responseData.message = "ERROR";
@@ -32,11 +30,11 @@ export class ResponseComposer {
 
             } else {
 
-                console.log("[COMPOSER] ERROR detected")
-                responseData.code = 0
-                responseData.data = { "message":"Fatal error: Network connection failed!"}
-                responseData.message = "Error"
-                responseData.success = false
+                ConsoleLogger.writeLogError("[COMPOSER] An unexpected error has occurred. Check the network connection and the Internet is not available.");
+                responseData.code = 0;
+                responseData.data = { "message":"An unexpected error has occurred. Check the network connection and the Internet is not available."};
+                responseData.message = "An unexpected error has occurred. Check the network connection and the Internet is not available.";
+                responseData.success = false;
                 return responseData;
             
 

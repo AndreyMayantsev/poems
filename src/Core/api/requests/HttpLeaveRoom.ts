@@ -19,17 +19,10 @@ export class HttpLeaveRoomRequest implements HttpRequestInterface {
                 'Authorization': getCookie("Token"),
             }
         }
-
-        try { 
-            let req;
-            req = await isAxis(axiosConfig).then((response)=> {
-                return response;
-            });
-            return req;
-        } catch(error) {
-            console.error("[MakeHttpRequest]: Error occured!" + error);
-            throw(error); 
-        }
+        let req = await isAxis(axiosConfig).then((response)=> {
+            return response;
+        });
+        return req;
     }
 
 }

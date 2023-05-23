@@ -9,6 +9,7 @@ import { HttpSendMessageRequest } from "./HttpSendMessageRequest";
 import { HttpEnterRoomRequest } from "./HttpEnterRoomRequest";
 import { HttpEndPoemRequest } from "./HttpEndPoemRequest";
 import { HttpLeaveRoomRequest } from "./HttpLeaveRoom";
+import { ConsoleLogger } from "../../Logger/ConsoleLogger";
 
 export class HttpRequestFactory {
 
@@ -17,12 +18,12 @@ export class HttpRequestFactory {
     }
 
     public static async makeRequest( rtype: requestType, rdata?: any, id?: any ): Promise<ServerResponseType<any>>  {
-                console.log("=> makeRequest with data: " + JSON.stringify(rdata));
+                ConsoleLogger.writeLogInfo("=> makeRequest with data: " + JSON.stringify(rdata));
 
                 let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
                 let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
 
-                console.log("<= makeRequest answer data: " + JSON.stringify(answer));
+                //ConsoleLogger.writeLogInfo("<= makeRequest answer data: " + JSON.stringify(answer));
                 
                 return answer;
     }

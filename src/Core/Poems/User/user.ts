@@ -1,6 +1,7 @@
 import { requestType, ServerResponseType, UserLoginRequest, UserRegisterRequest } from '../../api/dataTypes';
 import { HttpRequestFactory } from '../../api/requests/HttpRequestFactory';
 import { authResult, UserInterface } from './userInterface';
+import { ConsoleLogger } from '../../Logger/ConsoleLogger';
 import getCookie from '../../api/getCookie';
 
 
@@ -20,7 +21,7 @@ export class User implements UserInterface {
         this.userToken = ""
         this.tokenExpired = 9999999999;
         this.userName = "Unautorized"
-        console.log("[User] Default user created: " + JSON.stringify(this.getPublicInfo()))
+        ConsoleLogger.writeLogInfo("[User] Default user created: " + JSON.stringify(this.getPublicInfo()));
 
     }
 
@@ -38,7 +39,7 @@ export class User implements UserInterface {
 
     public async userLogin( _loginData: UserLoginRequest ): Promise<authResult> {
             let HttpResponse = await HttpRequestFactory.makeRequest( requestType.UserAuth, _loginData );
-            console.log("[userLogin] : " + JSON.stringify(HttpResponse))
+            ConsoleLogger.writeLogInfo("[userLogin] : " + JSON.stringify(HttpResponse))
             let Response = HttpResponse.data;
             if(Response.success) {
                 this.authDataAccept(Response);
@@ -84,16 +85,16 @@ export class User implements UserInterface {
 
     // Apply user data from server to this user
     private authDataAccept(ResponseData: ServerResponseType<any>) {
-        console.log("[USER_DATA_ACCEPTOR]" + JSON.stringify(ResponseData))
+        ConsoleLogger.writeLogInfo("[USER_DATA_ACCEPTOR]" + JSON.stringify(ResponseData))
         try {
             this.userName = "Тестовый Тест";
             this.userID = ResponseData.data.user_id;
             this.userToken = ResponseData.data.token;
             this.tokenExpired = ResponseData.data.expired_at;
             this.autorized = true;
-            console.log("Пользователь зарегистрирован/автороизован! ID: " + ResponseData.data.user_id);
+            ConsoleLogger.writeLogInfo("Пользователь зарегистрирован/автороизован! ID: " + ResponseData.data.user_id);
         } catch(error) {
-            console.log("[User] AuthDataAcceptor error: " + error);
+            ConsoleLogger.writeLogError("[User] AuthDataAcceptor error: " + error);
             throw(error);
         } 
     }
