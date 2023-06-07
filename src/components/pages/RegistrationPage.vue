@@ -1,4 +1,5 @@
 <template>
+    <div class="RegistrationPage">
         <div class="q-gutter-md center-box">
             Для регистрации введите учетные данные и нажмите "Регистрация"
             <q-input outlined v-model="login" label="Логин" />
@@ -8,6 +9,7 @@
             <span class="text-caption">Нажимая "Регистрация" Вы соглашаетесь с соглашением, ну тут как всегда =)</span>
             <q-btn push color="primary" label="Регистрация" v-on:click="Registration"/>
         </div>
+    </div>    
 </template>
 
 <script>

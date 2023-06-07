@@ -30,6 +30,9 @@
 
             <q-tab-panels v-model="finish_type" animated>
             <q-tab-panel name="moves">
+                <img class="border-image "
+                    src="@/assets/steps.png"
+                /><br>
                 Игра завершается после определенного количества шагов, стихотворение публикуется.
 
                 <!-- game for steps -->
@@ -76,6 +79,9 @@
             </q-tab-panel>
 
             <q-tab-panel name="times">
+                <img class="border-image "
+                    src="@/assets/times.png"
+                /><br>
                 Игра завершается по прошествии определенного времени, стихотворение публикуется.
                 
                 <!-- game for times -->
@@ -175,5 +181,10 @@ export default {
         border-radius: 4px;
         padding: 10px;
         max-width: 330px;
+    }
+    .border-image {
+        border-radius: 10px; 
+        width: 48px; 
+        height: 48px
     }
 </style>

@@ -1,12 +1,14 @@
 // import Vue from 'vue'
 import { createStore } from 'vuex'
+import { User } from '../Core-prod/Poems/User/user'
 
 export default createStore({
 
     state () {
       return {
         userid: 0,
-        userInstance: null
+        username: "Not Avtorized",
+        userInstance: new User()
       }
     },
 
@@ -17,6 +19,9 @@ export default createStore({
         USER_INSTANCE: state => {
           return state.userInstance;
         },
+        USER_PUBLIC_INFO: state => {
+          return state.userInstance.getPublicInfo();
+        }
     },
 
     mutations: {

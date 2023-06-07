@@ -9,6 +9,7 @@ import RoomsListPage from '../components/pages/RoomsListPage.vue'
 import MainWindow from '../components/MainWindow.vue'
 import ErrorPage from '../components/pages/ErrorPage.vue'
 import NotFound from '../components/pages/404.vue'
+import NoInternetConnection from '../components/pages/NoInternetConnection.vue'
 
 
 export default createRouter({
@@ -54,7 +55,11 @@ export default createRouter({
                 if(localStorage.getItem('auth')) {
                     next()
                 } else {
-                    next({ name: "auth"})
+                    if(localStorage.getItem('network')) { 
+                        next({ name: "auth"})
+                    } else {
+                        next({ name: "nointernetconnection"})
+                    }
                 }
             } 
         },
@@ -66,7 +71,11 @@ export default createRouter({
                 if(localStorage.getItem('auth')) {
                     next()
                 } else {
-                    next({ name: "auth"})
+                    if(localStorage.getItem('network')) {
+                        next({ name: "auth"})
+                    } else {
+                        next({ name: "nointernetconnection"})
+                    }
                 }
             }  
         },
@@ -75,7 +84,11 @@ export default createRouter({
             name: 'errorpage', 
             component: ErrorPage 
         },
-
+        { 
+            path: '/no-internet', 
+            name: 'nointernetconnection', 
+            component: NoInternetConnection 
+        },
         // allready in bottom! 404 errorpage.
         { path: '/:pathMatch(.*)', name: 'NotFound', component: NotFound }
     ]

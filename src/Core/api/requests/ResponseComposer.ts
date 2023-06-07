@@ -16,6 +16,7 @@ export class ResponseComposer {
                 responseData.data = Response.data;
                 responseData.message = "OK";
                 responseData.success = true; 
+                localStorage.setItem("network", "true");
                 return responseData;
 
             } else {
@@ -26,6 +27,7 @@ export class ResponseComposer {
                 responseData.data = Response.response.data;
                 responseData.message = "ERROR";
                 responseData.success = false;    
+                localStorage.setItem("network", "true");
                 return responseData;
 
             } else {
@@ -35,8 +37,8 @@ export class ResponseComposer {
                 responseData.data = { "message":"An unexpected error has occurred. Check the network connection and the Internet is not available."};
                 responseData.message = "An unexpected error has occurred. Check the network connection and the Internet is not available.";
                 responseData.success = false;
+                localStorage.removeItem('network');
                 return responseData;
-            
 
             }
 
