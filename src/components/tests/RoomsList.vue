@@ -1,6 +1,7 @@
 <template> 
     <div class="RoomsList box">
         <input class="roomsbutton startbutton" type="button" value="Комнаты" v-on:click="ShowRooms">
+
         <div v-for="room in rooms.data" :key="room.id" class="roombox">
             <input class="startbutton" type="button" value="Инфо" v-on:click="GetRoom(room.id)"/>
             <input class="startbutton" type="button" value="Войти" v-on:click="EnterRoom(room.id)"/><br>

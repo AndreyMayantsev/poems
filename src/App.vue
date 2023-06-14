@@ -38,6 +38,7 @@ export default {
     // ----------------------
 
     let UserInstance = new User();
+    
     ConsoleLogger.writeLogInfo("Создан пользователь, авторизуйтесь! <- " + JSON.stringify(UserInstance.getPublicInfo()));
     ConsoleLogger.writeLogInfo("=== Загрузка данных ===");
     

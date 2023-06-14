@@ -44,6 +44,7 @@ export default {
                     this.$store.commit('SET_USER_INSTANCE', UserInstance);
                     console.log("[REG_FORM_RESULT]: " + JSON.stringify(this.$store.getters.USER_INSTANCE.getPublicInfo()))
                     this.$router.push({ name:'roomslist'});
+                    location.reload();
                 } else {
                     console.log("ОШИБКА РЕГИСТРАЦИИ: " + JSON.stringify(_authResult.message) );
                 }  
