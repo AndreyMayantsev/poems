@@ -38,7 +38,7 @@ export default {
                 this.$store.commit('SET_USER_INSTANCE', UserInstance);
                 console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.USER_INSTANCE.getPublicInfo()))
                 this.$router.push({ name:'roomslist'});
-                location.reload()
+                // location.reload()
             } else {
                 console.log("ОШИБКА АВТОРИЗАЦИИ: " + JSON.stringify(_authResult.message) );
             }

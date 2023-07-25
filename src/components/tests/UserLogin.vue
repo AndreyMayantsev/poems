@@ -19,7 +19,7 @@
 <script>
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
-import { User } from '../../Core-prod/Poems/User/user';
+//import { User } from '../../Core-prod/Poems/User/user';
 import { useQuasar } from 'quasar'
 
 export default {
@@ -83,14 +83,19 @@ export default {
 
         // Функция отправвки данных авторизации
         async letsGo() {
-            let UserInstance = new User();
 
             // Тестовая реализация
             let authInfo = {
                 login : this.login_verify,
                 password : this.password_verify
             };
-            console.log("Authentification data created.");
+
+            this.$store.commit('LOGIN', authInfo);
+            
+          /*  
+                        
+            let UserInstance = new User();
+
             let _authResult = await UserInstance.userLogin(authInfo);
 
             if (_authResult.success) {
@@ -98,7 +103,7 @@ export default {
                 console.log("[User-Vue] " + JSON.stringify(_authResult));
             } else {
                 this.Notifyer.notify("Oh no")
-            }
+            } */
         },
         
         async Rooms() {

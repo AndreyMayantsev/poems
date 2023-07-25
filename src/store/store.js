@@ -1,6 +1,7 @@
 // import Vue from 'vue'
 import { createStore } from 'vuex'
 import { User } from '../Core-prod/Poems/User/user'
+import { moduleUser } from './modules/user'
 
 export default createStore({
 
@@ -12,10 +13,11 @@ export default createStore({
       }
     },
 
+    modules: {
+        moduleUser
+    },
+
     getters: {
-        USER_ID: state => {
-          return state.userid;
-        },
         USER_INSTANCE: state => {
           return state.userInstance;
         },

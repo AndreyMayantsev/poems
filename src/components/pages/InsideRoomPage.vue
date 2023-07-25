@@ -21,7 +21,7 @@
 
     </q-card>
 
-        <h4> Играют пользователи ({{ this.room.data.players.length }} из {{ this.room.data.places }}): </h4>
+        <!-- <h4> Играют пользователи ({{ this.room.data.players.length }} из {{ this.room.data.places }}): </h4> -->
 
         <h4> Ход игрока: {{ this.room.data.current_user_id }} </h4>
         <h4 v-if="this.room.data.finish_type=='moves'">
