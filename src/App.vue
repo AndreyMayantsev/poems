@@ -52,10 +52,10 @@ export default {
     let testAuth = await HttpRequestFactory.makeRequest(requestType.RoomsGet, { limit:1, offset:0 })
     
     if(testAuth.success) {
-        //localStorage.setItem('userID', testAuth.user_id); // this is no auth request and NO CONTENTS user_id
-        ConsoleLogger.writeLogInfo("Проверка авторизации прошла успешно! ");
-        this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
-        this.$store.commit( 'SET_USER_INSTANCE', UserInstance ); 
+        ConsoleLogger.writeLogInfo("Проверка авторизации прошла успешно!");
+        //this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
+        //this.$store.commit( 'SET_USER_INSTANCE', UserInstance ); 
+        this.$store.commit( 'ON_LOAD_USER_AUTORIZED_BY_COOKIES', localStorage.getItem('userID'));
     } else {
         if(testAuth.code && testAuth.code === 401) {
             ConsoleLogger.writeLogWarning("Проверка авторизации ПРОВАЛЕНА! Код: " + testAuth.code);

@@ -91,6 +91,7 @@ export default {
             };
 
             this.$store.commit('LOGIN', authInfo);
+                        
             
           /*  
                         

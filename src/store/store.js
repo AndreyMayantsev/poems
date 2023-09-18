@@ -27,9 +27,6 @@ export default createStore({
     },
 
     mutations: {
-      SET_USER_ID(state, payload) {
-        state.userid = payload;
-      },
       SET_USER_INSTANCE(state, payload) {
         state.userInstance = payload;
       }
