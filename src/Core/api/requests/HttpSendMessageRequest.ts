@@ -22,17 +22,10 @@ export class HttpSendMessageRequest implements HttpRequestInterface {
                 ...rdata
             }
         }
-
-        try { 
-            let req;
-            req = await isAxis(axiosConfig).then((response)=> {
-                return response;
-            });
-            return req;
-        } catch(error) {
-            console.error("[MakeHttpRequest]: Error occured!");
-            throw(error); 
-        }
+        let req = await isAxis(axiosConfig).then((response)=> {
+            return response;
+        });
+        return req;
     }
 
 }

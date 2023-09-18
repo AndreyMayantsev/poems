@@ -1,41 +1,37 @@
 import axios from 'axios'
-import { Configure } from '../../Сonfigure'
+import { ConsoleLogger } from '../../Logger/ConsoleLogger';
 import { ServerResponseType } from '../dataTypes';
+import { ResponseComposer } from './ResponseComposer';
 
 export async function isAxis(config: any): Promise<ServerResponseType<any>> {
 
     let response = axios(config)
         .then(resp => {
             // Success codes response
-            console.log("[Axios] OK");
-            return resp;
+            ConsoleLogger.writeLogInfo("[Axios] OK ");
+            let response = ResponseComposer.responseCompose(resp, true);
+            return response
         })
         .catch(result => {
             // Error from server (ISE)
             if (result.response) {
-                console.log("[Axios] Server returns error: " + result.response.status);
-                let errorFromServer: ServerResponseType<any> = {
-                    success: false,
-                    message: result.response.data.message,
-                    data: Configure.DEBUG_MODE ? result.response.data : { trace: "Only in debug mode!" }
-                }
-                console.log(JSON.stringify(errorFromServer))
+                ConsoleLogger.writeLogWarning("[Axios] Server returns error: " + result.response.status);
+                let errorFromServer: ServerResponseType<any> = ResponseComposer.responseCompose(result, false);
                 return errorFromServer;
             // Bad request codes (without response)  
             } else if (result.request) {
-                console.log("[Axios] Bad request returnes from " + config.url);
-                let errorFromServer: ServerResponseType<any> = {
-                    success: false,
-                    message: "Unknown error of request execute.", 
-                    data: Configure.DEBUG_MODE ? result.response.data : { trace: "Only in debug mode!" }
-                }
+                ConsoleLogger.writeLogWarning("[Axios] BadRequest returnes from " + config.url);
+                ConsoleLogger.writeLogWarning("[Axios] Response: " + JSON.stringify(result));
+                let errorFromServer: ServerResponseType<any> = ResponseComposer.responseCompose(result, false);
                 return errorFromServer;
             // Local connection errors    
             } else {
-                console.error('[Axios] Can not connect to: ' + config.url);
-                return result
+                ConsoleLogger.writeLogError('[Axios] Can not connect to: ' + config.url);
+                let errorFromServer: ServerResponseType<any> = ResponseComposer.responseCompose(result, false);
+                return errorFromServer;
             }
     }); 
      
     return response;
+    
 }

@@ -6,7 +6,7 @@ export const Configure = {
     POEMS_BUILD : "PRE-TEST",
 
     // CONSTS 
-    DEBUG_MODE: false,
+    DEBUG_MODE: true,
 
     // BASE URL TO BACKEND
     // AND OTHER ROUTES

@@ -10,10 +10,11 @@
 import { User } from './Core-prod/Poems/User/user'
 // import components
 import MainWindow from './components/MainWindow.vue';
+import { requestType } from './Core-prod/api/dataTypes';
+import { HttpRequestFactory } from './Core-prod/api/requests/HttpRequestFactory';
+import { ConsoleLogger } from './Core-prod/Logger/ConsoleLogger';
+import { CheckDeviceType } from './Core-prod/CheckDeviceType'
 
-let UserInstance = new User();
-console.log("Создан пользователь, авторизуйтесь!\n " + JSON.stringify(UserInstance.getPublicInfo()));
-console.log("[APP] Initialize main window: ");
 
 export default {
   name: 'App',
@@ -29,6 +30,49 @@ export default {
     return {
       mainWindow: 1,
     }
+  },
+  async created() {
+
+    // ----------------------
+    // Initialize application
+    // ----------------------
+
+    let UserInstance = new User();
+    
+    ConsoleLogger.writeLogInfo("Создан пользователь, авторизуйтесь! <- " + JSON.stringify(UserInstance.getPublicInfo()));
+    ConsoleLogger.writeLogInfo("=== Загрузка данных ===");
+    
+    // whatTheDevice - Computer PC or Mobile Device
+    if(CheckDeviceType.isMobileDevice()) { 
+        localStorage.setItem('mobileDevice', true);
+    } else {
+        localStorage.setItem('mobileDevice', false);
+    } 
+
+    let testAuth = await HttpRequestFactory.makeRequest(requestType.RoomsGet, { limit:1, offset:0 })
+    
+    if(testAuth.success) {
+        ConsoleLogger.writeLogInfo("Проверка авторизации прошла успешно!");
+        //this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
+        //this.$store.commit( 'SET_USER_INSTANCE', UserInstance ); 
+        this.$store.commit( 'ON_LOAD_USER_AUTORIZED_BY_COOKIES', localStorage.getItem('userID'));
+    } else {
+        if(testAuth.code && testAuth.code === 401) {
+            ConsoleLogger.writeLogWarning("Проверка авторизации ПРОВАЛЕНА! Код: " + testAuth.code);
+            localStorage.removeItem('userID');
+            localStorage.removeItem('auth');
+            this.$router.push({ name:'auth' });
+        } else {
+          this.$router.push({ name: "nointernetconnection" });
+        }
+
+    }
+    
+    // Попробовать встроить сюда тест активности сессии
+
+    // Pusher test 
+
+
   }
 }
 </script>

@@ -1,14 +1,14 @@
 // Servers responses
 export type AuthorizationResponse = {
-    token: string;
-    expired_at: number;
-    user_id: number;
+    token: string,
+    expired_at: number,
+    user_id: number
 }
 
 export type RegistrationResponse = {
-    token: string;
-    expired_at: number;
-    user_id: number;
+    token: string,
+    expired_at: number,
+    user_id: number
 }
 
 export type CreateRoomResponse = {
@@ -41,6 +41,7 @@ export type GetRoomResponse = {
 
 export type ServerResponseType<D> = {
     success: boolean;
+    code: number;
     message: {};
     data: D;
 } 

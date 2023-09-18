@@ -9,25 +9,23 @@ import { HttpSendMessageRequest } from "./HttpSendMessageRequest";
 import { HttpEnterRoomRequest } from "./HttpEnterRoomRequest";
 import { HttpEndPoemRequest } from "./HttpEndPoemRequest";
 import { HttpLeaveRoomRequest } from "./HttpLeaveRoom";
+import { ConsoleLogger } from "../../Logger/ConsoleLogger";
 
 export class HttpRequestFactory {
 
     constructor() {
         console.log("[HttpRequestFactory] Created...");
     }
-    
-    public static async makeRequest( rtype: requestType, rdata?: any, id?: any ): Promise<ServerResponseType<any>> {
-        try {
-            console.log("=> makeRequest with data: " + JSON.stringify(rdata));
-            let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
-            let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
-            console.log("<= makeRequest answer data: " + JSON.stringify(answer));
-            return answer;
-        } catch(error) {
-            console.warn("[HttpRequestFactory] makeRequest failed! " + error + id);
-            let standartResponse = { success: false, message: "Произошла ошибка!", data: { message: error } }
-            return standartResponse;
-        }
+
+    public static async makeRequest( rtype: requestType, rdata?: any, id?: any ): Promise<ServerResponseType<any>>  {
+                ConsoleLogger.writeLogInfo("=> makeRequest with data: " + JSON.stringify(rdata));
+
+                let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
+                let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
+
+                //ConsoleLogger.writeLogInfo("<= makeRequest answer data: " + JSON.stringify(answer));
+                
+                return answer;
     }
 
     private static FactorySwitcher(rtype: requestType) {

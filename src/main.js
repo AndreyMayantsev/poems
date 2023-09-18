@@ -1,20 +1,36 @@
 import { createApp } from 'vue'
-import { PusherSettings } from './Core-prod/Сonfigure'
-import Pusher from 'pusher-js'
-import {Echo} from "laravel-echo"; 
+import { Quasar, Notify } from 'quasar'
 import App from './App.vue'
 import router from './router/router.js'
 import createStore from './store/store.js'
 
-console.log('Starting application...')
-const app = createApp(App)
-app.use(router)
-app.use(createStore)
-//console.log("[Pusher options] " + JSON.stringify(PusherSettings))
-//app.use(vuePusher, { ...PusherSettings });
-app.mount('#app')
+// Import Quasar css
+import 'quasar/dist/quasar.css'
 
-// WEB-SOCKET TRY
+import iconSet from 'quasar/icon-set/fontawesome-v6'
+
+console.log('Starting application...');
+
+const app = createApp(App);
+app.use(router);
+app.use(createStore);
+app.use(Quasar, {
+    plugins: {
+        Notify
+    }, 
+    config: {
+      notify: { 
+        timeout: 5000
+       }
+    },
+    iconSet: iconSet
+});
+
+app.mount('#app');
+
+
+
+/* Pusher js
 
 var room = "poem_room_" + 1 +  "_user_" + 1;
 
@@ -36,3 +52,5 @@ Echo.channel(room)
     console.log('Listening RoomMessage...');
     console.log('RoomMessage: ' + e);
 }) 
+
+*/

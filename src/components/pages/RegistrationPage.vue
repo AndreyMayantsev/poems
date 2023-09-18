@@ -1,18 +1,18 @@
 <template>
     <div class="RegistrationPage">
-        <h1> Зарегистрироваться </h1>
-        <p>Пожалуйста зарегистрируйтесь в системе:</p>
-        <input type="text" size="12" placeholder="Логин" v-model="login"> | 
-        <input type="password" size="12" placeholder="Пароль" v-model="password"> |
-        <input type="password" size="12" placeholder="Повторите пароль" v-model="password_verify"> |
-        <input type="button" value="Войти" v-on:click="Registration">
-    </div>
+        <div class="q-gutter-md center-box">
+            Для регистрации введите учетные данные и нажмите "Регистрация"
+            <q-input outlined v-model="login" label="Логин" />
+            <q-input type="email" outlined v-model="email" label="Электронная почта" />
+            <q-input type="password" outlined v-model="password" label="Пароль" />
+            <q-input type="password" outlined v-model="password_verify" label="Повторите пароль" />
+            <span class="text-caption">Нажимая "Регистрация" Вы соглашаетесь с соглашением, ну тут как всегда =)</span>
+            <q-btn push color="primary" label="Регистрация" v-on:click="Registration"/>
+        </div>
+    </div>    
 </template>
 
 <script>
-
-// import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
-// import { requestType } from '../../Core-prod/api/dataTypes';
 import { User } from '../../Core-prod/Poems/User/user';
 
 
@@ -20,6 +20,7 @@ export default {
     name: "RegistrationPage",
     data() {
         return {
+            email: "",
             login: "",
             password: "",
             password_verify: ""
@@ -39,10 +40,11 @@ export default {
                 let _authResult = await UserInstance.userRegistration(authInfo);
 
                 if ( _authResult.success ) {
-                    this.$store.commit('SET_USER_ID', _authResult.message.id);
+                    this.$store.commit('SET_USER_ID', _authResult.data.user_id);
                     this.$store.commit('SET_USER_INSTANCE', UserInstance);
                     console.log("[REG_FORM_RESULT]: " + JSON.stringify(this.$store.getters.USER_INSTANCE.getPublicInfo()))
                     this.$router.push({ name:'roomslist'});
+                    // location.reload();
                 } else {
                     console.log("ОШИБКА РЕГИСТРАЦИИ: " + JSON.stringify(_authResult.message) );
                 }  
@@ -56,4 +58,11 @@ export default {
 </script>
 
 <style scoped>
+    .center-box {
+        margin: 100px auto;
+        text-align: center;
+        border-radius: 4px;
+        padding: 10px;
+        max-width: 330px;
+    }
 </style>

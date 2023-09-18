@@ -1,19 +1,26 @@
 <template>
     <div class="UserLogin">
-        <div class="box">
-            <h2>Войти в игру:</h2>
+        <div class="q-gutter-md center-box">
+            Для входа в игру введите учетные данные и нажмите "Войти"
+            <!--
             <input type="text" size="12" v-model="login_verify" class="defaultinput" v-bind:class="{ verifyedinput: LoginValid }" placeholder="Логин">
             <input type="password" size="12" v-model="password_verify" class="defaultinput" v-bind:class="{ verifyedinput: PasswordValid }" placeholder="Пароль">
             <input class="startbutton" v-bind:disabled="isLoginButtonDisabled" type="button" value="Войти" v-on:click="letsGo">
-            <p>Верификация: {{ VerifyPassed }}</p>
+            -->
+            <q-input outlined v-model="login_verify" label="Логин" />
+            <q-input type="password" outlined v-model="password_verify" label="Пароль" />
+            <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
+            <q-btn push color="primary" label="Войти" v-on:click="letsGo"/>
+            
         </div>
-    </div>    
+    </div>
 </template>
 
 <script>
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
-import { User } from '../../Core-prod/Poems/User/user';
+//import { User } from '../../Core-prod/Poems/User/user';
+import { useQuasar } from 'quasar'
 
 export default {
     name: 'UserLogin',
@@ -25,6 +32,7 @@ export default {
     //Свойства компонента
     data() {
         return {
+            dense: false,
             ifPopupMsgVisible: false,
             isLoginButtonDisabled: true,
             login_verify: "",
@@ -33,7 +41,8 @@ export default {
             LoginValid: false,
             PasswordValid: false,
             PopupMsgInfo: "Info about error or warning",
-            PopupMsgTitle: "Error or warning"
+            PopupMsgTitle: "Error or warning",
+            Notifyer: useQuasar()
         }
     },
 
@@ -72,32 +81,30 @@ export default {
             }
         },
 
-        // // Показать попап окно
-        // showPopup(msg) {
-        //     this.PopupMsgTitle = "Посмотри сюда!";
-        //     this.PopupMsgInfo = msg;
-        //     this.ifPopupMsgVisible = true;
-        // },
-
-        // // Закрыть попап окно
-        // closePopup() {
-        //     this.ifPopupMsgVisible = false;
-        // },
-
         // Функция отправвки данных авторизации
         async letsGo() {
-            let UserInstance = new User();
 
             // Тестовая реализация
             let authInfo = {
                 login : this.login_verify,
                 password : this.password_verify
             };
-            console.log("Authentification data created.");
+
+            this.$store.commit('LOGIN', authInfo);
+                        
+            
+          /*  
+                        
+            let UserInstance = new User();
+
             let _authResult = await UserInstance.userLogin(authInfo);
-            this.$store.commit('SET_USER_ID', _authResult.message.id);
-            console.log("[User-Vue] " + JSON.stringify(_authResult));
-    
+
+            if (_authResult.success) {
+                this.$store.commit('SET_USER_ID', _authResult.data.user_id);
+                console.log("[User-Vue] " + JSON.stringify(_authResult));
+            } else {
+                this.Notifyer.notify("Oh no")
+            } */
         },
         
         async Rooms() {
@@ -125,6 +132,13 @@ export default {
         width: 350px;
         padding: 10px;
         box-shadow: 0 0 10px rgba(0,1,0,0.5);
+    }
+    .center-box {
+        margin: 100px auto;
+        text-align: center;
+        border-radius: 4px;
+        padding: 10px;
+        max-width: 330px;
     }
     .verifyedinput {
         border-bottom: 2px solid #13b953;

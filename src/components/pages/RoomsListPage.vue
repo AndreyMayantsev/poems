@@ -1,14 +1,31 @@
 <template>
     <div class="RoomsListPage">
-        <h1> Список комнат </h1>
-        <input type="button" value="Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})">        
-        <br>  
+        <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
+        <div class="q-pa-md">
+            Войдите в игру или создайте новую.
+            <div class="row justify-center q-gutter-sm">
+                <div v-for="room in rooms" :key="room.id" >
+                    <RoomBanner 
+                        :created_at = "room.created_at" 
+                        :places = "room.places" 
+                        :users_rooms = "room.users_rooms.length" 
+                        :finish_type = "room.finish_type" 
+                        :room_id = "room.id" 
+                        v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"
+                    >                
+                    </RoomBanner>
+            </div>
+        </div>
+    </div>
+
+        <!--
         <div v-for="room in rooms" :key="room.id" class="roombox">
             =============================================<br>
             <b>Комната №</b>{{ room.id }} <b>Играет </b>{{ room.users_rooms.length }} чел.<br>
             <input class="startbutton" type="button" value="Перейти" v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"/><br>
             <h6>Свободно: {{ room.places - room.users_rooms.length }} мест, создано: {{ Date.parse( room.created_at ) }} </h6>           
         </div>
+        -->
     </div>
 </template>
 
@@ -16,9 +33,13 @@
 
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
+import RoomBanner from '../uiElements/RoomBanner.vue'
 
 export default {
     name: "RoomsListPage",
+    components: {
+        RoomBanner
+    },
     data() {
         return {
             rooms: {}
@@ -28,7 +49,7 @@ export default {
     methods: {
         async ShowRooms() {
             try {
-            let getroom = { limit:10, offset:0 }
+            let getroom = { limit:14, offset:0 }
             let answer = await HttpRequestFactory.makeRequest(requestType.RoomsGet, getroom);
             this.rooms = {
                 ...answer.data.data
@@ -42,7 +63,7 @@ export default {
     },
     async created() {
         try {
-            let getroom = { limit:10, offset:0 }
+            let getroom = { limit:14, offset:0 }
             let answer = await HttpRequestFactory.makeRequest(requestType.RoomsGet, getroom);
             this.rooms = {
                 ...answer.data.data

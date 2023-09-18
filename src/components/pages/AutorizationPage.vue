@@ -1,17 +1,19 @@
 <template>
     <div class="AutorizationPage">
-        <h1> Авторизация </h1>
-        <p>Пожалуйста авторизуйтесь в системе:</p>
-        <input type="text" size="12" placeholder="Логин" v-model="login"> | 
-        <input type="password" size="12" placeholder="Пароль" v-model="password"> |
-        <input type="button" value="Войти" v-on:click="Autorize">
-        <p>Я не <a href="#" v-on:click="$router.push({ name:'register'})" >зарегистрирован</a> в игре</p>
+        <div class="q-gutter-md center-box">
+            Для входа в игру введите учетные данные и нажмите "Войти"
+            <q-input outlined v-model="login" label="Логин" />
+            <q-input type="password" outlined v-model="password" label="Пароль" />
+            <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
+            <q-btn push color="primary" label="Войти" v-on:click="Autorize"/>
+        </div>
     </div>
 </template>
 
 <script>
 
-import { User } from '../../Core-prod/Poems/User/user';
+import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
+import { requestType } from '../../Core-prod/api/dataTypes'
 
 export default {
     name: "AutorizationPage",
@@ -24,22 +26,27 @@ export default {
 
     methods: {
         async Autorize() {
-            let UserInstance = new User();
+            //let UserInstance = new User();
             let authInfo = {
                 login : this.login,
                 password : this.password
             };
 
-            let _authResult = await UserInstance.userLogin(authInfo);
+            //let _authResult = await UserInstance.userLogin(authInfo);
+            let response = await HttpRequestFactory.makeRequest( requestType.UserAuth, authInfo );
 
-            if ( _authResult.success ) {
-                this.$store.commit('SET_USER_ID', _authResult.message.id);
-                this.$store.commit('SET_USER_INSTANCE', UserInstance);
-                console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.USER_INSTANCE.getPublicInfo()))
+            if(response.data.success) {
+                console.log("Correct Auth request recieved!");
+                this.$store.commit('LOGIN', response);
+                console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.GET_ID));
                 this.$router.push({ name:'roomslist'});
             } else {
-                console.log("ОШИБКА АВТОРИЗАЦИИ: " + JSON.stringify(_authResult.message) );
+                console.log("::ОШИБКА АВТОРИЗАЦИИ: " + response.data.data.message );
             }
+            
+            
+            console.log("Added user with ID: " + this.$store.getters.GET_ID)
+
         }
     }
 }
@@ -47,4 +54,11 @@ export default {
 </script>
 
 <style scoped>
+    .center-box {
+        margin: 100px auto;
+        text-align: center;
+        border-radius: 4px;
+        padding: 10px;
+        max-width: 330px;
+    }
 </style>
