@@ -12,7 +12,8 @@
 
 <script>
 
-import { User } from '../../Core-prod/Poems/User/user';
+import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
+import { requestType } from '../../Core-prod/api/dataTypes'
 
 export default {
     name: "AutorizationPage",
@@ -25,23 +26,27 @@ export default {
 
     methods: {
         async Autorize() {
-            let UserInstance = new User();
+            //let UserInstance = new User();
             let authInfo = {
                 login : this.login,
                 password : this.password
             };
 
-            let _authResult = await UserInstance.userLogin(authInfo);
+            //let _authResult = await UserInstance.userLogin(authInfo);
+            let response = await HttpRequestFactory.makeRequest( requestType.UserAuth, authInfo );
 
-            if ( _authResult.success ) {
-                this.$store.commit('SET_USER_ID', _authResult.data.user_id);
-                this.$store.commit('SET_USER_INSTANCE', UserInstance);
-                console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.USER_INSTANCE.getPublicInfo()))
+            if(response.data.success) {
+                console.log("Correct Auth request recieved!");
+                this.$store.commit('LOGIN', response);
+                console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.GET_ID));
                 this.$router.push({ name:'roomslist'});
-                // location.reload()
             } else {
-                console.log("ОШИБКА АВТОРИЗАЦИИ: " + JSON.stringify(_authResult.message) );
+                console.log("::ОШИБКА АВТОРИЗАЦИИ: " + response.data.data.message );
             }
+            
+            
+            console.log("Added user with ID: " + this.$store.getters.GET_ID)
+
         }
     }
 }

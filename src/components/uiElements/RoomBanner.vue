@@ -42,7 +42,6 @@ export default {
             var date = new Date(str);
             console.log("Date in getDate(): " + str);
             return date.toLocaleString('ru', this.options)
-
         }
     },
     computed: {

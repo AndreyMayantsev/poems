@@ -1,23 +1,15 @@
 <template>
     <div class = "MainWindow">
-        <!---
-        <p>Стихи вслепую (Пользователь № {{ this.$store.getters.USER_ID }})</p> 
-        <input type="button" value="Тесты" v-on:click="toTheTestImage()">
-        <input type="button" value="Авторизация" v-on:click="toTheAuthPage()"> |
-        <input type="button" value="Комнаты" v-on:click="toTheRooms()">    
-        -->    
-
-        <q-layout view="hHh lpR fFf">
+    <q-layout view="hHh lpR fFf">
 
 <q-header reveal bordered class="bg-primary text-white">
   <q-toolbar>
     <q-toolbar-title>
-      <q-avatar v-if="this.UserAuthorized()" size="36px" color="orange">{{ this.$store.getters.USER_ID }}</q-avatar>
-   
-      <q-btn  v-if="this.UserAuthorized() == false" flat rounded class="menu-font" label="Войти" v-on:click="toTheAuthPage()"/>
-
+      <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
+      <q-btn v-if="!this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Войти" v-on:click="toTheAuthPage()"/>
       <q-btn flat rounded class="menu-font" label="Комнаты" v-on:click="toTheRooms()"/>
       <q-btn flat rounded class="menu-font" label="Тесты" v-on:click="toTheTestPage()"/>
+      <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Выход" v-on:click="LogOut()"/>
     </q-toolbar-title>
   </q-toolbar>
 </q-header>
@@ -50,17 +42,18 @@ export default {
     created() {
 
     },
+    data() {
+        return {
+            isUserAutorized: this.$store.getters.IS_USER_AUTORIZED
+        }
+    },
     mounted() {
 
     },
+    watch: {
+
+    },
     methods: {
-        UserAuthorized() {
-            if(localStorage.getItem("auth") != null) {
-                return true
-            } else {
-              return false
-            }
-        },
         toTheRooms() {
             if(localStorage.getItem('network')) {
                 this.$router.push({ name: 'roomslist'});
@@ -72,11 +65,15 @@ export default {
             this.$router.push({ name: 'testpage'});
         },
         toTheAuthPage() {
-            this.$router.push({ name: 'auth'})
+            this.$router.push({ name: 'auth'});
         },
         getUserInitials() {
             let _name = this.$store.getters.USER_PUBLIC_INFO;
-            return JSON.stringify(_name.name[0])
+            return JSON.stringify(_name.name[0]);
+        },
+        LogOut() {
+            this.$store.commit('LOGOUT');
+            this.$router.push({ name: 'auth'});
         }
     }
 

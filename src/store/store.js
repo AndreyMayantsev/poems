@@ -14,7 +14,7 @@ export default createStore({
     },
 
     modules: {
-        moduleUser
+        user: moduleUser
     },
 
     getters: {

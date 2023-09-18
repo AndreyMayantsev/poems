@@ -1,5 +1,4 @@
-import { requestType } from '../../Core-prod/api/dataTypes';
-import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
+import { CookiesDelete } from '../../Core-prod/api/getCookie'
 
 export const moduleUser = {
 
@@ -7,31 +6,46 @@ export const moduleUser = {
         UserName: "",
         UserID: -1,
         isUserAutorized: false,
-        _raw: {}
+        _raw: {},
+        _state: "success"
     }),
 
     mutations: { 
 
-        async LOGIN (state, payload) {
+        LOGIN(state, payload) {
             console.log("Module LOGIN called!")
-            // migrate user auth in this mutation
-            let response = await HttpRequestFactory.makeRequest( requestType.UserAuth, payload );
-            state._raw = response;
-            state.UserID = response.data.data.user_id;
+            state._raw = payload;
+            state.isUserAutorized = true;
+            state.UserID = payload.data.data.user_id;
             state.UserName = "Тестовый Иван Иванович"
-            console.log('[Store.User]: ' + JSON.stringify(response))
+            console.log('[Store.User]: ' + JSON.stringify(payload) + ' | ' + state.UserID + ' | ' + state.UserName);
+            localStorage.setItem('auth', 'true');
+            localStorage.setItem('userID', "" + payload.data.data.user_id);
+            document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + payload.data.data.token);
         },
         
-        LOGOUT () {
-            // migrate user unauth in this mutation 
+        LOGOUT(state) {
+            state.isUserAutorized = false;
+            state.UserID = -1;
+            state.UserName = "";
+            state._raw = {}
+            localStorage.removeItem('auth');
+            localStorage.removeItem('userID');
+            CookiesDelete()
         }  
     },
     actions: { 
 
     },
     getters: { 
-        USER_ID: state => {
-            return state.ID;
+        GET_ID: state => {
+            return state.UserID;
         },
+        GET_STATE: state => {
+            return state._state
+        },
+        IS_USER_AUTORIZED: state => {
+            return state.isUserAutorized
+        }
     }
 }
