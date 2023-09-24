@@ -33,6 +33,7 @@ export const moduleUser = {
             localStorage.removeItem('userID');
             CookiesDelete()
         },        
+        
         ON_LOAD_USER_AUTORIZED_BY_COOKIES(state, payload) {
             state.isUserAutorized = true;
             state.UserID = payload;

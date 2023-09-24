@@ -6,10 +6,8 @@
 
 <script>
 
-// import core libraries
-import { User } from './Core-prod/Poems/User/user'
-// import components
 import MainWindow from './components/MainWindow.vue';
+import { Configure } from './Core-prod/Сonfigure'
 import { requestType } from './Core-prod/api/dataTypes';
 import { HttpRequestFactory } from './Core-prod/api/requests/HttpRequestFactory';
 import { ConsoleLogger } from './Core-prod/Logger/ConsoleLogger';
@@ -37,24 +35,19 @@ export default {
     // Initialize application
     // ----------------------
 
-    let UserInstance = new User();
+    ConsoleLogger.writeLogInfo("=== Start Application ===");
     
-    ConsoleLogger.writeLogInfo("Создан пользователь, авторизуйтесь! <- " + JSON.stringify(UserInstance.getPublicInfo()));
-    ConsoleLogger.writeLogInfo("=== Загрузка данных ===");
-    
-    // whatTheDevice - Computer PC or Mobile Device
     if(CheckDeviceType.isMobileDevice()) { 
         localStorage.setItem('mobileDevice', true);
     } else {
         localStorage.setItem('mobileDevice', false);
     } 
 
+    this.$store.commit('SET_DEBUG_MODE', Configure.DEBUG_MODE); 
     let testAuth = await HttpRequestFactory.makeRequest(requestType.RoomsGet, { limit:1, offset:0 })
     
     if(testAuth.success) {
         ConsoleLogger.writeLogInfo("Проверка авторизации прошла успешно!");
-        //this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
-        //this.$store.commit( 'SET_USER_INSTANCE', UserInstance ); 
         this.$store.commit( 'ON_LOAD_USER_AUTORIZED_BY_COOKIES', localStorage.getItem('userID'));
     } else {
         if(testAuth.code && testAuth.code === 401) {

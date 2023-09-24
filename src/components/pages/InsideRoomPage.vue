@@ -1,14 +1,15 @@
 <template>
     <div class="InsideRoomPage fixed-center">
         
-        <q-card class="max-width-form center-box ">
-            Добро пожаловать в игру №{{ this.room.data.id }} от {{ this.getDate(this.room.data.created_at) }}
+        <q-card class="max-width-form center-box">
+            Приветсвуем в игре №{{ this.room.data.id }}            
             <q-separator/>
             <div v-if="this.room.data.players.length > 0">
-                <div class="center-box flex-box">
+                <div class="flex-box">
+                    Игроки: 
                     <div v-for="user in this.room.data.players" >
-                        <div v-if="user == this.room.data.current_user_id"><q-avatar size="md" class="you-avatar-style" color="green" text-color="white">{{ user }}</q-avatar></div>
-                        <div v-if="user != this.room.data.current_user_id"><q-avatar size="md" class="other-avatars-style" color="primary" text-color="white">{{ user }}</q-avatar></div>
+                        <div v-if="user == this.room.data.current_user_id"><q-avatar size="sm" class="current-avatar-style" color="green" text-color="white">{{user}}</q-avatar></div>
+                        <div v-if="user != this.room.data.current_user_id"><q-avatar size="sm" class="other-avatars-style" color="primary" text-color="white">{{user}}</q-avatar></div>
                     </div>
                 </div>
             </div>
@@ -17,9 +18,17 @@
                 </div>
             <q-separator/>
 
-        <!-- poems messages as a chat -->    
 
-    </q-card>
+        <!-- poems messages as a chat -->    
+        <div class="q-pa-md row justify-center">
+            <q-chat-message
+                name="Предыдущий игрок: "
+                :text="['Привет привет!\n Стишок в ответ!']"
+            />
+        </div>
+        
+
+            </q-card>
 
         <!-- <h4> Играют пользователи ({{ this.room.data.players.length }} из {{ this.room.data.places }}): </h4> -->
 
@@ -32,6 +41,9 @@
         </h4>  
         <input class="startbutton" type="button" value="Присоедениться" v-on:click="EnterRoom()"/><br>
         <textarea v-model="message" rows="2" cols="38"></textarea>
+            <q-btn color="primary" label="Отправить" v-on:click="SendMessage()" />
+            <q-btn color="primary" label="Завершить" v-on:click="EndPoem()" />
+            <q-btn round color="secondary" icon="check" /><q-icon name="print" color="teal" size="4.4em" />
             <input class="startbutton" type="button" value="Отправить" v-on:click="SendMessage()"/>
             <input class="startbutton" type="button" value="Завершить" v-on:click="EndPoem()"/>
             <input class="startbutton" type="button" value="Покинуть" v-on:click="LeaveRoom()"/>     
@@ -135,10 +147,10 @@ export default {
     margin: 3px;
     padding: auto;
     border-style: solid;
-    border-color: grey;
+    border-color: rgb(49, 61, 131);
     border-width: 2px;
 }
-.you-avatar-style {
+.current-avatar-style {
     margin: 3px;
     padding: auto;
     border-style: solid;

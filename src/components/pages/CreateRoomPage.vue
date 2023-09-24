@@ -14,17 +14,17 @@
             -->
             <q-card>
                 <q-tabs
-                v-model="finish_type"
-                dense
-                class="text-grey"
-                active-color="primary"
-                indicator-color="primary"
-                align="justify"
-                narrow-indicator
-                >
-                <q-tab name="moves" label="Ходы" />
-                <q-tab name="times" label="Время" />
-            </q-tabs>
+                    v-model="finish_type"
+                    dense
+                    class="text-grey"
+                    active-color="primary"
+                    indicator-color="primary"
+                    align="justify"
+                    narrow-indicator
+                    >
+                    <q-tab name="moves" label="Ходы" />
+                    <q-tab name="times" label="Время" />
+                </q-tabs>
 
             <q-separator/>
 

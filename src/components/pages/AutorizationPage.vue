@@ -14,6 +14,7 @@
 
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
+import { show_informer, show_error } from '../../Core-prod/UI/Notifyer'
 
 export default {
     name: "AutorizationPage",
@@ -36,17 +37,17 @@ export default {
             let response = await HttpRequestFactory.makeRequest( requestType.UserAuth, authInfo );
 
             if(response.data.success) {
+                show_informer("Авторизация успешна!")
                 console.log("Correct Auth request recieved!");
                 this.$store.commit('LOGIN', response);
                 console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.GET_ID));
                 this.$router.push({ name:'roomslist'});
             } else {
+                show_error("Неверный логин или пароль!")
                 console.log("::ОШИБКА АВТОРИЗАЦИИ: " + response.data.data.message );
             }
             
-            
             console.log("Added user with ID: " + this.$store.getters.GET_ID)
-
         }
     }
 }

@@ -6,8 +6,7 @@ import createStore from './store/store.js'
 
 // Import Quasar css
 import 'quasar/dist/quasar.css'
-
-import iconSet from 'quasar/icon-set/fontawesome-v6'
+import '@quasar/extras/material-icons/material-icons.css'
 
 console.log('Starting application...');
 
@@ -23,7 +22,6 @@ app.use(Quasar, {
         timeout: 5000
        }
     },
-    iconSet: iconSet
 });
 
 app.mount('#app');

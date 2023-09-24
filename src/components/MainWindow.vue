@@ -8,7 +8,7 @@
       <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
       <q-btn v-if="!this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Войти" v-on:click="toTheAuthPage()"/>
       <q-btn flat rounded class="menu-font" label="Комнаты" v-on:click="toTheRooms()"/>
-      <q-btn flat rounded class="menu-font" label="Тесты" v-on:click="toTheTestPage()"/>
+      <q-btn v-if="this.$store.getters.GET_DEBUG_MODE" flat rounded class="menu-font" label="Тесты" v-on:click="toTheTestPage()"/>
       <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Выход" v-on:click="LogOut()"/>
     </q-toolbar-title>
   </q-toolbar>
