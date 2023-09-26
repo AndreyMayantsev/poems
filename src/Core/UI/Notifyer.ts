@@ -10,14 +10,16 @@ export function show_informer(message_text: string) {
 
 export function show_warning(message_text: string) {
     Notify.create({
-        type: '!',
+        icon: '!',
+        type:'warning',
         message: message_text
     })
 }
 
 export function show_error(message_text: string) {
     Notify.create({
-        type: ':(',
+        icon: ':(',
+        type:'negative',
         message: message_text
     })
 }

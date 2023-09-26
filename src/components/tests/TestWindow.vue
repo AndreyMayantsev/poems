@@ -20,7 +20,7 @@
   import RoomsList from './RoomsList.vue';
   import RoomCreate from './RoomCreate.vue';
   import RoomBanner from '../uiElements/RoomBanner.vue';
-  
+
   export default {
     name: 'TestWindow',
     components: {
