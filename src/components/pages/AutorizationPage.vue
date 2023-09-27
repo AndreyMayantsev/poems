@@ -14,7 +14,7 @@
 
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
-import { show_informer } from '../../Core-prod/UI/Notifyer'
+import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer';
 
 export default {
     name: "AutorizationPage",
@@ -36,7 +36,7 @@ export default {
             let response = await HttpRequestFactory.makeRequest( requestType.UserAuth, authInfo );
 
             if(response.data.success) {
-                show_informer("Авторизация успешна!")
+                showNotifyToast(NotifyTypes.INFO, "Авторизация успешна!");
                 console.log("Correct Auth request recieved!");
                 this.$store.commit('LOGIN', response);
                 console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.GET_ID));

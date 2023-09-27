@@ -13,7 +13,9 @@
 </template>
 
 <script>
-import { User } from '../../Core-prod/Poems/User/user';
+import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
+import { requestType } from '../../Core-prod/api/dataTypes'
+import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer'; 
 
 
 export default {
@@ -35,16 +37,14 @@ export default {
             };
 
             if (this.password === this.password_verify && this.password !=""){
-                let UserInstance = new User();
 
-                let _authResult = await UserInstance.userRegistration(authInfo);
+                let _authResult = await HttpRequestFactory.makeRequest(requestType.UserRegister, authInfo);
 
                 if ( _authResult.success ) {
-                    this.$store.commit('SET_USER_ID', _authResult.data.user_id);
-                    this.$store.commit('SET_USER_INSTANCE', UserInstance);
-                    console.log("[REG_FORM_RESULT]: " + JSON.stringify(this.$store.getters.USER_INSTANCE.getPublicInfo()))
+                    showNotifyToast(NotifyTypes.INFO, "Авторизация успешна!");
+                    console.log("Correct Auth request recieved!");
+                    this.$store.commit('LOGIN', _authResult);
                     this.$router.push({ name:'roomslist'});
-                    // location.reload();
                 } else {
                     console.log("ОШИБКА РЕГИСТРАЦИИ: " + JSON.stringify(_authResult.message) );
                 }  

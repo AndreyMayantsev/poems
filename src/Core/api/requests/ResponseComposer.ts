@@ -1,6 +1,7 @@
 import { ServerResponseType } from "../dataTypes"
 import { ConsoleLogger } from "../../Logger/ConsoleLogger";
-import { show_error } from "../../UI/Notifyer";
+import { showNotifyToast, NotifyTypes } from "../../UI/Notifyer";
+
 
 export class ResponseComposer {
 
@@ -31,15 +32,21 @@ export class ResponseComposer {
                 responseData.success = false;    
                 localStorage.setItem("network", "true");
                 if (Response.response.status === 401) {
-                    show_error("Отсутствует авторизация");
+                    showNotifyToast(NotifyTypes.ERROR, "Отсутствует авторизация");
                 } else if (Response.response.status === 422) { 
                     if (Response.response.data.message) {
-                        show_error(JSON.stringify(Response.response.data.message));
+                        showNotifyToast(NotifyTypes.ERROR, JSON.stringify(Response.response.data.message));
                     } else {
-                        show_error("Неверный логин или пароль!");
-                    }                      
-                } else {
-                    show_error("Undefined error!")
+                        showNotifyToast(NotifyTypes.ERROR, "Неверный логин или пароль!");
+                    } 
+                } else if (Response.response.status > 422) {
+                    if (Response.response.data.message) {
+                        showNotifyToast(NotifyTypes.ERROR, JSON.stringify(Response.response.data.message));
+                    } else {
+                        showNotifyToast(NotifyTypes.ERROR, "Внутренняя ошибка сервера!");
+                    }                        
+                }  else {
+                    showNotifyToast(NotifyTypes.ERROR, "Undefined error!");
                 }
                 return responseData;
 
@@ -50,7 +57,7 @@ export class ResponseComposer {
                 responseData.data = { "message":"An unexpected error has occurred. Check the network connection and the Internet is not available."};
                 responseData.message = "An unexpected error has occurred. Check the network connection and the Internet is not available.";
                 responseData.success = false;
-                show_error("Отсутствует сеть!");
+                showNotifyToast(NotifyTypes.ERROR, "Отсутствует сеть!");
                 localStorage.removeItem('network');
                 return responseData;
 

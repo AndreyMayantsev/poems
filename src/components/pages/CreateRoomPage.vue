@@ -144,9 +144,9 @@ export default {
     data() {
         return {
             is_public: true,
-            places: 2,
+            places: 3,
             rows_visible: 2,
-            move_duration: 14000,
+            move_duration: 60,
             finish_type: "moves",
             finish_time_cond: 60000,
             finish_moves_cond: 28
