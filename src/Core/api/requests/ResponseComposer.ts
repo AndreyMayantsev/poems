@@ -39,7 +39,7 @@ export class ResponseComposer {
                     } else {
                         showNotifyToast(NotifyTypes.ERROR, "Неверный логин или пароль!");
                     } 
-                } else if (Response.response.status > 422) {
+                } else if (Response.response.status > 402) {
                     if (Response.response.data.message) {
                         showNotifyToast(NotifyTypes.ERROR, JSON.stringify(Response.response.data.message));
                     } else {
