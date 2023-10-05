@@ -37,13 +37,16 @@
                         <q-btn color="primary" label="+" icon="home">
                         <q-menu auto-close>
                             <q-list style="min-width: 100px">
-                            <q-item clickable>
-                                <q-item-section>Присоединиться</q-item-section>
+                            <q-item v-if="!this.userIsPlayer" clickable>
+                                <q-item-section v-on:click="EnterRoom()">Присоединиться</q-item-section>
                             </q-item>
-                            <q-item clickable>
-                                <q-item-section>Покинуть комнату</q-item-section>
+                            <q-item v-if="this.userIsPlayer" clickable>
+                                <q-item-section v-on:click="LeaveRoom()">Покинуть комнату</q-item-section>
                             </q-item>
                             <q-separator />
+                            <q-item v-if="this.userIsPlayer" clickable>
+                                <q-item-section v-on:click="EndPoem()">Завершение игры</q-item-section>
+                            </q-item>
                             </q-list>
                         </q-menu>
                         </q-btn>
@@ -97,26 +100,31 @@ export default {
     name: "InsideRoomPage",
     data() {
         return {
+            userIsPlayer: false,
             message: "",
             room: {
                 data: {
-                    
+                    players: []
                 }
             }
         }
     },
     async created() {
         try {
-            
             let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
             this.room = Room.data;
-            console.log("INSIDE ROOM: " + JSON.stringify(this.room));
+            console.log("[InsideRoom] INSIDE ROOM: " + JSON.stringify(this.room));
+            this.checkUserPlayingInRoom();
         } catch(error) {
             console.log("[InsideRoom] Room not loaded. Server returns an error: " + error);
         }
     },
     activated() {
-        
+        this.data.userIsPlayer = false;
+        this.data.room.data = {}
+    },
+    computed: {
+
     },
     methods: {
         async RefreshRoom() {
@@ -124,6 +132,7 @@ export default {
                 let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
                 this.room = Room.data;
                 console.log("INSIDE: " + JSON.stringify(this.room));
+                this.checkUserPlayingInRoom();
             } catch(error) {
                 console.log("[InsideRoom] Room not loaded. Server returns an error: " + error);
             }
@@ -163,7 +172,7 @@ export default {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EnterRoom, this.room.data.id);
                 console.log("[EnterRoom]: " + JSON.stringify(answer));
-                this.RefreshRoom()
+                this.RefreshRoom();
             } catch(error) {
                 console.log("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)
             }
@@ -172,7 +181,18 @@ export default {
             var date = new Date(str);
             console.log("Date in getDate(): " + str);
             return date.toLocaleString('ru', this.options)
-        }
+        },
+        checkUserPlayingInRoom() {
+            console.log("userIsPlayer = " + this.userIsPlayer)
+            for(let player in this.room.data.players) { 
+                console.log("PLAYER: " + this.room.data.players[player] + " | " + this.$store.getters.GET_ID)
+                if(this.$store.getters.GET_ID == this.room.data.players[player]) {
+                    console.log("[Player] User plying in this room" + ": " + this.room.data.players[player] + " = " + this.$store.getters.GET_ID);
+                    this.userIsPlayer = true
+                } 
+            }
+            console.log("userIsPlayer = " + this.userIsPlayer)
+        }          
     }
 }
 
