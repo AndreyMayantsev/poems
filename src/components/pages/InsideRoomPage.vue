@@ -1,46 +1,10 @@
 <template>
     <div class="fixed-center">
         <q-card class="max-width-form center-box">
-            Приветсвуем в игре №{{ this.room.data.id }}            
-            <q-separator/>
-                <!-- USERS IN ROOM AVATARS -->
-                <div class="flex-box q-pa-md q-gutter-sm">
-                    <q-space/>
-                    <div v-for="user in this.room.data.players">
-                        <div v-if="user == this.room.data.current_user_id">
-                            <q-avatar
-                            size="30px"
-                            class="overlapping"
-                            style="border: 3px solid rgb(29, 180, 29);"
-                            >
-                            <img :src="`https://cdn.quasar.dev/img/avatar1.jpg`">
-                            {{ user }}
-                            </q-avatar>
-                        </div>
-                        <div v-if="user != this.room.data.current_user_id">
-                            <q-avatar
-                            size="30px"
-                            class="overlapping"
-                            >
-                            <img :src="`https://cdn.quasar.dev/img/avatar3.jpg`">
-                            {{ user }}
-                            </q-avatar>
-                        </div>
-                     </div>
-                     <div v-if="this.free_places > 0">
-                        <div v-for="free_place in this.free_places">
-                                <q-avatar
-                                size="30px"
-                                class="overlapping"
-                                >
-                                <img :src="`https://cdn.quasar.dev/img/avatar4.jpg`">
-                                {{ free_place }}
-                                </q-avatar>                           
-                        </div>
-                    </div>
-                    <q-space/>
+            <div class="flex-box paddings">Приветсвуем в игре №{{ this.room.data.id }}  
+                <q-space/>
                     <!-- MENU IN HEAD OF FORM -->
-                        <q-btn color="primary" label="" icon="home">
+                    <q-btn color="primary" label="" icon="home">
                             <q-menu auto-close>
                                 <q-list style="min-width: 100px">
                                 <q-item v-if="!this.userIsPlayer" clickable>
@@ -55,7 +19,42 @@
                                 </q-item>
                                 </q-list>
                             </q-menu>
-                        </q-btn>
+                        </q-btn>  
+                    </div>   
+            <q-separator/>
+
+                <!-- USERS IN ROOM AVATARS -->
+                <div class="flex-box q-pa-md q-gutter-sm">
+                    <div v-for="user in this.roomUsers">
+                        <div v-if="user.playing_now">
+                            <q-avatar
+                            size="32px"
+                            class="overlapping"
+                            >
+                            <img :src="`https://cdn.quasar.dev/img/avatar1.jpg`">
+                            {{ user }}
+                            <q-badge rounded color="green" floating/>
+                            </q-avatar>
+                        </div>
+                        <div v-if="user.in_game & !user.playing_now">
+                            <q-avatar
+                            size="32px"
+                            class="overlapping"
+                            >
+                            <img :src="`https://cdn.quasar.dev/img/avatar3.jpg`">
+                            {{ user }}
+                            </q-avatar>
+                        </div>
+                        <div v-if="!user.in_game">
+                            <q-avatar
+                            size="32px"
+                            class="overlapping"
+                            icon="star"
+                            >
+                            +
+                            </q-avatar>                           
+                        </div>
+                    </div>
                 </div>
             <q-separator/>
             <!-- poems messages as a chat -->    
@@ -71,7 +70,6 @@
 
         <!-- <h4> Играют пользователи ({{ this.room.data.players.length }} из {{ this.room.data.places }}): </h4> -->
 
-        <h6> Свободно {{ this.free_places }}</h6>
         <h6> Ход игрока: {{ this.room.data.current_user_id }} </h6>
         <h6 v-if="this.room.data.finish_type=='moves'">
             Сделано {{ this.room.data.messages_count }} ходов из {{ this.room.data.finish_moves_cond }}
@@ -103,7 +101,7 @@ export default {
         return {
             userIsPlayer: false,
             message: "",
-            free_places: 0,
+            roomUsers: [],
             room: {
                 data: {
                     players: []
@@ -117,7 +115,7 @@ export default {
             this.room = Room.data;
             console.log("CREATED HOOK: " + JSON.stringify(this.room));
             this.checkUserPlayingInRoom();
-            this.returnFreePlaces();
+            this.composeRoomUsers();
         } catch(error) {
             console.log("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
@@ -136,7 +134,7 @@ export default {
                 this.room = Room.data;
                 console.log("[REFRESH ROOM]: " + JSON.stringify(this.room));
                 this.checkUserPlayingInRoom();
-                this.returnFreePlaces();
+                this.composeRoomUsers();
             } catch(error) {
                 console.error("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
             }
@@ -177,6 +175,7 @@ export default {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EnterRoom, this.room.data.id);
                 console.log("[ENTER ROOM]: " + JSON.stringify(answer));
                 this.RefreshRoom();
+                this.composeRoomUsers();
             } catch(error) {
                 console.error("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)
             }
@@ -197,9 +196,31 @@ export default {
             }
             console.log("userIsPlayer = " + this.userIsPlayer)
         },
-        returnFreePlaces() {
-            this.free_places = this.room.data.places - this.room.data.players.length;
-            console.log("FreePlaces: " + this.free_places);
+        composeRoomUsers() {
+            let _usersList = []
+            console.log("Максимально пользователей " + this.room.data.places);
+            console.log("Пользователи в игре " + this.room.data.players)
+            for(let user in this.room.data.players) {
+                let _tmpUser = {
+                    id: this.room.data.players[user],
+                    in_game: true,
+                    playing_now: this.room.data.players[user] == this.room.data.current_user_id ? true : false
+                }
+                console.log("in_game: " + user + " | " + this.room.data.current_user_id)
+                console.log("REAL USER " + JSON.stringify(_tmpUser));
+                _usersList.push(_tmpUser);
+            }
+            for(let i = 1; i < this.room.data.places - this.room.data.players.length + 1; i++) {
+                let _tmpUser = {
+                    id: 0,
+                    in_game: false,
+                    playing_now: false
+                 }
+                console.log("FREE PLACE " + i);
+                _usersList.push(_tmpUser);
+            }
+            console.log("Список пользователей " + JSON.stringify(_usersList));
+            this.roomUsers = _usersList;
         }         
     }
 }
@@ -220,5 +241,9 @@ export default {
     border-style: solid;
     border-color: #55b131;
     border-width: 2px;
+}
+.paddings {
+    margin: 3px;
+    padding: 3px;
 }
 </style>
