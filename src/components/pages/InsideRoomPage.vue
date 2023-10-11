@@ -1,18 +1,15 @@
 <template>
-    <div class="InsideRoomPage fixed-center">
-        
+    <div class="fixed-center">
         <q-card class="max-width-form center-box">
-
             Приветсвуем в игре №{{ this.room.data.id }}            
             <q-separator/>
-
-            <div v-if="this.room.data.players.length > 0">
                 <!-- USERS IN ROOM AVATARS -->
-                <div class="flex-box">
-                    <div v-for="user in this.room.data.players" >
-                        <div v-if="user == this.room.data.current_user_id" class="q-pa-md q-gutter-sm" style="height: 60px">
+                <div class="flex-box q-pa-md q-gutter-sm">
+                    <q-space/>
+                    <div v-for="user in this.room.data.players">
+                        <div v-if="user == this.room.data.current_user_id">
                             <q-avatar
-                            size="36px"
+                            size="30px"
                             class="overlapping"
                             style="border: 3px solid rgb(29, 180, 29);"
                             >
@@ -20,9 +17,9 @@
                             {{ user }}
                             </q-avatar>
                         </div>
-                        <div v-if="user != this.room.data.current_user_id" class="q-pa-md q-gutter-sm" style="height: 60px">
+                        <div v-if="user != this.room.data.current_user_id">
                             <q-avatar
-                            size="32px"
+                            size="30px"
                             class="overlapping"
                             >
                             <img :src="`https://cdn.quasar.dev/img/avatar3.jpg`">
@@ -30,34 +27,36 @@
                             </q-avatar>
                         </div>
                      </div>
-                     <q-space />
-
-                     <!-- MENU IN HEAD OF FORM -->
-                     <div class="q-pa-md q-gutter-md">
-                        <q-btn color="primary" label="+" icon="home">
-                        <q-menu auto-close>
-                            <q-list style="min-width: 100px">
-                            <q-item v-if="!this.userIsPlayer" clickable>
-                                <q-item-section v-on:click="EnterRoom()">Присоединиться</q-item-section>
-                            </q-item>
-                            <q-item v-if="this.userIsPlayer" clickable>
-                                <q-item-section v-on:click="LeaveRoom()">Покинуть комнату</q-item-section>
-                            </q-item>
-                            <q-separator />
-                            <q-item v-if="this.userIsPlayer" clickable>
-                                <q-item-section v-on:click="EndPoem()">Завершение игры</q-item-section>
-                            </q-item>
-                            </q-list>
-                        </q-menu>
-                        </q-btn>
+                     <div v-if="this.free_places > 0">
+                        <div v-for="free_place in this.free_places">
+                                <q-avatar
+                                size="30px"
+                                class="overlapping"
+                                >
+                                <img :src="`https://cdn.quasar.dev/img/avatar4.jpg`">
+                                {{ free_place }}
+                                </q-avatar>                           
+                        </div>
                     </div>
-
+                    <q-space/>
+                    <!-- MENU IN HEAD OF FORM -->
+                        <q-btn color="primary" label="" icon="home">
+                            <q-menu auto-close>
+                                <q-list style="min-width: 100px">
+                                <q-item v-if="!this.userIsPlayer" clickable>
+                                    <q-item-section v-on:click="EnterRoom()">Присоединиться</q-item-section>
+                                </q-item>
+                                <q-item v-if="this.userIsPlayer" clickable>
+                                    <q-item-section v-on:click="LeaveRoom()">Покинуть комнату</q-item-section>
+                                </q-item>
+                                <q-separator />
+                                <q-item v-if="this.userIsPlayer" clickable>
+                                    <q-item-section v-on:click="EndPoem()">Завершение игры</q-item-section>
+                                </q-item>
+                                </q-list>
+                            </q-menu>
+                        </q-btn>
                 </div>
-            </div>
-            <div v-if="this.room.data.players.length == 0">
-                    В комнате пока нет участников
-            </div>
-
             <q-separator/>
             <!-- poems messages as a chat -->    
             <div class="q-pa-md row justify-center">
@@ -66,18 +65,20 @@
                     :text="['Привет привет!\n Стишок в ответ!']"
                 />
             </div>
-        
+
+
         </q-card>
 
         <!-- <h4> Играют пользователи ({{ this.room.data.players.length }} из {{ this.room.data.places }}): </h4> -->
 
-        <h4> Ход игрока: {{ this.room.data.current_user_id }} </h4>
-        <h4 v-if="this.room.data.finish_type=='moves'">
+        <h6> Свободно {{ this.free_places }}</h6>
+        <h6> Ход игрока: {{ this.room.data.current_user_id }} </h6>
+        <h6 v-if="this.room.data.finish_type=='moves'">
             Сделано {{ this.room.data.messages_count }} ходов из {{ this.room.data.finish_moves_cond }}
-        </h4>
-        <h4 v-if="this.room.data.finish_type=='time'">
+        </h6>
+        <h6 v-if="this.room.data.finish_type=='time'">
             Игра закончится {{ this.getDate(this.room.data.finish_time_cond) }}
-        </h4>  
+        </h6>  
         <input class="startbutton" type="button" value="Присоедениться" v-on:click="EnterRoom()"/><br>
         <textarea v-model="message" rows="2" cols="38"></textarea>
             <q-btn color="primary" label="Отправить" v-on:click="SendMessage()" />
@@ -102,6 +103,7 @@ export default {
         return {
             userIsPlayer: false,
             message: "",
+            free_places: 0,
             room: {
                 data: {
                     players: []
@@ -113,10 +115,11 @@ export default {
         try {
             let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
             this.room = Room.data;
-            console.log("[InsideRoom] INSIDE ROOM: " + JSON.stringify(this.room));
+            console.log("CREATED HOOK: " + JSON.stringify(this.room));
             this.checkUserPlayingInRoom();
+            this.returnFreePlaces();
         } catch(error) {
-            console.log("[InsideRoom] Room not loaded. Server returns an error: " + error);
+            console.log("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
     },
     activated() {
@@ -131,10 +134,11 @@ export default {
             try {
                 let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
                 this.room = Room.data;
-                console.log("INSIDE: " + JSON.stringify(this.room));
+                console.log("[REFRESH ROOM]: " + JSON.stringify(this.room));
                 this.checkUserPlayingInRoom();
+                this.returnFreePlaces();
             } catch(error) {
-                console.log("[InsideRoom] Room not loaded. Server returns an error: " + error);
+                console.error("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
             }
         },
         async SendMessage() {
@@ -145,7 +149,7 @@ export default {
                 console.log("[SendMessage]: " + JSON.stringify(answer));
                 this.RefreshRoom()
             } catch(error) {
-                console.log("[SendMessage] RoomsList not loaded. Server returns an error: " + error)
+                console.error("[SendMessage] RoomsList not loaded. Server returns an error: " + error)
             }
         },
         async EndPoem() {
@@ -154,7 +158,7 @@ export default {
                 console.log("[EndPoem]: " + JSON.stringify(answer));
                 this.RefreshRoom()
             } catch(error) {
-                console.log("[EndPoem] RoomsList not loaded. Server returns an error: " + error)
+                console.error("[EndPoem] RoomsList not loaded. Server returns an error: " + error)
             }
         },
         async LeaveRoom() {
@@ -165,16 +169,16 @@ export default {
                     this.$router.push({ name: "roomslist" });
                 }
             } catch(error) {
-                console.log("[LeaveRoom] RoomsList not loaded. Server returns an error: " + error)
+                console.error("[LeaveRoom] RoomsList not loaded. Server returns an error: " + error)
             }
         },
         async EnterRoom() {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EnterRoom, this.room.data.id);
-                console.log("[EnterRoom]: " + JSON.stringify(answer));
+                console.log("[ENTER ROOM]: " + JSON.stringify(answer));
                 this.RefreshRoom();
             } catch(error) {
-                console.log("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)
+                console.error("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)
             }
         },
         getDate(str) {
@@ -192,7 +196,11 @@ export default {
                 } 
             }
             console.log("userIsPlayer = " + this.userIsPlayer)
-        }          
+        },
+        returnFreePlaces() {
+            this.free_places = this.room.data.places - this.room.data.players.length;
+            console.log("FreePlaces: " + this.free_places);
+        }         
     }
 }
 

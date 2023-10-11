@@ -2,7 +2,7 @@
 export const Configure = {
 
     // VERSION
-    POEMS_VERSION : "0.1",
+    POEMS_VERSION : "0.2",
     POEMS_BUILD : "PRE-TEST",
 
     // CONSTS 

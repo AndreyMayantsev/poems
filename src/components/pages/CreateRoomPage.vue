@@ -1,5 +1,5 @@
 <template>
-    <div class="InsideRoomPage fixed-center">
+    <div class="fixed-center">
         <div class="center-box">
             Введите настройки для новой игры
 
