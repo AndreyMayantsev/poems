@@ -11,7 +11,8 @@ import { Configure } from './Core-prod/Сonfigure'
 import { requestType } from './Core-prod/api/dataTypes';
 import { HttpRequestFactory } from './Core-prod/api/requests/HttpRequestFactory';
 import { ConsoleLogger } from './Core-prod/Logger/ConsoleLogger';
-import { CheckDeviceType } from './Core-prod/CheckDeviceType'
+import { CheckDeviceType } from './Core-prod/CheckDeviceType';
+import { CookiesDelete } from './Core-prod/api/getCookie';
 
 
 export default {
@@ -37,13 +38,13 @@ export default {
 
     ConsoleLogger.writeLogInfo("=== Start Application ===");
     
-    if(CheckDeviceType.isMobileDevice()) { 
-        localStorage.setItem('mobileDevice', true);
-    } else {
-        localStorage.setItem('mobileDevice', false);
-    } 
+    // Preparing device type and set it to store
+    this.$store.commit('SET_IS_MOBILE_VIEW', CheckDeviceType.isMobileDevice());
 
+    // Import DEBUG_MODE from config
     this.$store.commit('SET_DEBUG_MODE', Configure.DEBUG_MODE); 
+
+   // Testing authorization, and load data from LS
     let testAuth = await HttpRequestFactory.makeRequest(requestType.RoomsGet, { limit:1, offset:0 })
     
     if(testAuth.success) {
@@ -54,17 +55,12 @@ export default {
             ConsoleLogger.writeLogWarning("Проверка авторизации ПРОВАЛЕНА! Код: " + testAuth.code);
             localStorage.removeItem('userID');
             localStorage.removeItem('auth');
+            CookiesDelete();
             this.$router.push({ name:'auth' });
         } else {
           this.$router.push({ name: "nointernetconnection" });
         }
-
     }
-    
-    // Попробовать встроить сюда тест активности сессии
-
-    // Pusher test 
-
 
   }
 }

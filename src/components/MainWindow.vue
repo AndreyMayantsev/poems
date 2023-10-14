@@ -1,40 +1,52 @@
 <template>
-    <div class = "MainWindow">
-    <q-layout view="hHh lpR fFf">
+<div class = "MainWindow">
+  <q-layout view="hhh lpr fff">
 
-<q-header reveal bordered class="bg-primary text-white">
-  <q-toolbar>
-    <q-toolbar-title>
-      <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
-      <q-btn v-if="!this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Войти" v-on:click="toTheAuthPage()"/>
-      <q-btn flat rounded class="menu-font" label="Комнаты" v-on:click="toTheRooms()"/>
-      <q-btn v-if="this.$store.getters.GET_DEBUG_MODE" flat rounded class="menu-font" label="Тесты" v-on:click="toTheTestPage()"/>
-      <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Выход" v-on:click="LogOut()"/>
-    </q-toolbar-title>
-  </q-toolbar>
-</q-header>
+    <q-header v-if="!this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="bg-primary text-white">
+      <q-toolbar>
+        <q-toolbar-title>
+          <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
+          <q-btn v-if="!this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Войти" v-on:click="toTheAuthPage()"/>
+          <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Комнаты" v-on:click="toTheRooms()"/>
+          <q-btn v-if="this.$store.getters.GET_DEBUG_MODE" flat rounded class="menu-font" label="Тесты" v-on:click="toTheTestPage()"/>
+          <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Выход" v-on:click="LogOut()"/>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
 
-<q-page-container>
-  <router-view />
-</q-page-container>
+    <q-page-container class="q-pa-md">
+        <router-view />
+    </q-page-container>
 
-<q-footer reveal bordered class="bg-grey-8 text-white">
-  <q-toolbar>
-    <q-toolbar-title>
-      <div>Made by BlindlyPoems country</div>
-    </q-toolbar-title>
-  </q-toolbar>
-</q-footer>
+    <q-footer v-if="this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="bg-primary text-white">
+      <q-toolbar>
+        <q-toolbar-title>
+          <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
+          <q-btn v-if="!this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Войти" v-on:click="toTheAuthPage()"/>
+          <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Комнаты" v-on:click="toTheRooms()"/>
+          <q-btn v-if="this.$store.getters.GET_DEBUG_MODE" flat rounded class="menu-font" label="Тесты" v-on:click="toTheTestPage()"/>
+          <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Выход" v-on:click="LogOut()"/>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
 
-</q-layout>
+  <!-- Temoirary offed 
+    <q-footer reveal bordered class="bg-grey-8 text-white">
+      <q-toolbar>
+        <q-toolbar-title>
+          <div>Made by BlindlyPoems country</div>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
+  -->
 
+  </q-layout>
 </div>
 
 </template>
 
+
 <script>
-
-
 export default {
 
     name: 'MainWindow',
@@ -95,5 +107,14 @@ export default {
 }
 .flex-box {
   display: flex;
+}
+.header {
+  height: 6%
+}
+.footer {
+  height: 5%
+}
+.wrapper {
+  height: 88%
 }
 </style>

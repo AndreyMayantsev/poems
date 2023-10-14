@@ -32,7 +32,7 @@ export class ResponseComposer {
                 responseData.success = false;    
                 localStorage.setItem("network", "true");
                 if (Response.response.status === 401) {
-                    showNotifyToast(NotifyTypes.ERROR, "Отсутствует авторизация");
+                    showNotifyToast(NotifyTypes.WARNING, "Отсутствует авторизация");
                 } else if (Response.response.status === 422) { 
                     if (Response.response.data.message) {
                         showNotifyToast(NotifyTypes.ERROR, JSON.stringify(Response.response.data.message));

@@ -1,5 +1,5 @@
 <template>
-    <div class="RoomsListPage">
+    <div>
         <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
         <div class="q-pa-md">
             Войдите в игру или создайте новую.
