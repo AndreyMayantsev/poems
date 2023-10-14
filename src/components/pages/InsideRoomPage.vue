@@ -57,14 +57,35 @@
                     </div>
                 </div>
             <q-separator/>
-            <!-- poems messages as a chat -->    
-            <div class="q-pa-md row justify-center">
+            
+            <!-- Await players for game -->
+            <div v-if="!this.gameStarted" class="paddings">
+                <p></p> 
+                <q-spinner-clock
+                    color="primary"
+                    size="5em"
+                    />
+                <q-tooltip :offset="[0, 8]">QSpinnerClock</q-tooltip>
+                <p></p>    
+                <p>Ожмдаются игроки!</p>
+            </div>
+
+            <!-- Another player wrtten poem now -->
+            
+            <!-- Current player in game -->
+            <!-- Poems messages as a chat -->    
+            <div v-if="this.gameStarted" class="q-pa-md row justify-center paddings">
                 <q-chat-message
                     name="Предыдущий игрок: "
                     :text="['Привет привет!\n Стишок в ответ!']"
                 />
-            </div>
 
+                <q-separator/>
+                <p>Ваш ход, сэр!</p>
+                <p></p>  
+                <textarea v-model="message" rows="2" cols="28"></textarea>
+                <q-btn color="primary" icon="check" v-on:click="SendMessage()" />
+            </div>
 
         </q-card>
 
@@ -77,14 +98,12 @@
         <h6 v-if="this.room.data.finish_type=='time'">
             Игра закончится {{ this.getDate(this.room.data.finish_time_cond) }}
         </h6>  
-        <input class="startbutton" type="button" value="Присоедениться" v-on:click="EnterRoom()"/><br>
-        <textarea v-model="message" rows="2" cols="38"></textarea>
-            <q-btn color="primary" label="Отправить" v-on:click="SendMessage()" />
+        <textarea v-model="message" rows="2" cols="18"></textarea>
+            <q-btn color="primary" icon="check" label="Отправить" v-on:click="SendMessage()" />
             <q-btn color="primary" label="Завершить" v-on:click="EndPoem()" />
             <q-btn round color="secondary" icon="check" /><q-icon name="print" color="teal" size="4.4em" />
             <input class="startbutton" type="button" value="Отправить" v-on:click="SendMessage()"/>
-            <input class="startbutton" type="button" value="Завершить" v-on:click="EndPoem()"/>
-            <input class="startbutton" type="button" value="Покинуть" v-on:click="LeaveRoom()"/>     
+   
         </div>
 
 </template>
@@ -100,6 +119,7 @@ export default {
     data() {
         return {
             userIsPlayer: false,
+            gameStarted: false,
             message: "",
             roomUsers: [],
             room: {
@@ -116,6 +136,7 @@ export default {
             console.log("CREATED HOOK: " + JSON.stringify(this.room));
             this.checkUserPlayingInRoom();
             this.composeRoomUsers();
+            this.isGameStarted();
         } catch(error) {
             console.log("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
@@ -135,6 +156,7 @@ export default {
                 console.log("[REFRESH ROOM]: " + JSON.stringify(this.room));
                 this.checkUserPlayingInRoom();
                 this.composeRoomUsers();
+                this.isGameStarted();
             } catch(error) {
                 console.error("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
             }
@@ -206,7 +228,6 @@ export default {
                     in_game: true,
                     playing_now: this.room.data.players[user] == this.room.data.current_user_id ? true : false
                 }
-                console.log("in_game: " + user + " | " + this.room.data.current_user_id)
                 console.log("REAL USER " + JSON.stringify(_tmpUser));
                 _usersList.push(_tmpUser);
             }
@@ -216,11 +237,14 @@ export default {
                     in_game: false,
                     playing_now: false
                  }
-                console.log("FREE PLACE " + i);
                 _usersList.push(_tmpUser);
             }
             console.log("Список пользователей " + JSON.stringify(_usersList));
             this.roomUsers = _usersList;
+        },
+        isGameStarted() {
+            this.gameStarted = this.room.data.places === this.room.data.players.length ? true : false;
+            console.log("GAME STATE: " + this.gameStarted);
         }         
     }
 }
