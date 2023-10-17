@@ -1,7 +1,5 @@
 <template>
-  <div>
     <MainWindow/>
-  </div>
 </template>
 
 <script>
@@ -35,8 +33,9 @@ export default {
     // ----------------------
     // Initialize application
     // ----------------------
+    let logger = new ConsoleLogger("APP init");
 
-    ConsoleLogger.writeLogInfo("=== Start Application ===");
+    logger.writeLogInfo("=== Start Application ===");
     
     // Preparing device type and set it to store
     this.$store.commit('SET_IS_MOBILE_VIEW', CheckDeviceType.isMobileDevice());
@@ -48,11 +47,11 @@ export default {
     let testAuth = await HttpRequestFactory.makeRequest(requestType.RoomsGet, { limit:1, offset:0 })
     
     if(testAuth.success) {
-        ConsoleLogger.writeLogInfo("Проверка авторизации прошла успешно!");
+      logger.writeLogInfo("Проверка авторизации прошла успешно!");
         this.$store.commit( 'ON_LOAD_USER_AUTORIZED_BY_COOKIES', localStorage.getItem('userID'));
     } else {
         if(testAuth.code && testAuth.code === 401) {
-            ConsoleLogger.writeLogWarning("Проверка авторизации ПРОВАЛЕНА! Код: " + testAuth.code);
+            logger.writeLogWarning("Проверка авторизации ПРОВАЛЕНА! Код: " + testAuth.code);
             localStorage.removeItem('userID');
             localStorage.removeItem('auth');
             CookiesDelete();

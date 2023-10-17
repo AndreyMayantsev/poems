@@ -10,11 +10,10 @@ export class ResponseComposer {
     static responseCompose(Response: any, success: boolean): ServerResponseType<any> {
 
         let responseData: ServerResponseType<any> = {success: false, code: 400, message: "loo", data: {}};
-        console.log(JSON.stringify(Response));
-
+        
             if(success == true) {
 
-                ConsoleLogger.writeLogInfo("[COMPOSER] Response.data founded! Code OK")
+                console.log("[COMPOSER] Response.data founded! Code OK")
                 responseData.code = 200;
                 responseData.data = Response.data;
                 responseData.message = "OK";
@@ -25,7 +24,7 @@ export class ResponseComposer {
             } else {
 
             if (Response.response && Response.response.status >= 400) { 
-                ConsoleLogger.writeLogWarning("[COMPOSER] ERROR from server: " + Response.response.status)
+                console.warn("[COMPOSER] ERROR from server: " + Response.response.status)
                 responseData.code = Response.response.status;
                 responseData.data = Response.response.data;
                 responseData.message = Response.message;
@@ -52,7 +51,7 @@ export class ResponseComposer {
 
             } else {
 
-                ConsoleLogger.writeLogError("[COMPOSER] An unexpected error has occurred. Check the network connection and the Internet is not available.");
+                console.error("[COMPOSER] An unexpected error has occurred. Check the network connection and the Internet is not available.");
                 responseData.code = 0;
                 responseData.data = { "message":"An unexpected error has occurred. Check the network connection and the Internet is not available."};
                 responseData.message = "An unexpected error has occurred. Check the network connection and the Internet is not available.";

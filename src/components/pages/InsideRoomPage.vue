@@ -112,7 +112,9 @@
 
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
-//import { openWebSocket } from '../../Core-prod/api/notifications/webSocketIO'
+import { ConsoleLogger } from '../../Core-prod/Logger/ConsoleLogger'
+
+let logger = new ConsoleLogger("INSIDE ROOM");
 
 export default {
     name: "InsideRoomPage",
@@ -133,12 +135,12 @@ export default {
         try {
             let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
             this.room = Room.data;
-            console.log("CREATED HOOK: " + JSON.stringify(this.room));
+            logger.writeLogInfo("CREATED HOOK: " + JSON.stringify(this.room));
             this.checkUserPlayingInRoom();
             this.composeRoomUsers();
             this.isGameStarted();
         } catch(error) {
-            console.log("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
+            logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
     },
     activated() {
@@ -153,12 +155,12 @@ export default {
             try {
                 let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
                 this.room = Room.data;
-                console.log("[REFRESH ROOM]: " + JSON.stringify(this.room));
+                logger.writeLogInfo("[REFRESH ROOM]: " + JSON.stringify(this.room));
                 this.checkUserPlayingInRoom();
                 this.composeRoomUsers();
                 this.isGameStarted();
             } catch(error) {
-                console.error("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
+                logger.writeLogError("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
             }
         },
         async SendMessage() {
@@ -166,69 +168,69 @@ export default {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.SendMessage, messageBody, this.room.data.id);
                 this.message = "";
-                console.log("[SendMessage]: " + JSON.stringify(answer));
+                logger.writeLogInfo("[SendMessage]: " + JSON.stringify(answer));
                 this.RefreshRoom()
             } catch(error) {
-                console.error("[SendMessage] RoomsList not loaded. Server returns an error: " + error)
+                logger.writeLogError("[SendMessage] RoomsList not loaded. Server returns an error: " + error)
             }
         },
         async EndPoem() {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EndPoem, this.room.data.id);
-                console.log("[EndPoem]: " + JSON.stringify(answer));
+                logger.writeLogInfo("[EndPoem]: " + JSON.stringify(answer));
                 this.RefreshRoom()
             } catch(error) {
-                console.error("[EndPoem] RoomsList not loaded. Server returns an error: " + error)
+                logger.writeLogError("[EndPoem] RoomsList not loaded. Server returns an error: " + error)
             }
         },
         async LeaveRoom() {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.LeaveRoom, this.room.data.id);
-                console.log("[LeaveRoom]: " + JSON.stringify(answer));
+                logger.writeLogInfo("[LeaveRoom]: " + JSON.stringify(answer));
                 if (answer.data.success == true) {
                     this.$router.push({ name: "roomslist" });
                 }
             } catch(error) {
-                console.error("[LeaveRoom] RoomsList not loaded. Server returns an error: " + error)
+                logger.writeLogError("[LeaveRoom] RoomsList not loaded. Server returns an error: " + error)
             }
         },
         async EnterRoom() {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EnterRoom, this.room.data.id);
-                console.log("[ENTER ROOM]: " + JSON.stringify(answer));
+                logger.writeLogInfo("[ENTER ROOM]: " + JSON.stringify(answer));
                 this.RefreshRoom();
                 this.composeRoomUsers();
             } catch(error) {
-                console.error("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)
+                logger.writeLogError("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)
             }
         },
         getDate(str) {
             var date = new Date(str);
-            console.log("Date in getDate(): " + str);
+            logger.writeLogInfo("Date in getDate(): " + str);
             return date.toLocaleString('ru', this.options)
         },
         checkUserPlayingInRoom() {
-            console.log("userIsPlayer = " + this.userIsPlayer)
+            logger.writeLogInfo("userIsPlayer = " + this.userIsPlayer)
             for(let player in this.room.data.players) { 
-                console.log("PLAYER: " + this.room.data.players[player] + " | " + this.$store.getters.GET_ID)
+                logger.writeLogInfo("PLAYER: " + this.room.data.players[player] + " | " + this.$store.getters.GET_ID)
                 if(this.$store.getters.GET_ID == this.room.data.players[player]) {
-                    console.log("[Player] User plying in this room" + ": " + this.room.data.players[player] + " = " + this.$store.getters.GET_ID);
+                    logger.writeLogInfo("[Player] User plying in this room" + ": " + this.room.data.players[player] + " = " + this.$store.getters.GET_ID);
                     this.userIsPlayer = true
                 } 
             }
-            console.log("userIsPlayer = " + this.userIsPlayer)
+            logger.writeLogInfo("userIsPlayer = " + this.userIsPlayer)
         },
         composeRoomUsers() {
             let _usersList = []
-            console.log("Максимально пользователей " + this.room.data.places);
-            console.log("Пользователи в игре " + this.room.data.players)
+            logger.writeLogInfo("Максимально пользователей " + this.room.data.places);
+            logger.writeLogInfo("Пользователи в игре " + this.room.data.players)
             for(let user in this.room.data.players) {
                 let _tmpUser = {
                     id: this.room.data.players[user],
                     in_game: true,
                     playing_now: this.room.data.players[user] == this.room.data.current_user_id ? true : false
                 }
-                console.log("REAL USER " + JSON.stringify(_tmpUser));
+                logger.writeLogInfo("REAL USER " + JSON.stringify(_tmpUser));
                 _usersList.push(_tmpUser);
             }
             for(let i = 1; i < this.room.data.places - this.room.data.players.length + 1; i++) {
@@ -239,12 +241,12 @@ export default {
                  }
                 _usersList.push(_tmpUser);
             }
-            console.log("Список пользователей " + JSON.stringify(_usersList));
+            logger.writeLogInfo("Список пользователей " + JSON.stringify(_usersList));
             this.roomUsers = _usersList;
         },
         isGameStarted() {
             this.gameStarted = this.room.data.places === this.room.data.players.length ? true : false;
-            console.log("GAME STATE: " + this.gameStarted);
+            logger.writeLogInfo("GAME STATE: " + this.gameStarted);
         }         
     }
 }
