@@ -112,7 +112,8 @@
 
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
-import { ConsoleLogger } from '../../Core-prod/Logger/ConsoleLogger'
+import { ConsoleLogger } from '../../Core-prod/Logger/ConsoleLogger';
+import { GameProcessor } from '../../Core-prod/gameProcesses/GameProcesses';
 
 let logger = new ConsoleLogger("INSIDE ROOM");
 
@@ -136,6 +137,7 @@ export default {
             let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
             this.room = Room.data;
             logger.writeLogInfo("CREATED HOOK: " + JSON.stringify(this.room));
+            GameProcessor.checkGammeState(Room.data);
             this.checkUserPlayingInRoom();
             this.composeRoomUsers();
             this.isGameStarted();
@@ -156,6 +158,7 @@ export default {
                 let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
                 this.room = Room.data;
                 logger.writeLogInfo("[REFRESH ROOM]: " + JSON.stringify(this.room));
+                GameProcessor.checkGammeState(this.room);
                 this.checkUserPlayingInRoom();
                 this.composeRoomUsers();
                 this.isGameStarted();

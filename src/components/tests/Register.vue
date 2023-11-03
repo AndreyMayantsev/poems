@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import { User } from '../../Core-prod/Poems/User/user'
-
 export default {
     name: 'RegisterForm',
 
@@ -89,29 +87,7 @@ export default {
 
         // Функция отправвки данных авторизации
         async letsGo() {
-            let UserInstance = new User();
-
-            // Тестовая реализация
-            let authInfo = {
-                login : this.login_verify,
-                password : this.password_verify
-            };
-            console.log("Registration data created.")
-            this.showPopup("ОТПРАВЛЯЕМ НА СЕРВЕР => " + JSON.stringify(authInfo))
-
-            try {
-                
-                let _authResult = await UserInstance.userRegistration(authInfo)
-
-                if ( _authResult.result ) {
-                    console.log("ДОБРО ПОЖАЛОВАТЬ ПОЛЬЗОВАТЕЛЬ №" + JSON.stringify( UserInstance.getPublicInfo() ));
-                } else {
-                    this.showPopup("ОШИБКА АВТОРИЗАЦИИ: " + JSON.stringify(_authResult.message) );
-                }
-
-            } catch(error) {
-                console.log("ОШИБКА ЗАПРОСА: " + error);
-            }        
+    
         }
     }
 
