@@ -1,6 +1,10 @@
 <template>
-<div class = "MainWindow">
-  <q-layout view="hhh lpr fff">
+<div >
+  <q-layout
+      view="hHh lpR fFf"
+      class="shadow-2 rounded-borders"
+      :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
+    >
 
     <q-header v-if="!this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="bg-primary text-white">
       <q-toolbar>
@@ -14,11 +18,11 @@
       </q-toolbar>
     </q-header>
 
-    <q-page-container class="q-pa-md">
+    <q-page-container flex>
         <router-view />
     </q-page-container>
 
-    <q-footer v-if="this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="bg-primary text-white">
+    <q-footer v-if="this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="bg-secondary text-white">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
@@ -29,16 +33,6 @@
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
-
-  <!-- Temoirary offed 
-    <q-footer reveal bordered class="bg-grey-8 text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <div>Made by BlindlyPoems country</div>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
-  -->
 
   </q-layout>
 </div>
@@ -101,13 +95,10 @@ export default {
   btn-text-color: white;
 }
 .center-box {
-        margin: 3px auto;
-        text-align: center;
-        padding: 3px;
+  justify-content: center;
+  text-align: center;
 }
-.flex-box {
-  display: flex;
-}
+
 .header {
   height: 6%
 }
@@ -115,6 +106,7 @@ export default {
   height: 5%
 }
 .wrapper {
-  height: 88%
+  height: 88%;
+  min-height: 300px;
 }
 </style>

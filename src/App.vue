@@ -47,7 +47,7 @@ export default {
     let testAuth = await HttpRequestFactory.makeRequest(requestType.RoomsGet, { limit:1, offset:0 })
     
     if(testAuth.success) {
-      logger.writeLogInfo("Проверка авторизации прошла успешно!");
+        logger.writeLogInfo("Проверка авторизации прошла успешно!");
         this.$store.commit( 'ON_LOAD_USER_AUTORIZED_BY_COOKIES', localStorage.getItem('userID'));
     } else {
         if(testAuth.code && testAuth.code === 401) {
@@ -72,6 +72,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+
 }
 </style>

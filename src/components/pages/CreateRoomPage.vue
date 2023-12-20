@@ -176,7 +176,7 @@ export default {
 
 <style scoped>
     .center-box {
-        margin: 20px auto;
+        margin: auto;
         text-align: center;
         border-radius: 4px;
         padding: 10px;

@@ -59,10 +59,9 @@ export default {
 
 <style scoped>
     .center-box {
-        margin: 100px auto;
+        margin: auto;
         text-align: center;
         border-radius: 4px;
-        padding: 10px;
         max-width: 330px;
     }
 </style>
