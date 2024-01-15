@@ -31,8 +31,10 @@ export const moduleUser = {
             state._raw = {}
             localStorage.removeItem('auth');
             localStorage.removeItem('userID');
-            CookiesDelete()
+            CookiesDelete();
+            CookiesDelete();
         },        
+        
         ON_LOAD_USER_AUTORIZED_BY_COOKIES(state, payload) {
             state.isUserAutorized = true;
             state.UserID = payload;

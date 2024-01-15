@@ -1,7 +1,7 @@
-import { AuthorizationResponse, ServerResponseType, UserLoginRequest } from "../dataTypes";
-import { isAxis } from "./IsRequest";
-import { Configure } from "../../Сonfigure";
-import { HttpRequestInterface } from "./HttpRequestInterface";
+import {AuthorizationResponse, ServerResponseType} from "../dataTypes";
+import {isAxis} from "./IsRequest";
+import {Configure} from "../../Сonfigure";
+import {HttpRequestInterface} from "./HttpRequestInterface";
 
 export class HttpAuthRequest implements HttpRequestInterface {
 
@@ -20,10 +20,9 @@ export class HttpAuthRequest implements HttpRequestInterface {
                 'X-Develop-Mode': 'yes'
             }
         }
-        let req = await isAxis(axiosConfig).then((response)=> {
+        return await isAxis(axiosConfig).then((response) => {
             return response;
         });
-        return req;
 
     }
     

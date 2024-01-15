@@ -2,7 +2,7 @@
 export const Configure = {
 
     // VERSION
-    POEMS_VERSION : "0.1",
+    POEMS_VERSION : "0.2",
     POEMS_BUILD : "PRE-TEST",
 
     // CONSTS 
@@ -27,15 +27,15 @@ export const Configure = {
 //PUSHER_APP_SECRET=4234341
 //PUSHER_APP_CLUSTER=mt1
 
-export const PusherSettings = {
-        url: 'http://localhost:6001',
-        app_key:'645646',
-        options:{
-            broadcaster: 'pusher',
-            host: 'localhost:6001',
-            key: '645646',
-            cluster: 'mt1',
-            useTLS: false,
-            secret: '4234341'
-        }
-    }
+// export const PusherSettings = {
+//         url: 'http://localhost:6001',
+//         app_key:'645646',
+//         options:{
+//             broadcaster: 'pusher',
+//             host: 'localhost:6001',
+//             key: '645646',
+//             cluster: 'mt1',
+//             useTLS: false,
+//             secret: '4234341'
+//         }
+//     }

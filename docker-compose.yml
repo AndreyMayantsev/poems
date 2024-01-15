@@ -1,0 +1,23 @@
+version: '2.2'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: 'docker/server/.Dockerfile'
+    volumes:
+      - .:/usr/src/app
+    restart: always
+    entrypoint: docker/server/entrypoint.sh
+    ports:
+      - "8080:8080"
+  tsc:
+    build:
+      context: .
+      dockerfile: 'docker/tsc/.Dockerfile'
+    volumes:
+      - .:/usr/src/app
+    restart: always
+    entrypoint: docker/tsc/entrypoint.sh
+    depends_on:
+      - server

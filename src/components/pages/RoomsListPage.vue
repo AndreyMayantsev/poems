@@ -1,5 +1,5 @@
 <template>
-    <div class="RoomsListPage">
+    <div>
         <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
         <div class="q-pa-md">
             Войдите в игру или создайте новую.
@@ -17,15 +17,6 @@
             </div>
         </div>
     </div>
-
-        <!--
-        <div v-for="room in rooms" :key="room.id" class="roombox">
-            =============================================<br>
-            <b>Комната №</b>{{ room.id }} <b>Играет </b>{{ room.users_rooms.length }} чел.<br>
-            <input class="startbutton" type="button" value="Перейти" v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"/><br>
-            <h6>Свободно: {{ room.places - room.users_rooms.length }} мест, создано: {{ Date.parse( room.created_at ) }} </h6>           
-        </div>
-        -->
     </div>
 </template>
 

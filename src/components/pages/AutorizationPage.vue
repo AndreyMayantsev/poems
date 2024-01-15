@@ -14,6 +14,7 @@
 
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
+import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer';
 
 export default {
     name: "AutorizationPage",
@@ -26,27 +27,25 @@ export default {
 
     methods: {
         async Autorize() {
-            //let UserInstance = new User();
+
             let authInfo = {
                 login : this.login,
                 password : this.password
             };
 
-            //let _authResult = await UserInstance.userLogin(authInfo);
             let response = await HttpRequestFactory.makeRequest( requestType.UserAuth, authInfo );
 
             if(response.data.success) {
+                showNotifyToast(NotifyTypes.INFO, "Авторизация успешна!");
                 console.log("Correct Auth request recieved!");
                 this.$store.commit('LOGIN', response);
                 console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.GET_ID));
                 this.$router.push({ name:'roomslist'});
             } else {
-                console.log("::ОШИБКА АВТОРИЗАЦИИ: " + response.data.data.message );
+                console.log("ОШИБКА АВТОРИЗАЦИИ");
             }
             
-            
             console.log("Added user with ID: " + this.$store.getters.GET_ID)
-
         }
     }
 }
@@ -55,10 +54,9 @@ export default {
 
 <style scoped>
     .center-box {
-        margin: 100px auto;
+        margin: auto;
         text-align: center;
         border-radius: 4px;
-        padding: 10px;
         max-width: 330px;
     }
 </style>

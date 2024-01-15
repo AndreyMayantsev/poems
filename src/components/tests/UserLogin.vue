@@ -19,8 +19,8 @@
 <script>
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
-//import { User } from '../../Core-prod/Poems/User/user';
-import { useQuasar } from 'quasar'
+import { show_informer } from '../../Core-prod/UI/Notifyer';
+import { useQuasar } from 'quasar';
 
 export default {
     name: 'UserLogin',
@@ -83,13 +83,13 @@ export default {
 
         // Функция отправвки данных авторизации
         async letsGo() {
-
+            show_informer("Let's Go!");
             // Тестовая реализация
             let authInfo = {
                 login : this.login_verify,
                 password : this.password_verify
             };
-
+            show_informer("Login...");
             this.$store.commit('LOGIN', authInfo);
                         
             

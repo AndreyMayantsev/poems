@@ -1,19 +1,16 @@
 <template>
-  <div>
     <MainWindow/>
-  </div>
 </template>
 
 <script>
 
-// import core libraries
-import { User } from './Core-prod/Poems/User/user'
-// import components
 import MainWindow from './components/MainWindow.vue';
+import { Configure } from './Core-prod/Сonfigure'
 import { requestType } from './Core-prod/api/dataTypes';
 import { HttpRequestFactory } from './Core-prod/api/requests/HttpRequestFactory';
 import { ConsoleLogger } from './Core-prod/Logger/ConsoleLogger';
-import { CheckDeviceType } from './Core-prod/CheckDeviceType'
+import { CheckDeviceType } from './Core-prod/CheckDeviceType';
+import { CookiesDelete } from './Core-prod/api/getCookie';
 
 
 export default {
@@ -36,42 +33,33 @@ export default {
     // ----------------------
     // Initialize application
     // ----------------------
+    let logger = new ConsoleLogger("APP init");
 
-    let UserInstance = new User();
+    logger.writeLogInfo("=== Start Application ===");
     
-    ConsoleLogger.writeLogInfo("Создан пользователь, авторизуйтесь! <- " + JSON.stringify(UserInstance.getPublicInfo()));
-    ConsoleLogger.writeLogInfo("=== Загрузка данных ===");
-    
-    // whatTheDevice - Computer PC or Mobile Device
-    if(CheckDeviceType.isMobileDevice()) { 
-        localStorage.setItem('mobileDevice', true);
-    } else {
-        localStorage.setItem('mobileDevice', false);
-    } 
+    // Preparing device type and set it to store
+    this.$store.commit('SET_IS_MOBILE_VIEW', CheckDeviceType.isMobileDevice());
 
+    // Import DEBUG_MODE from config
+    this.$store.commit('SET_DEBUG_MODE', Configure.DEBUG_MODE); 
+
+   // Testing authorization, and load data from LS
     let testAuth = await HttpRequestFactory.makeRequest(requestType.RoomsGet, { limit:1, offset:0 })
     
     if(testAuth.success) {
-        ConsoleLogger.writeLogInfo("Проверка авторизации прошла успешно!");
-        //this.$store.commit( 'SET_USER_ID', localStorage.getItem('userID') );
-        //this.$store.commit( 'SET_USER_INSTANCE', UserInstance ); 
+        logger.writeLogInfo("Проверка авторизации прошла успешно!");
         this.$store.commit( 'ON_LOAD_USER_AUTORIZED_BY_COOKIES', localStorage.getItem('userID'));
     } else {
         if(testAuth.code && testAuth.code === 401) {
-            ConsoleLogger.writeLogWarning("Проверка авторизации ПРОВАЛЕНА! Код: " + testAuth.code);
+            logger.writeLogWarning("Проверка авторизации ПРОВАЛЕНА! Код: " + testAuth.code);
             localStorage.removeItem('userID');
             localStorage.removeItem('auth');
+            CookiesDelete();
             this.$router.push({ name:'auth' });
         } else {
           this.$router.push({ name: "nointernetconnection" });
         }
-
     }
-    
-    // Попробовать встроить сюда тест активности сессии
-
-    // Pusher test 
-
 
   }
 }
@@ -84,6 +72,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="CreateRoomPage">
+    <div class="fixed-center">
         <div class="center-box">
             Введите настройки для новой игры
 
@@ -14,17 +14,17 @@
             -->
             <q-card>
                 <q-tabs
-                v-model="finish_type"
-                dense
-                class="text-grey"
-                active-color="primary"
-                indicator-color="primary"
-                align="justify"
-                narrow-indicator
-                >
-                <q-tab name="moves" label="Ходы" />
-                <q-tab name="times" label="Время" />
-            </q-tabs>
+                    v-model="finish_type"
+                    dense
+                    class="text-grey"
+                    active-color="primary"
+                    indicator-color="primary"
+                    align="justify"
+                    narrow-indicator
+                    >
+                    <q-tab name="moves" label="Ходы" />
+                    <q-tab name="times" label="Время" />
+                </q-tabs>
 
             <q-separator/>
 
@@ -144,9 +144,9 @@ export default {
     data() {
         return {
             is_public: true,
-            places: 2,
+            places: 3,
             rows_visible: 2,
-            move_duration: 14000,
+            move_duration: 60,
             finish_type: "moves",
             finish_time_cond: 60000,
             finish_moves_cond: 28
@@ -176,7 +176,7 @@ export default {
 
 <style scoped>
     .center-box {
-        margin: 20px auto;
+        margin: auto;
         text-align: center;
         border-radius: 4px;
         padding: 10px;

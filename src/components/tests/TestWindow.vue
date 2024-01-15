@@ -20,7 +20,7 @@
   import RoomsList from './RoomsList.vue';
   import RoomCreate from './RoomCreate.vue';
   import RoomBanner from '../uiElements/RoomBanner.vue';
-  
+
   export default {
     name: 'TestWindow',
     components: {
@@ -54,7 +54,6 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
   }
   </style>
   

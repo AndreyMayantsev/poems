@@ -14,11 +14,11 @@ import { ConsoleLogger } from "../../Logger/ConsoleLogger";
 export class HttpRequestFactory {
 
     constructor() {
-        console.log("[HttpRequestFactory] Created...");
+        console.log("[HttpRequestFactory] Created...");      
     }
 
     public static async makeRequest( rtype: requestType, rdata?: any, id?: any ): Promise<ServerResponseType<any>>  {
-                ConsoleLogger.writeLogInfo("=> makeRequest with data: " + JSON.stringify(rdata));
+        console.log("=> makeRequest with data: " + JSON.stringify(rdata));
 
                 let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
                 let answer = await HttpRequestObject.makeHttpRequest(rdata, id);

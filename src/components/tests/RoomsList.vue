@@ -1,6 +1,9 @@
 <template> 
     <div class="RoomsList box">
         <input class="roomsbutton startbutton" type="button" value="Комнаты" v-on:click="ShowRooms">
+        <input class="roomsbutton startbutton" type="button" value="Ошибка" v-on:click="showErrorNoti">
+        <input class="roomsbutton startbutton" type="button" value="Объект" v-on:click="showObjectNoti">
+        <input class="roomsbutton startbutton" type="button" value="Предупреждение" v-on:click="showWarningNoti">
 
         <div v-for="room in rooms.data" :key="room.id" class="roombox">
             <input class="startbutton" type="button" value="Инфо" v-on:click="GetRoom(room.id)"/>
@@ -19,8 +22,8 @@
 <script>
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
-import { useQuasar } from 'quasar'
-const $q = useQuasar()
+import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer';
+
 
 export default {
     
@@ -40,10 +43,8 @@ export default {
             this.rooms = {
                 ...answer
             }
-            $q.notify("ROOMS: " + JSON.stringify(answer));
             console.log("ROOMS: " + JSON.stringify(answer));
             } catch(error) {
-                $q.notify("[RoomsList] RoomsList not loaded. Server returns an error: " + error)
                 console.log("[RoomsList] RoomsList not loaded. Server returns an error: " + error)
             }
         },
@@ -91,6 +92,15 @@ export default {
             } catch(error) {
                 console.log("[LeaveRoom] RoomsList not loaded. Server returns an error: " + error)
             }
+        },
+        showErrorNoti() {
+            showNotifyToast(NotifyTypes.ERROR, "Some testing error!")
+        },
+        showWarningNoti() {
+            showNotifyToast(NotifyTypes.WARNING, "Some warning error!")
+        },
+        showObjectNoti() {
+            showNotifyToast(NotifyTypes.ERROR, {"al":"No one lives forever, ", "ab":"No one lives forever!"})
         }
     }
 
