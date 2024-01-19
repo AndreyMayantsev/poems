@@ -3,6 +3,9 @@ import { Quasar, Notify } from 'quasar'
 import App from './App.vue'
 import router from './router/router.js'
 import createStore from './store/store.js'
+//import Pusher from "pusher-js";
+import Echo from 'laravel-echo';
+
 
 // Import Quasar css
 import 'quasar/dist/quasar.css'
@@ -24,31 +27,19 @@ app.use(Quasar, {
     },
 });
 
-app.mount('#app');
-
-
-
-/* Pusher js
-
-var room = "poem_room_" + 1 +  "_user_" + 1;
-
-console.log("WS:Pusher: " + JSON.stringify(PusherSettings));
-console.log("WS_ROOM: " + room);
-
-window.Pusher = Pusher;
-
+window.Pusher = require('pusher-js');
+console.log("PUSHER: " + process.env.VUE_APP_PUSHER_KEY);
 window.Echo = new Echo({
-    ...PusherSettings
+    broadcaster: 'pusher',
+    key: process.env.VUE_APP_PUSHER_KEY,
+    cluster: process.env.VUE_APP_PUSHER_APP_CLUSTER,
+    secret: process.env.VUE_APP_PUSHER_APP_SECRET,
+    forceTLS: false,
+    wsHost: '127.0.0.1',
+    wsPort: 6001,
+    disableStats: true
 });
 
-Echo.channel(room)
-.listen('enter', function(e) {
-    console.log('Listening RoomMessage...');
-    console.log('RoomMessage: ' + e);
-})
-.listen('message', function(e) {
-    console.log('Listening RoomMessage...');
-    console.log('RoomMessage: ' + e);
-}) 
 
-*/
+app.mount('#app');
+

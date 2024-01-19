@@ -8,7 +8,7 @@
                     <RoomBanner 
                         :created_at = "room.created_at" 
                         :places = "room.places" 
-                        :users_rooms = "room.users_rooms.length" 
+                        :users_rooms = "room.room_users.length" 
                         :finish_type = "room.finish_type" 
                         :room_id = "room.id" 
                         v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"

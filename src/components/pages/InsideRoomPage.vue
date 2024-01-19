@@ -115,6 +115,7 @@ import { requestType } from '../../Core-prod/api/dataTypes';
 import { ConsoleLogger } from '../../Core-prod/Logger/ConsoleLogger';
 import { GameProcessor } from '../../Core-prod/gameProcesses/GameProcesses';
 
+
 let logger = new ConsoleLogger("INSIDE ROOM");
 
 export default {
@@ -141,6 +142,23 @@ export default {
             this.checkUserPlayingInRoom();
             this.composeRoomUsers();
             this.isGameStarted();
+            
+            // --- join websocket --- //
+
+            let roomChannel = "poem_room_" + this.room.data.id +  "_user_" + this.$store.getters.GET_ID;
+            logger.writeLogInfo("Подписываемся на канал: " + roomChannel + " | " + JSON.stringify(this.room.data));
+            window.Echo.channel(roomChannel)
+            .listen(".App\\Websockets\\Events\\RoomMessage", (ev)=> {
+                console.log("Получено: " + JSON.stringify(ev));
+            })
+            .listen(".RoomMessage", (ev)=> {
+                console.log("WS: " + ev);
+            });
+            window.Echo.channel("test").listen(".test", (event) => {
+                console.log("WS TEST TEST: " + event)
+            })
+            //window.Echo.channel("test")
+
         } catch(error) {
             logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
@@ -148,6 +166,9 @@ export default {
     activated() {
         this.data.userIsPlayer = false;
         this.data.room.data = {}
+    },
+    mounted() {
+
     },
     computed: {
 
