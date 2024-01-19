@@ -78,7 +78,7 @@
 
             </q-tab-panel>
 
-            <q-tab-panel name="times">
+            <q-tab-panel name="time">
                 <img class="border-image "
                     src="@/assets/times.png"
                 /><br>
