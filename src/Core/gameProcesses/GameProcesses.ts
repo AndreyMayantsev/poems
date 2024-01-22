@@ -14,22 +14,47 @@ let logger = new ConsoleLogger("GameProcesses");
 
 export class GameProcessor {
 
-     public static checkGammeState(gameData: any, myId: Number) {
-        logger.writeLogInfo("" + gameData + myId)
-        return gameStates.GAME_CREATED;
+    public static checkGammeState(gameData: any, myId: any) {
+        
+        let currentUserInGame = false;
+        
+        for (let user in gameData.players) {
+            if (gameData.players[user] == myId) {
+                logger.writeLogInfo("Im in game, myId " + myId + " current_user " + gameData.players[user]);
+                currentUserInGame = true;
+            } else {
+                logger.writeLogInfo("Another user in game, myId " + myId + " current_user " + gameData.players[user]);
+                currentUserInGame = false;
+            }
+        }
+
+        let playersInGame = gameData.players.length;
+
+        if(playersInGame == 0) {
+            logger.writeLogInfo("Game created");
+            return gameStates.GAME_CREATED; 
+        }
+        if(playersInGame < gameData.places && currentUserInGame) {
+            logger.writeLogInfo("Game awsits another players");
+            return gameStates.GAME_AWAIT_ANOTHER_PLAYERS; 
+        }
+        if(playersInGame < gameData.places && !currentUserInGame) {
+            logger.writeLogInfo("Game awaits me");
+            return gameStates.GAME_AWAIT_ME; 
+        }
+        if(playersInGame == gameData.places && gameData.current_user == myId && gameData.finish_moves_cond > gameData.messages_count) {
+            logger.writeLogInfo("Game goes, my turn");
+            return gameStates.GAME_GOES_MY_TURN; 
+        }
+        if(playersInGame == gameData.places && gameData.current_user != myId && gameData.finish_moves_cond > gameData.messages_count) {
+            logger.writeLogInfo("Game goes, another users turn");
+            return gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN; 
+        }
+        if(gameData.finish_moves_cond == gameData.messages_count) {
+            logger.writeLogInfo("Game ended");
+            return gameStates.GAME_ENDED; 
+        }
+
     }
-
-    // private static isGameAwaitPlayers(playes: any, myId: Number) {
-    //     logger.writeLogInfo("Is game await players? And Me too?");
-
-    // }
-
-    // private static isGameGoes(whoPlayingNow: Number, myId: Number, nowPlaying: Number) {
-    //     logger.writeLogInfo("Who plying now?");
-    // }
-
-    // private static isGameEnded(maxTurns: Number, nowTurn: Number, myId: Number) {
-    //     logger.writeLogInfo("Game is Ended?");
-    // }
 
 }

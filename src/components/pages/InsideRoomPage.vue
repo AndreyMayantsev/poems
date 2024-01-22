@@ -113,7 +113,7 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
 import { ConsoleLogger } from '../../Core-prod/Logger/ConsoleLogger';
-import { GameProcessor } from '../../Core-prod/gameProcesses/GameProcesses';
+import { GameProcessor, gameStates } from '../../Core-prod/gameProcesses/GameProcesses';
 
 
 let logger = new ConsoleLogger("INSIDE ROOM");
@@ -122,6 +122,7 @@ export default {
     name: "InsideRoomPage",
     data() {
         return {
+            gameState: gameStates.GAME_CREATED, 
             userIsPlayer: false,
             gameStarted: false,
             message: "",
@@ -138,7 +139,7 @@ export default {
             let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
             this.room = Room.data;
             logger.writeLogInfo("CREATED HOOK: " + JSON.stringify(this.room));
-            GameProcessor.checkGammeState(Room.data);
+            //GameProcessor.checkGammeState(Room.data);
             this.checkUserPlayingInRoom();
             this.composeRoomUsers();
             this.isGameStarted();
@@ -150,14 +151,9 @@ export default {
             window.Echo.channel(roomChannel)
             .listen(".App\\Websockets\\Events\\RoomMessage", (ev)=> {
                 console.log("Получено: " + JSON.stringify(ev));
-            })
-            .listen(".RoomMessage", (ev)=> {
-                console.log("WS: " + ev);
             });
-            window.Echo.channel("test").listen(".test", (event) => {
-                console.log("WS TEST TEST: " + event)
-            })
-            //window.Echo.channel("test")
+
+            logger.writeLogInfo("This game state is: " + GameProcessor.checkGammeState(this.room.data, this.$store.getters.GET_ID));
 
         } catch(error) {
             logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
@@ -179,7 +175,7 @@ export default {
                 let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
                 this.room = Room.data;
                 logger.writeLogInfo("[REFRESH ROOM]: " + JSON.stringify(this.room));
-                GameProcessor.checkGammeState(this.room);
+                logger.writeLogInfo("This game state is: " + GameProcessor.checkGammeState(this.room.data, this.$store.getters.GET_ID));
                 this.checkUserPlayingInRoom();
                 this.composeRoomUsers();
                 this.isGameStarted();
