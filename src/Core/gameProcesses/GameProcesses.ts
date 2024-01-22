@@ -22,6 +22,7 @@ export class GameProcessor {
             if (gameData.players[user] == myId) {
                 logger.writeLogInfo("Im in game, myId " + myId + " current_user " + gameData.players[user]);
                 currentUserInGame = true;
+                break;
             } else {
                 logger.writeLogInfo("Another user in game, myId " + myId + " current_user " + gameData.players[user]);
                 currentUserInGame = false;
