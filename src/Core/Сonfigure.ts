@@ -20,22 +20,3 @@ export const Configure = {
     URL_GET_ROOM : "/api/rooms/", 
 
 }
-
-// Pusher options
-//PUSHER_APP_ID=42323423
-//PUSHER_APP_KEY=645646
-//PUSHER_APP_SECRET=4234341
-//PUSHER_APP_CLUSTER=mt1
-
-export const PusherSettings = {
-        url: 'http://localhost:6001',
-        app_key:'645646',
-        options:{
-            broadcaster: 'pusher',
-            host: 'localhost:6001',
-            key: '645646',
-            cluster: 'mt1',
-            useTLS: false,
-            secret: '4234341'
-        }
-    }

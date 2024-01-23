@@ -3,9 +3,7 @@ import { Quasar, Notify } from 'quasar'
 import App from './App.vue'
 import router from './router/router.js'
 import createStore from './store/store.js'
-//import Pusher from "pusher-js";
 import Echo from 'laravel-echo';
-
 
 // Import Quasar css
 import 'quasar/dist/quasar.css'
@@ -39,7 +37,6 @@ window.Echo = new Echo({
     wsPort: 6001,
     disableStats: true
 });
-
 
 app.mount('#app');
 

@@ -1,6 +1,13 @@
 <template>
     <div class="fixed-center">
         <q-card class="max-width-form center-box">
+            <div v-if="this.gameState == this.gameStates.GAME_CREATED">Новая игра</div> 
+            <div v-if="this.gameState == this.gameStates.GAME_AWAIT_ANOTHER_PLAYERS">Ожидаем игроков</div> 
+            <div v-if="this.gameState == this.gameStates.GAME_AWAIT_ME">Присоеденишься?</div>  
+            <div v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN">Ход другого игрока</div>
+            <div v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_MY_TURN">Ходите!</div>
+            <div v-if="this.gameState == this.gameStates.GAME_ENDED">Игра завершена</div>
+            
             <div class="flex-box paddings">Приветсвуем в игре №{{ this.room.data.id }}  
                 <q-space/>
                     <!-- MENU IN HEAD OF FORM -->
@@ -24,7 +31,7 @@
             <q-separator/>
 
                 <!-- USERS IN ROOM AVATARS -->
-                <div class="flex-box q-pa-md q-gutter-sm">
+                <div class="q-pa-md q-gutter-sm">
                     <div v-for="user in this.roomUsers">
                         <div v-if="user.playing_now">
                             <q-avatar
@@ -131,7 +138,8 @@ export default {
                 data: {
                     players: []
                 }
-            }
+            },
+            gameStates: gameStates,
         }
     },
     async created() {
@@ -139,7 +147,7 @@ export default {
             let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
             this.room = Room.data;
             logger.writeLogInfo("CREATED HOOK: " + JSON.stringify(this.room));
-            //GameProcessor.checkGammeState(Room.data);
+            this.gameState = GameProcessor.checkGammeState(this.room.data, this.$store.getters.GET_ID);
             this.checkUserPlayingInRoom();
             this.composeRoomUsers();
             this.isGameStarted();

@@ -93,8 +93,7 @@ export enum requestType {
     SendMessage,
     EnterRoom,
     EndPoem,
-    LeaveRoom
-    
+    LeaveRoom    
 }
 
 console.log(requestType);
