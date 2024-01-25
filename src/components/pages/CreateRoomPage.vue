@@ -1,17 +1,7 @@
 <template>
-    <div class="fixed-center">
-        <div class="center-box">
+    <div class="flexbox">
+        <div class="window-geometry">
             Введите настройки для новой игры
-
-            <!--
-            <input type="places" size="12" v-model="places" class="defaultinput" placeholder="Мест">
-            <input type="rows_visible" size="12" v-model="rows_visible" class="defaultinput" placeholder="Видно строк">
-            <input type="move_duration" size="12" v-model="move_duration" class="defaultinput" placeholder="Длительность хода">
-            <input type="finish_type" size="12" v-model="finish_type" class="defaultinput" placeholder="Тип завершения">
-            <input type="finish_time_cond" size="12" v-model="finish_time_cond" class="defaultinput" placeholder="Время хода">
-            <input type="finish_moves_cond" size="12" v-model="finish_moves_cond" class="defaultinput" placeholder="Последний ход">
-            <input class="startbutton" type="button" value="Создать" v-on:click="makeRoom">
-            -->
             <q-card>
                 <q-tabs
                     v-model="finish_type"
@@ -23,7 +13,7 @@
                     narrow-indicator
                     >
                     <q-tab name="moves" label="Ходы" />
-                    <q-tab name="times" label="Время" />
+                    <q-tab name="time" label="Время" />
                 </q-tabs>
 
             <q-separator/>

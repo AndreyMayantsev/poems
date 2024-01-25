@@ -88,17 +88,12 @@ export default {
 </script>
 
 <style>
-.max-width-form {
-  max-width: 330px;
+.window-geometry {
+  min-width: 400px;
+  min-height: 400px;
+  max-width: 700px;
+  max-height: 900px;
 }
-.menu-font {
-  btn-text-color: white;
-}
-.center-box {
-  justify-content: center;
-  text-align: center;
-}
-
 .header {
   height: 6%
 }
@@ -108,5 +103,13 @@ export default {
 .wrapper {
   height: 88%;
   min-height: 300px;
+}
+.flexbox {
+  display: flex;
+  Justify-content:center;
+}
+.flexbox-h {
+  display: block;
+  Justify-content:center;
 }
 </style>

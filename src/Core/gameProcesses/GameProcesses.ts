@@ -29,6 +29,8 @@ export class GameProcessor {
             }
         }
 
+        logger.writeLogInfo("CurrentUserInGame: " + currentUserInGame);
+
         let playersInGame = gameData.players.length;
 
         if(playersInGame == 0) {
@@ -43,12 +45,12 @@ export class GameProcessor {
             logger.writeLogInfo("Game awaits me");
             return gameStates.GAME_AWAIT_ME; 
         }
-        if(playersInGame == gameData.places && gameData.current_user == myId && gameData.finish_moves_cond > gameData.messages_count) {
-            logger.writeLogInfo("Game goes, my turn");
+        if(playersInGame == gameData.places && gameData.current_user_id == myId && gameData.finish_moves_cond > gameData.messages_count) {
+            logger.writeLogInfo("Game goes, my turn " + gameData.current_user_id + " | " + myId);
             return gameStates.GAME_GOES_MY_TURN; 
         }
-        if(playersInGame == gameData.places && gameData.current_user != myId && gameData.finish_moves_cond > gameData.messages_count) {
-            logger.writeLogInfo("Game goes, another users turn");
+        if(playersInGame == gameData.places && gameData.current_user_id != myId && gameData.finish_moves_cond > gameData.messages_count) {
+            logger.writeLogInfo("Game goes, another users turn " + gameData.current_user_id + " | " + myId);
             return gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN; 
         }
         if(gameData.finish_moves_cond == gameData.messages_count) {

@@ -1,37 +1,11 @@
 <template>
-    <div class="fixed-center">
-        <q-card class="max-width-form center-box">
-            <div v-if="this.gameState == this.gameStates.GAME_CREATED">Новая игра</div> 
-            <div v-if="this.gameState == this.gameStates.GAME_AWAIT_ANOTHER_PLAYERS">Ожидаем игроков</div> 
-            <div v-if="this.gameState == this.gameStates.GAME_AWAIT_ME">Присоеденишься?</div>  
-            <div v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN">Ход другого игрока</div>
-            <div v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_MY_TURN">Ходите!</div>
-            <div v-if="this.gameState == this.gameStates.GAME_ENDED">Игра завершена</div>
-            
-            <div class="flex-box paddings">Приветсвуем в игре №{{ this.room.data.id }}  
-                <q-space/>
-                    <!-- MENU IN HEAD OF FORM -->
-                    <q-btn color="primary" label="" icon="home">
-                            <q-menu auto-close>
-                                <q-list style="min-width: 100px">
-                                <q-item v-if="!this.userIsPlayer" clickable>
-                                    <q-item-section v-on:click="EnterRoom()">Присоединиться</q-item-section>
-                                </q-item>
-                                <q-item v-if="this.userIsPlayer" clickable>
-                                    <q-item-section v-on:click="LeaveRoom()">Покинуть комнату</q-item-section>
-                                </q-item>
-                                <q-separator />
-                                <q-item v-if="this.userIsPlayer" clickable>
-                                    <q-item-section v-on:click="EndPoem()">Завершение игры</q-item-section>
-                                </q-item>
-                                </q-list>
-                            </q-menu>
-                        </q-btn>  
-                    </div>   
+    <div class="flexbox">
+        <q-card class="window-geometry">
+            <div>Приветсвуем в игре №{{ this.room.data.id }}  
+            </div>   
             <q-separator/>
-
                 <!-- USERS IN ROOM AVATARS -->
-                <div class="q-pa-md q-gutter-sm">
+                <div class="flexbox">
                     <div v-for="user in this.roomUsers">
                         <div v-if="user.playing_now">
                             <q-avatar
@@ -65,53 +39,51 @@
                 </div>
             <q-separator/>
             
-            <!-- Await players for game -->
-            <div v-if="!this.gameStarted" class="paddings">
-                <p></p> 
-                <q-spinner-clock
+            <div class="flexbox-h">
+                <div v-if="this.gameState == this.gameStates.GAME_CREATED"><p>Новая игра</p>
+                    <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
+                </div> 
+                <div v-if="this.gameState == this.gameStates.GAME_AWAIT_ANOTHER_PLAYERS"><p>Вы присоединились! Мы ждем еще игроков...</p>
+                    <q-spinner-clock
                     color="primary"
                     size="5em"
-                    />
-                <q-tooltip :offset="[0, 8]">QSpinnerClock</q-tooltip>
-                <p></p>    
-                <p>Ожмдаются игроки!</p>
+                    /><br><br>
+                    <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
+                </div> 
+                <div v-if="this.gameState == this.gameStates.GAME_AWAIT_ME"><p>Мы ждем еще игроков. Например тебя :)</p>
+                    <q-spinner-clock
+                    color="primary"
+                    size="5em"
+                    /><br><br>
+                    <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
+                </div>  
+                <div class="flexbox-h" v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN">
+                    <p>Ход другого игрока ({{ this.room.data.current_user_id }})</p>
+                    <q-spinner-clock
+                    color="primary"
+                    size="5em"
+                    /><br><br>
+                    <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
+                </div>
+                <div v-if="this.gameState == this.gameStates.GAME_GOES_MY_TURN"><p>Ходите!</p>
+                    <!-- Poems messages as a chat -->    
+                    <div class="flexbox-h q-pa-md">
+                        <q-chat-message
+                            name="Предыдущий игрок: "
+                            :text="['Привет привет!\n Стишок в ответ!']"
+                        />
+                    </div>
+                    <div class="flexbox">    
+                        <q-separator/>
+                        <textarea v-model="message" rows="2" cols="18"></textarea>
+                        <q-btn color="primary" icon="check" label="Отправить" v-on:click="SendMessage()" />
+                    </div>
+                </div>
+                <div v-if="this.gameState == this.gameStates.GAME_ENDED"><p>Игра завершена</p></div>
+                
             </div>
-
-            <!-- Another player wrtten poem now -->
-            
-            <!-- Current player in game -->
-            <!-- Poems messages as a chat -->    
-            <div v-if="this.gameStarted" class="q-pa-md row justify-center paddings">
-                <q-chat-message
-                    name="Предыдущий игрок: "
-                    :text="['Привет привет!\n Стишок в ответ!']"
-                />
-
-                <q-separator/>
-                <p>Ваш ход, сэр!</p>
-                <p></p>  
-                <textarea v-model="message" rows="2" cols="28"></textarea>
-                <q-btn color="primary" icon="check" v-on:click="SendMessage()" />
-            </div>
-
         </q-card>
-
-        <!-- <h4> Играют пользователи ({{ this.room.data.players.length }} из {{ this.room.data.places }}): </h4> -->
-
-        <h6> Ход игрока: {{ this.room.data.current_user_id }} </h6>
-        <h6 v-if="this.room.data.finish_type=='moves'">
-            Сделано {{ this.room.data.messages_count }} ходов из {{ this.room.data.finish_moves_cond }}
-        </h6>
-        <h6 v-if="this.room.data.finish_type=='time'">
-            Игра закончится {{ this.getDate(this.room.data.finish_time_cond) }}
-        </h6>  
-        <textarea v-model="message" rows="2" cols="18"></textarea>
-            <q-btn color="primary" icon="check" label="Отправить" v-on:click="SendMessage()" />
-            <q-btn color="primary" label="Завершить" v-on:click="EndPoem()" />
-            <q-btn round color="secondary" icon="check" /><q-icon name="print" color="teal" size="4.4em" />
-            <input class="startbutton" type="button" value="Отправить" v-on:click="SendMessage()"/>
-   
-        </div>
+    </div>
 
 </template>
 
@@ -148,9 +120,7 @@ export default {
             this.room = Room.data;
             logger.writeLogInfo("CREATED HOOK: " + JSON.stringify(this.room));
             this.gameState = GameProcessor.checkGammeState(this.room.data, this.$store.getters.GET_ID);
-            this.checkUserPlayingInRoom();
             this.composeRoomUsers();
-            this.isGameStarted();
             
             // --- join websocket --- //
 
@@ -184,9 +154,8 @@ export default {
                 this.room = Room.data;
                 logger.writeLogInfo("[REFRESH ROOM]: " + JSON.stringify(this.room));
                 logger.writeLogInfo("This game state is: " + GameProcessor.checkGammeState(this.room.data, this.$store.getters.GET_ID));
-                this.checkUserPlayingInRoom();
+                this.gameState = GameProcessor.checkGammeState(this.room.data, this.$store.getters.GET_ID);
                 this.composeRoomUsers();
-                this.isGameStarted();
             } catch(error) {
                 logger.writeLogError("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
             }
@@ -237,17 +206,6 @@ export default {
             logger.writeLogInfo("Date in getDate(): " + str);
             return date.toLocaleString('ru', this.options)
         },
-        checkUserPlayingInRoom() {
-            logger.writeLogInfo("userIsPlayer = " + this.userIsPlayer)
-            for(let player in this.room.data.players) { 
-                logger.writeLogInfo("PLAYER: " + this.room.data.players[player] + " | " + this.$store.getters.GET_ID)
-                if(this.$store.getters.GET_ID == this.room.data.players[player]) {
-                    logger.writeLogInfo("[Player] User plying in this room" + ": " + this.room.data.players[player] + " = " + this.$store.getters.GET_ID);
-                    this.userIsPlayer = true
-                } 
-            }
-            logger.writeLogInfo("userIsPlayer = " + this.userIsPlayer)
-        },
         composeRoomUsers() {
             let _usersList = []
             logger.writeLogInfo("Максимально пользователей " + this.room.data.places);
@@ -272,10 +230,6 @@ export default {
             logger.writeLogInfo("Список пользователей " + JSON.stringify(_usersList));
             this.roomUsers = _usersList;
         },
-        isGameStarted() {
-            this.gameStarted = this.room.data.places === this.room.data.players.length ? true : false;
-            logger.writeLogInfo("GAME STATE: " + this.gameStarted);
-        }         
     }
 }
 
@@ -295,9 +249,5 @@ export default {
     border-style: solid;
     border-color: #55b131;
     border-width: 2px;
-}
-.paddings {
-    margin: 3px;
-    padding: 3px;
 }
 </style>
