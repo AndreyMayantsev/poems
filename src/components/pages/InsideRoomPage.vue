@@ -1,90 +1,97 @@
 <template>
-    <div class="flexbox">
-        <q-card class="window-geometry">
-            <div>Приветсвуем в игре №{{ this.room.data.id }}  
-            </div>   
-            <q-separator/>
-                <!-- USERS IN ROOM AVATARS -->
-                <div class="flexbox">
-                    <div v-for="user in this.roomUsers">
-                        <div v-if="user.playing_now">
-                            <q-avatar
-                            size="32px"
-                            class="overlapping"
-                            >
-                            <img :src="`https://cdn.quasar.dev/img/avatar1.jpg`">
-                            {{ user }}
-                            <q-badge rounded color="green" floating/>
-                            </q-avatar>
-                        </div>
-                        <div v-if="user.in_game & !user.playing_now">
-                            <q-avatar
-                            size="32px"
-                            class="overlapping"
-                            >
-                            <img :src="`https://cdn.quasar.dev/img/avatar3.jpg`">
-                            {{ user }}
-                            </q-avatar>
-                        </div>
-                        <div v-if="!user.in_game">
-                            <q-avatar
-                            size="32px"
-                            class="overlapping"
-                            icon="star"
-                            >
-                            +
-                            </q-avatar>                           
-                        </div>
+    <div class="InsideRoomPage column height-wrapper-100">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-2"></div>
+                    <div class="col-8">
+                        <q-card class="">
+                            <div>Приветсвуем в игре №{{ this.room.data.id }}  
+                            </div>   
+                            <q-separator/>
+                                <!-- USERS IN ROOM AVATARS -->
+                                <div class="flexbox">
+                                    <div v-for="user in this.roomUsers">
+                                        <div v-if="user.playing_now">
+                                            <q-avatar
+                                            size="32px"
+                                            class="overlapping"
+                                            >
+                                            <img :src="`https://cdn.quasar.dev/img/avatar1.jpg`">
+                                            {{ user }}
+                                            <q-badge rounded color="green" floating/>
+                                            </q-avatar>
+                                        </div>
+                                        <div v-if="user.in_game & !user.playing_now">
+                                            <q-avatar
+                                            size="32px"
+                                            class="overlapping"
+                                            >
+                                            <img :src="`https://cdn.quasar.dev/img/avatar3.jpg`">
+                                            {{ user }}
+                                            </q-avatar>
+                                        </div>
+                                        <div v-if="!user.in_game">
+                                            <q-avatar
+                                            size="32px"
+                                            class="overlapping"
+                                            icon="star"
+                                            >
+                                            +
+                                            </q-avatar>                           
+                                        </div>
+                                    </div>
+                                </div>
+                            <q-separator/>
+                            <div class="">
+                                <div v-if="this.gameState == this.gameStates.GAME_CREATED"><p>Новая игра</p>
+                                    <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
+                                </div> 
+                                <div v-if="this.gameState == this.gameStates.GAME_AWAIT_ANOTHER_PLAYERS"><p>Вы присоединились! Мы ждем еще игроков...</p>
+                                    <q-spinner-clock
+                                    color="primary"
+                                    size="5em"
+                                    /><br><br>
+                                    <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
+                                </div> 
+                                <div v-if="this.gameState == this.gameStates.GAME_AWAIT_ME"><p>Мы ждем еще игроков. Например тебя :)</p>
+                                    <q-spinner-clock
+                                    color="primary"
+                                    size="5em"
+                                    /><br><br>
+                                    <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
+                                </div>  
+                                <div class="flexbox-h" v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN">
+                                    <p>Ход другого игрока ({{ this.room.data.current_user_id }})</p>
+                                    <q-spinner-clock
+                                    color="primary"
+                                    size="5em"
+                                    /><br><br>
+                                    <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
+                                </div>
+                                <div v-if="this.gameState == this.gameStates.GAME_GOES_MY_TURN"><p>Ходите!</p>
+                                    <!-- Poems messages as a chat -->    
+                                    <div class="flexbox-h q-pa-md">
+                                        <q-chat-message
+                                            name="Предыдущий игрок: "
+                                            :text="['Привет привет!\n Стишок в ответ!']"
+                                        />
+                                    </div>
+                                    <div class="flexbox">    
+                                        <q-separator/>
+                                        <textarea v-model="message" rows="2" cols="18"></textarea>
+                                        <q-btn color="primary" icon="check" label="Отправить" v-on:click="SendMessage()" />
+                                    </div>
+                                </div>
+                                <div v-if="this.gameState == this.gameStates.GAME_ENDED"><p>Игра завершена</p></div>
+                            </div>
+                        </q-card>
                     </div>
-                </div>
-            <q-separator/>
-            
-            <div class="flexbox-h">
-                <div v-if="this.gameState == this.gameStates.GAME_CREATED"><p>Новая игра</p>
-                    <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
-                </div> 
-                <div v-if="this.gameState == this.gameStates.GAME_AWAIT_ANOTHER_PLAYERS"><p>Вы присоединились! Мы ждем еще игроков...</p>
-                    <q-spinner-clock
-                    color="primary"
-                    size="5em"
-                    /><br><br>
-                    <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
-                </div> 
-                <div v-if="this.gameState == this.gameStates.GAME_AWAIT_ME"><p>Мы ждем еще игроков. Например тебя :)</p>
-                    <q-spinner-clock
-                    color="primary"
-                    size="5em"
-                    /><br><br>
-                    <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
-                </div>  
-                <div class="flexbox-h" v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN">
-                    <p>Ход другого игрока ({{ this.room.data.current_user_id }})</p>
-                    <q-spinner-clock
-                    color="primary"
-                    size="5em"
-                    /><br><br>
-                    <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
-                </div>
-                <div v-if="this.gameState == this.gameStates.GAME_GOES_MY_TURN"><p>Ходите!</p>
-                    <!-- Poems messages as a chat -->    
-                    <div class="flexbox-h q-pa-md">
-                        <q-chat-message
-                            name="Предыдущий игрок: "
-                            :text="['Привет привет!\n Стишок в ответ!']"
-                        />
-                    </div>
-                    <div class="flexbox">    
-                        <q-separator/>
-                        <textarea v-model="message" rows="2" cols="18"></textarea>
-                        <q-btn color="primary" icon="check" label="Отправить" v-on:click="SendMessage()" />
-                    </div>
-                </div>
-                <div v-if="this.gameState == this.gameStates.GAME_ENDED"><p>Игра завершена</p></div>
-                
+                <div class="col-2"></div>
             </div>
-        </q-card>
-    </div>
-
+        </div>
+        <div class="col-2"></div>
+    </div> 
 </template>
 
 <script>

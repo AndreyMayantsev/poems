@@ -1,5 +1,5 @@
 <template>
-<div >
+<div class="row">
   <q-layout
       view="hHh lpR fFf"
       class="shadow-2 rounded-borders"
@@ -18,7 +18,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-page-container flex>
+    <q-page-container>
         <router-view />
     </q-page-container>
 
@@ -95,7 +95,7 @@ export default {
   max-height: 900px;
 }
 .header {
-  height: 6%
+  height: 6vh;
 }
 .footer {
   height: 5%
@@ -107,9 +107,14 @@ export default {
 .flexbox {
   display: flex;
   Justify-content:center;
+  align-items: center;
 }
 .flexbox-h {
   display: block;
-  Justify-content:center;
+  Justify-content:space-around;
+  align-items:center;
+}
+.height-wrapper-100 {
+  height: 90vh;
 }
 </style>

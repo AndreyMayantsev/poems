@@ -1,23 +1,34 @@
 <template>
-    <div>
-        <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
-        <div class="q-pa-md">
-            Войдите в игру или создайте новую.
-            <div class="row justify-center q-gutter-sm">
-                <div v-for="room in rooms" :key="room.id" >
-                    <RoomBanner 
-                        :created_at = "room.created_at" 
-                        :places = "room.places" 
-                        :users_rooms = "room.room_users.length" 
-                        :finish_type = "room.finish_type" 
-                        :room_id = "room.id" 
-                        v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"
-                    >                
-                    </RoomBanner>
+
+<div class="RoomsListPage column height-wrapper-100">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-2"></div>
+                    <div class="col-8">
+                        <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
+                        <div class="q-pa-md">
+                            Войдите в игру или создайте новую.
+                            <div class="row justify-center q-gutter-sm">
+                                <div v-for="room in rooms" :key="room.id" >
+                                    <RoomBanner 
+                                        :created_at = "room.created_at" 
+                                        :places = "room.places" 
+                                        :users_rooms = "room.room_users.length" 
+                                        :finish_type = "room.finish_type" 
+                                        :room_id = "room.id" 
+                                        v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"
+                                    >                
+                                    </RoomBanner>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-2"></div>
             </div>
-        </div>
-    </div>
-    </div>
+        <div class="col-2"></div>
+    </div> 
+</div>
 </template>
 
 <script>

@@ -1,12 +1,20 @@
 <template>
-    <div class="AutorizationPage">
-        <div class="q-gutter-md center-box">
-            Для входа в игру введите учетные данные и нажмите "Войти"
-            <q-input outlined v-model="login" label="Логин" />
-            <q-input type="password" outlined v-model="password" label="Пароль" />
-            <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
-            <q-btn push color="primary" label="Войти" v-on:click="Autorize"/>
+    <div class="AutorizationPage column height-wrapper-100">
+        <div class="col"></div>
+        <div class="col">
+            <div class="row">
+                <div class="col-2"></div>
+                    <div class="col-8">
+                        Для входа в игру введите учетные данные и нажмите "Войти"
+                        <q-input outlined v-model="login" label="Логин" />
+                        <q-input type="password" outlined v-model="password" label="Пароль" />
+                        <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
+                        <q-btn push color="primary" label="Войти" v-on:click="Autorize"/>
+                    </div>
+                <div class="col-2"></div>
+            </div>
         </div>
+        <div class="col"></div>
     </div>
 </template>
 
@@ -53,10 +61,5 @@ export default {
 </script>
 
 <style scoped>
-    .center-box {
-        margin: auto;
-        text-align: center;
-        border-radius: 4px;
-        max-width: 330px;
-    }
+
 </style>

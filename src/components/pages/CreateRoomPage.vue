@@ -1,127 +1,121 @@
 <template>
-    <div class="flexbox">
-        <div class="window-geometry">
-            Введите настройки для новой игры
-            <q-card>
-                <q-tabs
-                    v-model="finish_type"
-                    dense
-                    class="text-grey"
-                    active-color="primary"
-                    indicator-color="primary"
-                    align="justify"
-                    narrow-indicator
-                    >
-                    <q-tab name="moves" label="Ходы" />
-                    <q-tab name="time" label="Время" />
-                </q-tabs>
 
-            <q-separator/>
-
-            <q-tab-panels v-model="finish_type" animated>
-            <q-tab-panel name="moves">
-                <img class="border-image "
-                    src="@/assets/steps.png"
-                /><br>
-                Игра завершается после определенного количества шагов, стихотворение публикуется.
-
-                <!-- game for steps -->
-
-                <div class="q-px-lg q-pt-md">
-                    <q-slider
-                    v-model="places"
-                    :min="3"
-                    :max="8"
-                    />
-                    <q-badge>Количество игроков: {{ places }}</q-badge>
-                </div>
-                <div class="q-px-lg q-pt-md">
-                    <q-slider
-                    v-model="rows_visible"
-                    :min="1"
-                    :max="4"
-                    />
-                    <q-badge>Количество видимых строк: {{ rows_visible }}</q-badge>
-                </div>
-                <div class="q-px-lg q-pt-md">
-                    <q-slider
-                    v-model="move_duration"
-                    :min="1"
-                    :max="60"
-                    />
-                    <q-badge>Длительность хода (минут): {{ move_duration }}</q-badge>
-                </div>
-                <div class="q-px-lg q-pt-md">
-                    <q-slider
-                    v-model="finish_moves_cond"
-                    :min="1"
-                    :max="60"
-                    />
-                    <q-badge>Количество ходов: {{ finish_moves_cond }}</q-badge>
-                    <q-separator/>
-                </div>
-                <div class="q-px-lg q-pt-md">
-                    <q-btn push color="primary" label="Создать" v-on:click="makeRoom"/>
-                </div>
-
-                <!-- game for steps -->
-
-            </q-tab-panel>
-
-            <q-tab-panel name="time">
-                <img class="border-image "
-                    src="@/assets/times.png"
-                /><br>
-                Игра завершается по прошествии определенного времени, стихотворение публикуется.
-                
-                <!-- game for times -->
-
-                <div class="q-px-lg q-pt-md">
-                    <q-slider
-                    v-model="places"
-                    :min="3"
-                    :max="8"
-                    />
-                    <q-badge>Количество игроков: {{ places }}</q-badge>
-                </div>
-                <div class="q-px-lg q-pt-md">
-                    <q-slider
-                    v-model="rows_visible"
-                    :min="1"
-                    :max="4"
-                    />
-                    <q-badge>Количество видимых строк: {{ rows_visible }}</q-badge>
-                </div>
-                <div class="q-px-lg q-pt-md">
-                    <q-slider
-                    v-model="move_duration"
-                    :min="1"
-                    :max="60"
-                    />
-                    <q-badge>Длительность хода (минут): {{ move_duration }}</q-badge>
-                </div>
-                <div class="q-px-lg q-pt-md">
-                    <q-slider
-                    v-model="finish_time_cond"
-                    :min="10"
-                    :max="180"
-                    />
-                    <q-badge>Длительность игры (минут): {{ finish_time_cond }}</q-badge>
-                    <q-separator/>
-                </div>
-                <div class="q-px-lg q-pt-md">
-                    <q-btn push color="primary" label="Создать" v-on:click="makeRoom"/>
-                </div>
-
-                <!-- game for times -->
-
-            </q-tab-panel>
-
-            </q-tab-panels>
-        </q-card>
-
+<div class="CreateRoomPage column height-wrapper-100">
+        <div class="col"></div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-2"></div>
+                    <div class="col-8">
+                        Введите настройки для новой игры
+                            <q-card>
+                                <q-tabs
+                                    v-model="finish_type"
+                                    dense
+                                    class="text-grey"
+                                    active-color="primary"
+                                    indicator-color="primary"
+                                    align="justify"
+                                    narrow-indicator
+                                    >
+                                    <q-tab name="moves" label="Ходы" />
+                                    <q-tab name="time" label="Время" />
+                                </q-tabs>
+                            <q-separator/>
+                            <q-tab-panels v-model="finish_type" animated>
+                            <q-tab-panel name="moves">
+                                <img class="border-image "
+                                    src="@/assets/steps.png"
+                                /><br>
+                                Игра завершается после определенного количества шагов, стихотворение публикуется.
+                                <!-- game for steps -->
+                                <div class="q-px-lg q-pt-md">
+                                    <q-slider
+                                    v-model="places"
+                                    :min="3"
+                                    :max="8"
+                                    />
+                                    <q-badge>Количество игроков: {{ places }}</q-badge>
+                                </div>
+                                <div class="q-px-lg q-pt-md">
+                                    <q-slider
+                                    v-model="rows_visible"
+                                    :min="1"
+                                    :max="4"
+                                    />
+                                    <q-badge>Количество видимых строк: {{ rows_visible }}</q-badge>
+                                </div>
+                                <div class="q-px-lg q-pt-md">
+                                    <q-slider
+                                    v-model="move_duration"
+                                    :min="1"
+                                    :max="60"
+                                    />
+                                    <q-badge>Длительность хода (минут): {{ move_duration }}</q-badge>
+                                </div>
+                                <div class="q-px-lg q-pt-md">
+                                    <q-slider
+                                    v-model="finish_moves_cond"
+                                    :min="1"
+                                    :max="60"
+                                    />
+                                    <q-badge>Количество ходов: {{ finish_moves_cond }}</q-badge>
+                                    <q-separator/>
+                                </div>
+                                <div class="q-px-lg q-pt-md">
+                                    <q-btn push color="primary" label="Создать" v-on:click="makeRoom"/>
+                                </div>
+                            </q-tab-panel>
+                            <q-tab-panel name="time">
+                                <img class="border-image "
+                                    src="@/assets/times.png"
+                                /><br>
+                                Игра завершается по прошествии определенного времени, стихотворение публикуется.
+                                <!-- game for times -->
+                                <div class="q-px-lg q-pt-md">
+                                    <q-slider
+                                    v-model="places"
+                                    :min="3"
+                                    :max="8"
+                                    />
+                                    <q-badge>Количество игроков: {{ places }}</q-badge>
+                                </div>
+                                <div class="q-px-lg q-pt-md">
+                                    <q-slider
+                                    v-model="rows_visible"
+                                    :min="1"
+                                    :max="4"
+                                    />
+                                    <q-badge>Количество видимых строк: {{ rows_visible }}</q-badge>
+                                </div>
+                                <div class="q-px-lg q-pt-md">
+                                    <q-slider
+                                    v-model="move_duration"
+                                    :min="1"
+                                    :max="60"
+                                    />
+                                    <q-badge>Длительность хода (минут): {{ move_duration }}</q-badge>
+                                </div>
+                                <div class="q-px-lg q-pt-md">
+                                    <q-slider
+                                    v-model="finish_time_cond"
+                                    :min="10"
+                                    :max="180"
+                                    />
+                                    <q-badge>Длительность игры (минут): {{ finish_time_cond }}</q-badge>
+                                    <q-separator/>
+                                </div>
+                                <div class="q-px-lg q-pt-md">
+                                    <q-btn push color="primary" label="Создать" v-on:click="makeRoom"/>
+                                </div>
+                            </q-tab-panel>
+                            </q-tab-panels>
+                        </q-card>
+                    </div>
+                <div class="col-2"></div>
+            </div>
         </div>
-    </div>
+        <div class="col"></div>
+    </div> 
 
 </template>
 
