@@ -1,7 +1,7 @@
 <template>
-<div class="row">
+<div>
   <q-layout
-      view="hHh lpR fFf"
+      view="lHh lpR lFf"
       class="shadow-2 rounded-borders"
       :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
     >
@@ -50,7 +50,7 @@ export default {
     },
     data() {
         return {
-            isUserAutorized: this.$store.getters.IS_USER_AUTORIZED
+            isUserAutorized: this.$store.getters.IS_USER_AUTORIZED,
         }
     },
     mounted() {
@@ -104,17 +104,11 @@ export default {
   height: 88%;
   min-height: 300px;
 }
-.flexbox {
-  display: flex;
-  Justify-content:center;
-  align-items: center;
-}
-.flexbox-h {
-  display: block;
-  Justify-content:space-around;
-  align-items:center;
-}
+
 .height-wrapper-100 {
   height: 90vh;
+}
+.auto-margin {
+  margin: auto;
 }
 </style>

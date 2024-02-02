@@ -3,8 +3,8 @@
         <div class="col-2"></div>
         <div class="col-8">
             <div class="row">
-                <div class="col-2"></div>
-                    <div class="col-8">
+                <div class="col"></div>
+                    <div class="col-xs-10 col-sm-8 col-md-4">
                         Для регистрации введите учетные данные и нажмите "Регистрация"
                         <q-input outlined v-model="login" label="Логин" />
                         <q-input type="email" outlined v-model="email" label="Электронная почта" />
@@ -13,7 +13,7 @@
                         <span class="text-caption">Нажимая "Регистрация" Вы соглашаетесь с соглашением, ну тут как всегда =)</span>
                         <q-btn push color="primary" label="Регистрация" v-on:click="Registration"/>
                     </div>
-                <div class="col-2"></div>
+                <div class="col"></div>
             </div>
         </div>
         <div class="col-2"></div>

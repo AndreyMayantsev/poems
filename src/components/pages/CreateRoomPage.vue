@@ -2,10 +2,9 @@
 
 <div class="CreateRoomPage column height-wrapper-100">
         <div class="col"></div>
-        <div class="col-8">
             <div class="row">
-                <div class="col-2"></div>
-                    <div class="col-8">
+                <div class="col"></div>
+                <div class="col-xs-10 col-sm-8 col-md-4">
                         Введите настройки для новой игры
                             <q-card>
                                 <q-tabs
@@ -110,9 +109,9 @@
                             </q-tab-panel>
                             </q-tab-panels>
                         </q-card>
-                    </div>
-                <div class="col-2"></div>
+
             </div>
+            <div class="col"></div>
         </div>
         <div class="col"></div>
     </div> 

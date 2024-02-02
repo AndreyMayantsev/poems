@@ -1,20 +1,18 @@
 <template>
     <div class="AutorizationPage column height-wrapper-100">
         <div class="col"></div>
-        <div class="col">
             <div class="row">
-                <div class="col-2"></div>
-                    <div class="col-8">
+                <div class="col"></div>
+                <div class="col-xs-10 col-sm-8 col-md-4">
                         Для входа в игру введите учетные данные и нажмите "Войти"
                         <q-input outlined v-model="login" label="Логин" />
                         <q-input type="password" outlined v-model="password" label="Пароль" />
                         <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
                         <q-btn push color="primary" label="Войти" v-on:click="Autorize"/>
-                    </div>
-                <div class="col-2"></div>
+                </div>
+                <div class="col"></div>
             </div>
-        </div>
-        <div class="col"></div>
+            <div class="col"></div>
     </div>
 </template>
 

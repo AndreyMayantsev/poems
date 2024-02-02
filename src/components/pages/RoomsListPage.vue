@@ -4,12 +4,12 @@
         <div class="col-2"></div>
         <div class="col-8">
             <div class="row">
-                <div class="col-2"></div>
-                    <div class="col-8">
+                <div class="col"></div>
+                    <div class="col-xs-10 col-sm-8 col-md-4">
                         <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
-                        <div class="q-pa-md">
+                        <div class="">
                             Войдите в игру или создайте новую.
-                            <div class="row justify-center q-gutter-sm">
+                            <div class="q-gutter-sm">
                                 <div v-for="room in rooms" :key="room.id" >
                                     <RoomBanner 
                                         :created_at = "room.created_at" 
@@ -24,7 +24,7 @@
                             </div>
                         </div>
                     </div>
-                <div class="col-2"></div>
+                <div class="col"></div>
             </div>
         <div class="col-2"></div>
     </div> 
