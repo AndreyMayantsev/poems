@@ -1,6 +1,6 @@
 <template>
     <div class="AutorizationPage column height-wrapper-100">
-        <div class="col"></div>
+        <div class="col-xs-1 col-sm-2 col-md-2"></div>
             <div class="row">
                 <div class="col"></div>
                 <div class="col-xs-10 col-sm-8 col-md-4">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="col"></div>
             </div>
-            <div class="col"></div>
+        <div class="col-xs-1 col-sm-2 col-md-2"></div>
     </div>
 </template>
 

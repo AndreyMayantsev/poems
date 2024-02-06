@@ -1,19 +1,19 @@
 <template>
 
-<div class="CreateRoomPage column height-wrapper-100">
-        <div class="col"></div>
+<div class="AutorizationPage column height-wrapper-100">
+        <div class="col-xs-1 col-sm-2 col-md-2"></div>
             <div class="row">
                 <div class="col"></div>
                 <div class="col-xs-10 col-sm-8 col-md-4">
-                        Введите настройки для новой игры
-                            <q-card>
+                    <div>
+                    Введите настройки для новой игры
+                        <q-card>
                                 <q-tabs
                                     v-model="finish_type"
                                     dense
                                     class="text-grey"
                                     active-color="primary"
                                     indicator-color="primary"
-                                    align="justify"
                                     narrow-indicator
                                     >
                                     <q-tab name="moves" label="Ходы" />
@@ -109,12 +109,12 @@
                             </q-tab-panel>
                             </q-tab-panels>
                         </q-card>
-
+                    </div>
+                </div>
+                <div class="col"></div>
             </div>
-            <div class="col"></div>
-        </div>
-        <div class="col"></div>
-    </div> 
+
+    </div>
 
 </template>
 
