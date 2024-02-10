@@ -1,10 +1,10 @@
 <template>
 
-<div class="AutorizationPage column height-wrapper-100">
+<div class="CreateRoomPage column height-wrapper-100">
         <div class="col-xs-1 col-sm-2 col-md-2"></div>
-            <div class="row">
-                <div class="col"></div>
-                <div class="col-xs-10 col-sm-8 col-md-4">
+        <div class="row col-xs-10 col-sm-8 col-md-8">
+                <div class="col-xs-1 col-sm-2 col-md-3"></div>
+                <div class="col-xs-10 col-sm-8 col-md-6">
                     <div>
                     Введите настройки для новой игры
                         <q-card>
@@ -111,9 +111,9 @@
                         </q-card>
                     </div>
                 </div>
-                <div class="col"></div>
+                <div class="col-xs-1 col-sm-2 col-md-3"></div>
             </div>
-
+            <div class="col-xs-1 col-sm-2 col-md-2"></div>
     </div>
 
 </template>

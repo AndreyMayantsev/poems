@@ -4,7 +4,7 @@
         <div class="col">
             <div class="row">
                 <div class="col"></div>
-                    <div class="col-xs-10 col-sm-8 col-md-4">
+                    <div class="col-xs-10 col-sm-8 col-md-2">
                         Для регистрации введите учетные данные и нажмите "Регистрация"
                         <q-input outlined v-model="login" label="Логин" />
                         <q-input type="email" outlined v-model="email" label="Электронная почта" />

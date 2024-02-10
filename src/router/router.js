@@ -9,6 +9,7 @@ import RoomsListPage from '../components/pages/RoomsListPage.vue'
 import MainWindow from '../components/MainWindow.vue'
 import ErrorPage from '../components/pages/ErrorPage.vue'
 import NotFound from '../components/pages/404.vue'
+import CreateRoomPageRedesign from '../components/pages/CreateRoomPageRedesign'
 import NoInternetConnection from '../components/pages/NoInternetConnection.vue'
 
 
@@ -40,7 +41,19 @@ export default createRouter({
             name: 'createroom', 
             component: CreateRoomPage,
             beforeEnter: (to, from, next) => {
-                if(localStorage.getItem('auth')) {
+                if(localStorage.getItem('auth')) { 
+                    next()
+                } else {
+                    next({ name: "auth"})
+                }
+            }  
+        },
+        { 
+            path: '/room', 
+            name: 'createroomredesign', 
+            component: CreateRoomPageRedesign,
+            beforeEnter: (to, from, next) => {
+                if(localStorage.getItem('auth')) { //CreateRoomPageRedesign
                     next()
                 } else {
                     next({ name: "auth"})

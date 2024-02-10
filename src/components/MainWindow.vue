@@ -111,4 +111,9 @@ export default {
 .auto-margin {
   margin: auto;
 }
+.blurtoolbar {
+  background-color: #0000001a;
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
 </style>

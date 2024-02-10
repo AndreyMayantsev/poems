@@ -3,7 +3,7 @@
         <div class="col-xs-1 col-sm-2 col-md-2"></div>
             <div class="row">
                 <div class="col"></div>
-                <div class="col-xs-10 col-sm-8 col-md-4">
+                <div class="col-xs-10 col-sm-8 col-md-2">
                         Для входа в игру введите учетные данные и нажмите "Войти"
                         <q-input outlined v-model="login" label="Логин" />
                         <q-input type="password" outlined v-model="password" label="Пароль" />
