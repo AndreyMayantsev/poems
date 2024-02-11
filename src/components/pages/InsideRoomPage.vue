@@ -1,10 +1,11 @@
 <template>
-    <div class="InsideRoomPage column height-wrapper-100">
-        <div class="col-xs-0 col-sm-2 col-md-2"></div>
-        <div class="col">
-            <div class="row">
-                <div class="col"></div>
-                    <div class="col-xs-10 col-sm-8 col-md-4">
+
+<div class="InsideRoomPage column height-wrapper-100">
+        <div class="col-xs-1 col-sm-2 col-md-2"></div>
+        <div class="row col-xs-10 col-sm-8 col-md-8">
+            <div class="col-xs-1 col-sm-2 col-md-3"></div>
+                <div class="col-xs-10 col-sm-8 col-md-6">
+                    <div>
                         <q-card class="">
                             <div>Приветсвуем в игре №{{ this.room.data.id }}  
                             </div>   
@@ -87,11 +88,12 @@
                             </div>
                         </q-card>
                     </div>
-                <div class="col"></div>
+                </div>
+                <div class="col-xs-1 col-sm-2 col-md-3"></div>
             </div>
-        </div>
-        <div class="col-xs-0 col-sm-2 col-md-2"></div>
-    </div> 
+        <div class="col-xs-1 col-sm-2 col-md-2"></div>
+</div>
+
 </template>
 
 <script>
@@ -119,6 +121,7 @@ export default {
                 }
             },
             gameStates: gameStates,
+            nowPoemStrings: ""
         }
     },
     async created() {
@@ -136,6 +139,8 @@ export default {
             window.Echo.channel(roomChannel)
             .listen(".App\\Websockets\\Events\\RoomMessage", (ev)=> {
                 console.log("Получено: " + JSON.stringify(ev));
+                this.RefreshRoom();
+                // this.nowPoemStrings = ev
             });
 
             logger.writeLogInfo("This game state is: " + GameProcessor.checkGammeState(this.room.data, this.$store.getters.GET_ID));
