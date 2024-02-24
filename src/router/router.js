@@ -11,6 +11,7 @@ import ErrorPage from '../components/pages/ErrorPage.vue'
 import NotFound from '../components/pages/404.vue'
 import CreateRoomPageRedesign from '../components/pages/CreateRoomPageRedesign'
 import NoInternetConnection from '../components/pages/NoInternetConnection.vue'
+import MainMenu from '../components/pages/MainMenu.vue'
 
 
 export default createRouter({
@@ -20,6 +21,11 @@ export default createRouter({
             path: '/', 
             name: 'mainpage', 
             component: MainWindow 
+        },
+        { 
+            path: '/menu', 
+            name: 'menu', 
+            component: MainMenu 
         },
         { 
             path: '/tests', 

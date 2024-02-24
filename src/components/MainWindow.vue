@@ -6,7 +6,7 @@
       :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
     >
 
-    <q-header v-if="!this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="bg-primary text-white">
+    <q-header v-if="!this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="text-white" style="background-color: #d19621ce;">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
@@ -22,7 +22,7 @@
         <router-view />
     </q-page-container>
 
-    <q-footer v-if="this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="bg-secondary text-white">
+    <q-footer v-if="this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="text-white" style="background-color: #471C1C;">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
@@ -88,12 +88,56 @@ export default {
 </script>
 
 <style>
-.window-geometry {
-  min-width: 400px;
-  min-height: 400px;
-  max-width: 700px;
-  max-height: 900px;
+@font-face {
+    font-family: 'Marck Script';
+    src: local('Marck Script'), local('MarckScript-Regular'), 
+    url('../assets/fonts/marckscript.woff2') format('woff2'), 
+    url('../assets/fonts/marckscript.woff') format('woff'), 
+    url('../assets/fonts/marckscript.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
 }
+@font-face {
+    font-family: 'LT Remark';
+    src: local('LT Remark'), local('LT Remark-Regular'), 
+    url('../assets/fonts/LTRemark.woff2') format('woff2'), 
+    url('../assets/fonts/LTRemark.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+.menu-font {
+  font-family: "LT Remark";
+  font-size: 3.8rem;
+  line-height: .9;
+  letter-spacing: 0;
+  text-decoration-style: solid;
+  cursor: pointer;
+}
+.text-font {
+  font-family: "LT Remark";
+  font-size: 1.5rem;
+  line-height: .9;
+  letter-spacing: 0;
+  text-decoration-style: solid;
+  cursor: pointer;
+}
+.header-font {
+  font-family: "Marck Script";
+  font-size: 3.8rem;
+  line-height: .9;
+  letter-spacing: 0;
+  text-decoration-style: solid;
+  cursor: pointer;
+}
+.header-font-mini {
+  font-family: "Marck Script";
+  font-size: 1.8rem;
+  line-height: .9;
+  letter-spacing: 0;
+  text-decoration-style: solid;
+  cursor: pointer;
+}
+
 .header {
   height: 6vh;
 }
@@ -116,4 +160,5 @@ export default {
   -webkit-backdrop-filter: blur(7px);
   backdrop-filter: blur(7px);
 }
+
 </style>

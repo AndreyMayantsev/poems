@@ -9,17 +9,21 @@
                         <div class="">
                             Войдите в игру или создайте новую.
                             <div class="q-gutter-sm">
-                                <div v-for="room in rooms" :key="room.id" >
-                                    <RoomBanner 
-                                        :created_at = "room.created_at" 
-                                        :places = "room.places" 
-                                        :users_rooms = "room.room_users.length" 
-                                        :finish_type = "room.finish_type" 
-                                        :room_id = "room.id" 
-                                        v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"
-                                    >                
-                                    </RoomBanner>
-                                </div>
+                                <div class="q-ma-md">
+                                <q-scroll-area style="height: 60vh; max-width: 65vh;">
+                                    <div v-for="room in rooms" :key="room.id" >
+                                        <RoomBanner 
+                                            :created_at = "room.created_at" 
+                                            :places = "room.places" 
+                                            :users_rooms = "room.room_users.length" 
+                                            :finish_type = "room.finish_type" 
+                                            :room_id = "room.id" 
+                                            v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"
+                                        >                
+                                        </RoomBanner>
+                                    </div>
+                                </q-scroll-area>
+                            </div>
                             </div>
                         </div>
                 </div>

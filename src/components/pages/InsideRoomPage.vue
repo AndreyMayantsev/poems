@@ -63,19 +63,20 @@
                                     <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
                                 </div>  
                                 <div class="flexbox-h" v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN">
-                                    <p>Ход другого игрока ({{ this.room.data.current_user_id }})</p>
+                                    <p>Ход другого игрока: {{ this.room.data.current_user_id }}</p>
                                     <q-spinner-clock
                                     color="primary"
                                     size="5em"
                                     /><br><br>
                                     <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
+                                    <q-btn push color="primary" label="Стих" v-on:click="EndPoem()"/>
                                 </div>
                                 <div v-if="this.gameState == this.gameStates.GAME_GOES_MY_TURN"><p>Ходите!</p>
                                     <!-- Poems messages as a chat -->    
                                     <div class="flexbox-h q-pa-md">
                                         <q-chat-message
                                             name="Предыдущий игрок: "
-                                            :text="['Привет привет!\n Стишок в ответ!']"
+                                            :text="this.nowPoemStrings"
                                         />
                                     </div>
                                     <div class="flexbox">    
@@ -84,7 +85,12 @@
                                         <q-btn color="primary" icon="check" label="Отправить" v-on:click="SendMessage()" />
                                     </div>
                                 </div>
-                                <div v-if="this.gameState == this.gameStates.GAME_ENDED"><p>Игра завершена</p></div>
+                                <div v-if="this.gameState == this.gameStates.GAME_ENDED">
+                                    <p>Игра завершена</p>
+                                    <q-scroll-area style="height: 60vh; max-width: 65vh;">
+                                        
+                                    </q-scroll-area>
+                                </div>
                             </div>
                         </q-card>
                     </div>
@@ -121,7 +127,8 @@ export default {
                 }
             },
             gameStates: gameStates,
-            nowPoemStrings: ""
+            nowPoemStrings: [],
+            endedPoem: []
         }
     },
     async created() {
@@ -140,7 +147,10 @@ export default {
             .listen(".App\\Websockets\\Events\\RoomMessage", (ev)=> {
                 console.log("Получено: " + JSON.stringify(ev));
                 this.RefreshRoom();
-                // this.nowPoemStrings = ev
+                if(ev.message != null) {
+                    this.nowPoemStrings = ev.message.split("\n");
+                }
+                // this.nowPoemStrings = (ev.message != null) ? ev.message.split("\n") : [];
             });
 
             logger.writeLogInfo("This game state is: " + GameProcessor.checkGammeState(this.room.data, this.$store.getters.GET_ID));
