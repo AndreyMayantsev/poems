@@ -1,14 +1,14 @@
 <template>
 
 <div class="InsideRoomPage column height-wrapper-100">
-        <div class="col-xs-1 col-sm-2 col-md-2"></div>
-        <div class="row col-xs-10 col-sm-8 col-md-8">
-            <div class="col-xs-1 col-sm-2 col-md-3"></div>
-                <div class="col-xs-10 col-sm-8 col-md-6">
-                    <div>
-                        <q-card class="">
-                            <div>Приветсвуем в игре №{{ this.room.data.id }}  
-                            </div>   
+
+    <div class="NotFound">
+        <WindowDefault
+            caption="В игре!"
+            text=""
+        >
+            <q-card class="">
+                            <div>Приветсвуем в игре №{{ this.room.data.id }} </div>   
                             <q-separator/>
                                 <!-- USERS IN ROOM AVATARS -->
                                 <div class="flexbox">
@@ -93,11 +93,9 @@
                                 </div>
                             </div>
                         </q-card>
-                    </div>
-                </div>
-                <div class="col-xs-1 col-sm-2 col-md-3"></div>
-            </div>
-        <div class="col-xs-1 col-sm-2 col-md-2"></div>
+        </WindowDefault>
+    </div>
+
 </div>
 
 </template>
@@ -108,7 +106,8 @@ import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFact
 import { requestType } from '../../Core-prod/api/dataTypes';
 import { ConsoleLogger } from '../../Core-prod/Logger/ConsoleLogger';
 import { GameProcessor, gameStates } from '../../Core-prod/gameProcesses/GameProcesses';
-
+import WindowDefault from '../uiElements/window/WindowDefault.vue';
+//import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 let logger = new ConsoleLogger("INSIDE ROOM");
 
@@ -130,6 +129,9 @@ export default {
             nowPoemStrings: [],
             endedPoem: []
         }
+    },
+    components: {
+        WindowDefault
     },
     async created() {
         try {

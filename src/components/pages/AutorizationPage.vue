@@ -1,21 +1,18 @@
 <template>
 
-<div class="AutorizationPage column height-wrapper-100">
-        <div class="col-xs-1 col-sm-2 col-md-2"></div>
-        <div class="row col-xs-10 col-sm-8 col-md-8">
-            <div class="col-xs-1 col-sm-2 col-md-3"></div>
-                <div class="col-xs-10 col-sm-8 col-md-6">
-                    <div>
-                        Для входа в игру введите учетные данные и нажмите "Войти"
-                        <q-input outlined v-model="login" label="Логин" />
-                        <q-input type="password" outlined v-model="password" label="Пароль" />
-                        <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
-                        <q-btn push color="primary" label="Войти" v-on:click="Autorize"/>
-                    </div>
-                </div>
-                <div class="col-xs-1 col-sm-2 col-md-3"></div>
-            </div>
-        <div class="col-xs-1 col-sm-2 col-md-2"></div>
+<div class="AutorizationPage">
+        <WindowDefault
+            caption="Войти"
+            text="Для входа в игру введите учетные данные и нажмите 'Войти'. Если Вы небыли зарегистрированы ранее - пройдите регистрацию."
+        >
+            <q-separator/>
+            <q-input class="padding-el" outlined v-model="login" label="Логин" />
+            <q-input class="padding-el" type="password" outlined v-model="password" label="Пароль" />
+            <q-separator/>
+            <SimpleButton class="padding-el" caption="Войти" v-on:click="Autorize"></SimpleButton>
+
+        <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
+        </WindowDefault>
 </div>
 
 
@@ -26,6 +23,8 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
 import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer';
+import WindowDefault from '../uiElements/window/WindowDefault.vue';
+import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 export default {
     name: "AutorizationPage",
@@ -35,7 +34,10 @@ export default {
             password: "",
         }
     },
-
+    components: {
+        WindowDefault,
+        SimpleButton
+    },
     methods: {
         async Autorize() {
 
@@ -64,5 +66,11 @@ export default {
 </script>
 
 <style scoped>
-
+.wlimit {
+    width: 98%;
+    padding: 10px;
+}
+.padding-el {
+    padding: 5px;
+}
 </style>

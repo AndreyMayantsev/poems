@@ -2,9 +2,9 @@
     <div class="WindowDefault column height-wrapper-100">
         <div class="col-xs-0 col-sm-2 col-md-2"></div>
         <div class="row col-xs-12 col-sm-8 col-md-8">
-            <div class="col-xs-1 col-sm-2 col-md-3"></div>
-                <div class="col-xs-10 col-sm-8 col-md-6">
-                    <div class="window-layout">
+            <div class="col-xs-0 col-sm-2 col-md-4"></div>
+                <div class="col-xs-12 col-sm-8 col-md-4">
+                    <div class="window-layout flb-v">
                         <div class="window-header">
                             <p class="header-font">{{ this.caption }}</p>
                         </div> 
@@ -12,7 +12,7 @@
                         <slot></slot>
                     </div>
                 </div>
-                <div class="col-xs-1 col-sm-2 col-md-3"></div>
+                <div class="col-xs-0 col-sm-2 col-md-4"></div>
             </div>
         <div class="col-xs-0 col-sm-2 col-md-2"></div>
     </div>
@@ -41,11 +41,10 @@ export default {
 
 <style scoped>
 .window-layout {  
-    opacity: 0.95;
     text-align: center;
     background-color: #dbcab3;
     border-radius: 4px;
-    padding: 15px;
+    padding: 12px;
     box-shadow: 0 0 8px rgba(173, 136, 32, 0.5);
 }
 .window-header {  
@@ -62,14 +61,14 @@ export default {
 }
 .text-font {
   font-family: "LT Remark";
-  font-size: 1.3rem;
-  line-height: .9;
+  font-size: 1.2rem;
+  line-height: .8;
   letter-spacing: 0;
   text-decoration-style: solid;
 }
 .header-font {
   font-family: "Marck Script";
-  font-size: 3.8rem;
+  font-size: 3.5rem;
   line-height: .9;
   letter-spacing: 0;
   text-decoration-style: solid;
@@ -80,5 +79,10 @@ export default {
   line-height: .9;
   letter-spacing: 0;
   text-decoration-style: solid;
+}
+.flb-v {
+    display: block;
+	justify-content: center;
+	align-items: center;
 }
 </style>

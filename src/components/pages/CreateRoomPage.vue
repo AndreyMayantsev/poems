@@ -1,13 +1,13 @@
 <template>
 
 <div class="CreateRoomPage column height-wrapper-100">
-        <div class="col-xs-1 col-sm-2 col-md-2"></div>
-        <div class="row col-xs-10 col-sm-8 col-md-8">
-                <div class="col-xs-1 col-sm-2 col-md-3"></div>
-                <div class="col-xs-10 col-sm-8 col-md-6">
-                    <div>
-                    Введите настройки для новой игры
-                        <q-card>
+
+    <WindowDefault
+            caption="Новая игра"
+            text="Введите настройки для новой игры"
+        >
+            <q-separator/>
+            <q-card>
                                 <q-tabs
                                     v-model="finish_type"
                                     dense
@@ -61,7 +61,7 @@
                                     <q-separator/>
                                 </div>
                                 <div class="q-px-lg q-pt-md">
-                                    <q-btn push color="primary" label="Создать" v-on:click="makeRoom"/>
+                                <SimpleButton class="padding-el" caption="Создать" v-on:click="makeRoom"></SimpleButton>
                                 </div>
                             </q-tab-panel>
                             <q-tab-panel name="time">
@@ -104,23 +104,22 @@
                                     <q-separator/>
                                 </div>
                                 <div class="q-px-lg q-pt-md">
-                                    <q-btn push color="primary" label="Создать" v-on:click="makeRoom"/>
+                                <SimpleButton class="padding-el" caption="Создать" v-on:click="makeRoom"></SimpleButton>
                                 </div>
                             </q-tab-panel>
                             </q-tab-panels>
                         </q-card>
-                    </div>
-                </div>
-                <div class="col-xs-1 col-sm-2 col-md-3"></div>
-            </div>
-            <div class="col-xs-1 col-sm-2 col-md-2"></div>
-    </div>
+
+        </WindowDefault>
+</div>
 
 </template>
 
 <script>
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
+import WindowDefault from '../uiElements/window/WindowDefault.vue';
+import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 export default {
     name: "CreateRoomPage",
@@ -135,7 +134,10 @@ export default {
             finish_moves_cond: 28
         }
     },
-
+    components: {
+        WindowDefault,
+        SimpleButton
+    },
     methods: {
         async makeRoom() {
             let createroom = { 
@@ -170,4 +172,7 @@ export default {
         width: 48px; 
         height: 48px
     }
+.padding-el {
+    padding: 5px;
+}
 </style>

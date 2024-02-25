@@ -1,33 +1,27 @@
 <template>
-
 <div class="RegistrationPage column height-wrapper-100">
-        <div class="col-xs-1 col-sm-2 col-md-2"></div>
-        <div class="row col-xs-10 col-sm-8 col-md-8">
-            <div class="col-xs-1 col-sm-2 col-md-3"></div>
-                <div class="col-xs-10 col-sm-8 col-md-6">
-                    <div>
-                        Для регистрации введите учетные данные и нажмите "Регистрация"
-                        <q-input outlined v-model="login" label="Логин" />
-                        <q-input type="email" outlined v-model="email" label="Электронная почта" />
-                        <q-input type="password" outlined v-model="password" label="Пароль" />
-                        <q-input type="password" outlined v-model="password_verify" label="Повторите пароль" />
-                        <span class="text-caption">Нажимая "Регистрация" Вы соглашаетесь с соглашением, ну тут как всегда =)</span>
-                        <q-btn push color="primary" label="Регистрация" v-on:click="Registration"/>
-                    </div>
-                </div>
-                <div class="col-xs-1 col-sm-2 col-md-3"></div>
-            </div>
-        <div class="col-xs-1 col-sm-2 col-md-2"></div>
+    <WindowDefault
+            caption="Регистрация"
+            text=""
+        >
+            <q-separator/>
+            <q-input outlined v-model="login" label="Логин" class="padding-el"/>
+            <!--<q-input type="email" outlined v-model="email" label="Электронная почта" class="padding-el"/>-->
+            <q-input type="password" outlined v-model="password" label="Пароль" class="padding-el"/>
+            <q-input type="password" outlined v-model="password_verify" label="Повторите пароль" class="padding-el"/>
+            <span class="text-caption">Нажимая "Регистрация" Вы соглашаетесь с соглашением, ну тут как всегда =)</span>
+            <q-separator/>
+            <SimpleButton class="padding-el" caption="Зарегистрироваться" v-on:click="Registration"></SimpleButton>
+    </WindowDefault>
 </div>
-
-
 </template>
 
 <script>
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
 import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer'; 
-
+import WindowDefault from '../uiElements/window/WindowDefault.vue';
+import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 export default {
     name: "RegistrationPage",
@@ -39,7 +33,10 @@ export default {
             password_verify: ""
         }
     },
-
+    components: {
+        WindowDefault,
+        SimpleButton
+    },
     methods: {
         async Registration() {
             let authInfo = {
@@ -69,10 +66,7 @@ export default {
 </script>
 
 <style scoped>
-    .center-box {
-        margin: auto;
-        text-align: center;
-        border-radius: 4px;
-        max-width: 330px;
-    }
+.padding-el {
+    padding: 5px;
+}
 </style>

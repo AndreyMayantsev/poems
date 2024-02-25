@@ -1,16 +1,14 @@
 <template>
-
-<div class="RoomsListPage column height-wrapper-100">
-    <div class="col-xs-1 col-sm-2 col-md-2"></div>
-        <div class="row col-xs-10 col-sm-8 col-md-8">
-                <div class="col-xs-1 col-sm-2 col-md-3"></div>
-                <div class="col-xs-10 col-sm-8 col-md-6">
-                        <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
+        <WindowDefault
+            caption="Выбор"
+            text=""
+        >
+        <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
                         <div class="">
-                            Войдите в игру или создайте новую.
                             <div class="q-gutter-sm">
                                 <div class="q-ma-md">
-                                <q-scroll-area style="height: 60vh; max-width: 65vh;">
+                                    <q-separator/>
+                                    <q-scroll-area style="margin: 0; height: 40vh;">
                                     <div v-for="room in rooms" :key="room.id" >
                                         <RoomBanner 
                                             :created_at = "room.created_at" 
@@ -23,15 +21,11 @@
                                         </RoomBanner>
                                     </div>
                                 </q-scroll-area>
+                                <q-separator/>
                             </div>
                             </div>
                         </div>
-                </div>
-                <div class="col-xs-1 col-sm-2 col-md-3"></div>
-        </div>
-        <div class="col-xs-1 col-sm-2 col-md-2"></div>
-</div> 
-
+        </WindowDefault>
 </template>
 
 <script>
@@ -39,18 +33,20 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
 import RoomBanner from '../uiElements/RoomBanner.vue'
+import WindowDefault from '../uiElements/window/WindowDefault.vue';
+//import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 export default {
     name: "RoomsListPage",
     components: {
-        RoomBanner
+        RoomBanner,
+        WindowDefault
     },
     data() {
         return {
             rooms: {}
         }
     },
-
     methods: {
         async ShowRooms() {
             try {
