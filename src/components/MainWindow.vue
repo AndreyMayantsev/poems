@@ -1,7 +1,7 @@
 <template>
 <div>
   <q-layout
-      view="lHh lpR lFf"
+      view="hHh lpR fFf"
       class="shadow-2 rounded-borders"
       :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
     >
@@ -18,9 +18,9 @@
       </q-toolbar>
     </q-header>
 
-    <q-page-container>
+      <q-page-container style="padding: 0px;">
         <router-view />
-    </q-page-container>
+      </q-page-container>
 
     <q-footer v-if="this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="text-white" style="background-color: #471C1C;">
       <q-toolbar>
@@ -144,11 +144,6 @@ export default {
 .footer {
   height: 5%
 }
-.wrapper {
-  height: 88%;
-  min-height: 300px;
-}
-
 .height-wrapper-100 {
   height: 90vh;
 }

@@ -4,12 +4,14 @@
         <div class="row col-xs-12 col-sm-8 col-md-8">
             <div class="col-xs-0 col-sm-2 col-md-4"></div>
                 <div class="col-xs-12 col-sm-8 col-md-4">
-                    <div class="window-layout flb-v">
+                    <div class="window-layout" :class='{"height-100-mobile": this.$store.getters.GET_IS_MOBILE_VIEW}'>
                         <div class="window-header">
                             <p class="header-font">{{ this.caption }}</p>
                         </div> 
                         <p class="text-font">{{ this.text }}</p>
-                        <slot></slot>
+                        <div>
+                            <slot></slot>
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-0 col-sm-2 col-md-4"></div>
@@ -45,6 +47,7 @@ export default {
     background-color: #dbcab3;
     border-radius: 4px;
     padding: 12px;
+    box-sizing: border-box;
     box-shadow: 0 0 8px rgba(173, 136, 32, 0.5);
 }
 .window-header {  
@@ -80,9 +83,7 @@ export default {
   letter-spacing: 0;
   text-decoration-style: solid;
 }
-.flb-v {
-    display: block;
-	justify-content: center;
-	align-items: center;
+.height-100-mobile {
+    height: 100vh;
 }
 </style>

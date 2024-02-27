@@ -73,4 +73,5 @@ export default {
 .padding-el {
     padding: 5px;
 }
+
 </style>
