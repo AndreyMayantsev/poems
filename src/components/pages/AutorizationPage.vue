@@ -1,18 +1,18 @@
 <template>
 
 <div class="AutorizationPage">
-        <WindowDefault
+        <WindowDefaultFlex
             caption="Войти"
             text="Для входа в игру введите учетные данные и нажмите 'Войти'. Если Вы небыли зарегистрированы ранее - пройдите регистрацию."
         >
-            <q-separator/>
+
             <q-input class="padding-el" outlined v-model="login" label="Логин" />
             <q-input class="padding-el" type="password" outlined v-model="password" label="Пароль" />
             <q-separator/>
             <SimpleButton class="padding-el" caption="Войти" v-on:click="Autorize"></SimpleButton>
 
         <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
-        </WindowDefault>
+        </WindowDefaultFlex>
 </div>
 
 
@@ -23,7 +23,7 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
 import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer';
-import WindowDefault from '../uiElements/window/WindowDefault.vue';
+import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
 import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 export default {
@@ -35,7 +35,7 @@ export default {
         }
     },
     components: {
-        WindowDefault,
+        WindowDefaultFlex,
         SimpleButton
     },
     methods: {

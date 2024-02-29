@@ -1,17 +1,17 @@
 <template>
     <div class="NotFound">
-        <WindowDefault
+        <WindowDefaultFlex
             caption="Ошибка!"
             text=""
         >
         <q-icon name="warning" color="warning" size="3rem" />
         Извините, страница не найдена!
-        </WindowDefault>
+        </WindowDefaultFlex>
     </div>
 </template>
 
 <script>
-import WindowDefault from '../uiElements/window/WindowDefault.vue';
+import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
 
 export default {
     name: "NotFound",
@@ -21,7 +21,7 @@ export default {
         }
     },
     components: {
-        WindowDefault
+        WindowDefaultFlex
     },
     methods: {
 

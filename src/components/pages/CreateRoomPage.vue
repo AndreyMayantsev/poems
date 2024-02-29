@@ -1,8 +1,8 @@
 <template>
 
-<div class="CreateRoomPage column height-wrapper-100">
+<div class="CreateRoomPage">
 
-    <WindowDefault
+    <WindowDefaultFlex
             caption="Новая игра"
             text="Введите настройки для новой игры"
         >
@@ -110,7 +110,7 @@
                             </q-tab-panels>
                         </q-card>
 
-        </WindowDefault>
+        </WindowDefaultFlex>
 </div>
 
 </template>
@@ -118,7 +118,7 @@
 <script>
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
-import WindowDefault from '../uiElements/window/WindowDefault.vue';
+import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
 import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 export default {
@@ -135,7 +135,7 @@ export default {
         }
     },
     components: {
-        WindowDefault,
+        WindowDefaultFlex,
         SimpleButton
     },
     methods: {

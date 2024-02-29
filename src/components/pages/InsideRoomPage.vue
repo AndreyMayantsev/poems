@@ -1,11 +1,11 @@
 <template>
 
-<div class="InsideRoomPage column height-wrapper-100">
+<div class="InsideRoomPage">
 
-    <div class="NotFound">
-        <WindowDefault
+    <div class="">
+        <WindowDefaultFlex
             caption="В игре!"
-            text=""
+            text="Добро пожаловать в игру!"
         >
             <q-card class="">
                             <div>Приветсвуем в игре №{{ this.room.data.id }} </div>   
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                         </q-card>
-        </WindowDefault>
+        </WindowDefaultFlex>
     </div>
 
 </div>
@@ -106,7 +106,7 @@ import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFact
 import { requestType } from '../../Core-prod/api/dataTypes';
 import { ConsoleLogger } from '../../Core-prod/Logger/ConsoleLogger';
 import { GameProcessor, gameStates } from '../../Core-prod/gameProcesses/GameProcesses';
-import WindowDefault from '../uiElements/window/WindowDefault.vue';
+import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
 //import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 let logger = new ConsoleLogger("INSIDE ROOM");
@@ -131,7 +131,7 @@ export default {
         }
     },
     components: {
-        WindowDefault
+        WindowDefaultFlex
     },
     async created() {
         try {

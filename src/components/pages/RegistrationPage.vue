@@ -1,10 +1,10 @@
 <template>
-<div class="RegistrationPage column height-wrapper-100">
-    <WindowDefault
+<div class="RegistrationPage">
+    <WindowDefaultFlex
             caption="Регистрация"
             text=""
         >
-            <q-separator/>
+
             <q-input outlined v-model="login" label="Логин" class="padding-el"/>
             <!--<q-input type="email" outlined v-model="email" label="Электронная почта" class="padding-el"/>-->
             <q-input type="password" outlined v-model="password" label="Пароль" class="padding-el"/>
@@ -12,7 +12,7 @@
             <span class="text-caption">Нажимая "Регистрация" Вы соглашаетесь с соглашением, ну тут как всегда =)</span>
             <q-separator/>
             <SimpleButton class="padding-el" caption="Зарегистрироваться" v-on:click="Registration"></SimpleButton>
-    </WindowDefault>
+    </WindowDefaultFlex>
 </div>
 </template>
 
@@ -20,7 +20,7 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
 import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer'; 
-import WindowDefault from '../uiElements/window/WindowDefault.vue';
+import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
 import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 export default {
@@ -34,7 +34,7 @@ export default {
         }
     },
     components: {
-        WindowDefault,
+        WindowDefaultFlex,
         SimpleButton
     },
     methods: {

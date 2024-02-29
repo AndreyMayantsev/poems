@@ -1,30 +1,26 @@
 <template>
-    <div class="WindowDefault column height-wrapper-100">
-        <div class="col-xs-0 col-sm-2 col-md-2"></div>
-        <div class="row col-xs-12 col-sm-8 col-md-8">
-            <div class="col-xs-0 col-sm-2 col-md-4"></div>
-                <div class="col-xs-12 col-sm-8 col-md-4">
-                    <div class="window-layout" :class='{"height-100-mobile": this.$store.getters.GET_IS_MOBILE_VIEW}'>
-                        <div class="window-header">
-                            <p class="header-font">{{ this.caption }}</p>
-                        </div> 
-                        <div class="text-font">{{ this.text }}</div>
-                        <div>
-                            <p></p>
-                            <slot></slot>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-0 col-sm-2 col-md-4"></div>
+    <div class="WindowDefaultFlex height-100-mobile flb">
+    <div class="window-layout flb"
+    :class='{"fill-page-for-mobile": this.$store.getters.GET_IS_MOBILE_VIEW}'
+    >
+        <div>
+            <div class="window-header">
+                <p class="header-font">{{ this.caption }}</p>
+            </div> 
+            <div class="text-font">{{ this.text }}</div>
+            <div>
+            <p></p>
+                 <slot></slot>
             </div>
-        <div class="col-xs-0 col-sm-2 col-md-2"></div>
-    </div>
+            </div>
+        </div>
+    </div>    
 </template>
 
 <script>
 
 export default {
-    name: "WindowDefault",
+    name: "WindowDefaultFlex",
     data() {
         return {
         
@@ -41,6 +37,28 @@ export default {
 </script>
 
 <style scoped>
+.flb {
+    display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.flb-v {
+    flex-direction: column;
+    justify-content: center;
+	align-items: center;
+}
+.test {
+    background-color: yellow;
+    padding: 2%;
+	border:  4mm ridge rgba(211, 220, 50, .6);;
+}
+.height-100 {
+	height: 100%
+}
+.fill-page-for-mobile {
+    height: 100%;
+    width: 100%;
+}
 .window-layout {  
     text-align: center;
     background-color: #dbcab3;
@@ -48,6 +66,8 @@ export default {
     padding: 12px;
     box-sizing: border-box;
     box-shadow: 0 0 8px rgba(173, 136, 32, 0.5);
+    min-width: 350px;
+    max-width: 500px;
 }
 .window-header {  
     text-align: center;

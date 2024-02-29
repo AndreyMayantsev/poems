@@ -1,7 +1,8 @@
 <template>
-        <WindowDefault
-            caption="Выбор"
-            text=""
+    <div class="RoomsListPage">
+        <WindowDefaultFlex
+            caption="Выбор комнаты"
+            text="Войдите в комнату для начала"
         >
         <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
                         <div class="">
@@ -25,7 +26,8 @@
                             </div>
                             </div>
                         </div>
-        </WindowDefault>
+        </WindowDefaultFlex>
+    </div>
 </template>
 
 <script>
@@ -33,14 +35,14 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory';
 import { requestType } from '../../Core-prod/api/dataTypes';
 import RoomBanner from '../uiElements/RoomBanner.vue'
-import WindowDefault from '../uiElements/window/WindowDefault.vue';
+import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
 //import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 export default {
     name: "RoomsListPage",
     components: {
         RoomBanner,
-        WindowDefault
+        WindowDefaultFlex
     },
     data() {
         return {
@@ -79,4 +81,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

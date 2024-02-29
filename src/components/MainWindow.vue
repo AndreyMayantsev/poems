@@ -109,7 +109,7 @@ export default {
   font-family: "LT Remark";
   font-size: 3.8rem;
   line-height: .9;
-  letter-spacing: 0;
+  letter-spacing: 1;
   text-decoration-style: solid;
   cursor: pointer;
 }
@@ -117,7 +117,7 @@ export default {
   font-family: "LT Remark";
   font-size: 1.5rem;
   line-height: .9;
-  letter-spacing: 0;
+  letter-spacing: 1;
   text-decoration-style: solid;
   cursor: pointer;
 }
