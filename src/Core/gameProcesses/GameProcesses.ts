@@ -14,7 +14,7 @@ let logger = new ConsoleLogger("GameProcesses");
 
 export class GameProcessor {
 
-    public static checkGammeState(gameData: any, myId: any) {
+    public static checkGameState(gameData: any, myId: any) {
         
         let currentUserInGame = false;
         
@@ -59,5 +59,6 @@ export class GameProcessor {
         }
 
     }
+
 
 }

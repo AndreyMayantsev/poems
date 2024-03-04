@@ -9,7 +9,7 @@
                             <div class="q-gutter-sm">
                                 <div class="q-ma-md">
                                     <q-separator/>
-                                    <q-scroll-area style="margin: 0; height: 40vh;">
+                                    <q-scroll-area style="margin: 0; height: 55vh;">
                                     <div v-for="room in rooms" :key="room.id" >
                                         <RoomBanner 
                                             :created_at = "room.created_at" 
@@ -52,7 +52,7 @@ export default {
     methods: {
         async ShowRooms() {
             try {
-            let getroom = { limit:14, offset:0 }
+            let getroom = { limit:20, offset:2 }
             let answer = await HttpRequestFactory.makeRequest(requestType.RoomsGet, getroom);
             this.rooms = {
                 ...answer.data.data
@@ -66,7 +66,7 @@ export default {
     },
     async created() {
         try {
-            let getroom = { limit:14, offset:0 }
+            let getroom = { limit:20, offset:2 }
             let answer = await HttpRequestFactory.makeRequest(requestType.RoomsGet, getroom);
             this.rooms = {
                 ...answer.data.data

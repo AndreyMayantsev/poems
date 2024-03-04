@@ -61,8 +61,8 @@ export default {
 <style scoped>
     .center-box {
         max-width: 300px;
-        width: 200px;
-        height: 80px;
+        width: 290px;
+        height: 70px;
         padding: 2px;
         margin-top: 6px;
         margin-left: 3px;

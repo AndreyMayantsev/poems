@@ -1,20 +1,25 @@
 <template>
     <div class="WindowDefaultFlex height-100-mobile flb">
     <div class="window-layout flb"
+        
     :class='{"fill-page-for-mobile": this.$store.getters.GET_IS_MOBILE_VIEW}'
     >
-        <div>
-            <div class="window-header">
-                <p class="header-font">{{ this.caption }}</p>
+        <div class="flb-v">
+            <div class="window-header" style="align-items: flex-start;">
+                <transition name="headerani">    
+                    <p v-if="show" class="header-font">{{ this.caption }}</p>
+                </transition>
             </div> 
+            
             <div class="text-font">{{ this.text }}</div>
             <div>
             <p></p>
                  <slot></slot>
             </div>
-            </div>
         </div>
+    </div>
     </div>    
+    
 </template>
 
 <script>
@@ -23,7 +28,7 @@ export default {
     name: "WindowDefaultFlex",
     data() {
         return {
-        
+            show: false
         }
     },
     props: ['caption','text'],
@@ -32,25 +37,26 @@ export default {
     },
     methods: {
 
-    }
+    },
+    activated() {
+
+    },
+    mounted() {
+        this.show=true;
+    },
 }
 </script>
 
 <style scoped>
 .flb {
     display: flex;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: center;
 }
 .flb-v {
     flex-direction: column;
     justify-content: center;
 	align-items: center;
-}
-.test {
-    background-color: yellow;
-    padding: 2%;
-	border:  4mm ridge rgba(211, 220, 50, .6);;
 }
 .height-100 {
 	height: 100%
@@ -73,6 +79,7 @@ export default {
     text-align: center;
     background-color: #dfc096;
     border-radius: 4px;
+    min-width: 338px;
 }
 .menu-font {
   font-family: "LT Remark";
@@ -83,14 +90,14 @@ export default {
 }
 .text-font {
   font-family: "LT Remark";
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1;
   letter-spacing: 1;
   text-decoration-style: solid;
 }
 .header-font {
   font-family: "Marck Script";
-  font-size: 3.5rem;
+  font-size: 3rem;
   line-height: .9;
   letter-spacing: 0;
   text-decoration-style: solid;
@@ -103,6 +110,16 @@ export default {
   text-decoration-style: solid;
 }
 .height-100-mobile {
-    height: 100vh;
+    height: 96vh;
+}
+
+.headerani-enter-active,
+.headerani-leave-active {
+  transition: opacity 1s ease;
+}
+
+.headerani-enter-from,
+.headerani-leave-to {
+  opacity: 0;
 }
 </style>

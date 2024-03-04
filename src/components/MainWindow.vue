@@ -137,7 +137,9 @@ export default {
   text-decoration-style: solid;
   cursor: pointer;
 }
-
+.backgroung-color-default {
+  background-color: #ddc19d;
+}
 .header {
   height: 6vh;
 }
@@ -150,10 +152,17 @@ export default {
 .auto-margin {
   margin: auto;
 }
-.blurtoolbar {
-  background-color: #0000001a;
-  -webkit-backdrop-filter: blur(7px);
-  backdrop-filter: blur(7px);
+.flb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
+.flb-v {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.padding-default {
+    padding: 8px;
+} 
 </style>

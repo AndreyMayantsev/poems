@@ -2,14 +2,13 @@
 <div class="RegistrationPage">
     <WindowDefaultFlex
             caption="Регистрация"
-            text=""
+            text="Заполните форму регистрации: "
         >
 
             <q-input outlined v-model="login" label="Логин" class="padding-el"/>
             <!--<q-input type="email" outlined v-model="email" label="Электронная почта" class="padding-el"/>-->
             <q-input type="password" outlined v-model="password" label="Пароль" class="padding-el"/>
             <q-input type="password" outlined v-model="password_verify" label="Повторите пароль" class="padding-el"/>
-            <span class="text-caption">Нажимая "Регистрация" Вы соглашаетесь с соглашением, ну тут как всегда =)</span>
             <q-separator/>
             <SimpleButton class="padding-el" caption="Зарегистрироваться" v-on:click="Registration"></SimpleButton>
     </WindowDefaultFlex>

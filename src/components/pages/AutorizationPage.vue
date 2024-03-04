@@ -3,7 +3,7 @@
 <div class="AutorizationPage">
         <WindowDefaultFlex
             caption="Войти"
-            text="Для входа в игру введите учетные данные и нажмите 'Войти'. Если Вы небыли зарегистрированы ранее - пройдите регистрацию."
+            text=""
         >
 
             <q-input class="padding-el" outlined v-model="login" label="Логин" />

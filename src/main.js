@@ -20,8 +20,21 @@ app.use(Quasar, {
     }, 
     config: {
       notify: { 
-        timeout: 5000
-       }
+        timeout: 3000
+       },
+      brand: {
+        primary: '#400f0f',
+        secondary: '#7d441e',
+        accent: '#d9711c',
+  
+        dark: '#1d1d1d',
+        'dark-page': '#121212',
+  
+        positive: '#5bc273',
+        negative: '#b52b3c',
+        info: '#f7c948',
+        warning: '#f5bd22'
+      }
     },
 });
 
