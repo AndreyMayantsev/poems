@@ -170,23 +170,7 @@ export default {
 </script>
 
 <style scoped>
-    .box {
-        opacity: 0.9;
-        margin: 100px auto;
-        text-align: center;
-        background-color: #dbdab3;
-        border-radius: 4px;
-        width: 350px;
-        padding: 10px;
-        box-shadow: 0 0 10px rgba(0,1,0,0.5);
-    }
-    .center-box {
-        margin: 20px auto;
-        text-align: center;
-        border-radius: 4px;
-        padding: 10px;
-        max-width: 330px;
-    }
+
     .verifyedinput {
         border-bottom: 2px solid #13b953;
     }

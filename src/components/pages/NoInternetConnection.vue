@@ -1,16 +1,17 @@
 <template>
     <div class="NoInternetConnection">
-        <br>
-        <br>
-        <img src="../../../public/images/status_images/404-cat.png" height="140" width="140"/>
-        <br>
-        Произошла ошибка при подключении к интернет, остусвует соединение.<br>
-        Попробуйте повторить позже.
+        <WindowDefault
+            caption="Ошибка!"
+            text=""
+        >
+        <q-icon name="error" color="error" size="3rem" />
+        отсутствует соединение с интернет
+        </WindowDefault>
     </div>
 </template>
 
 <script>
-
+import WindowDefault from '../uiElements/window/WindowDefault.vue'
 export default {
     name: "NoInternetConnection",
     data() {
@@ -18,7 +19,9 @@ export default {
 
         }
     },
-
+    components: {
+        WindowDefault
+    },
     methods: {
 
     }

@@ -1,13 +1,21 @@
 <template>
-    <div class="AutorizationPage">
-        <div class="q-gutter-md center-box">
-            Для входа в игру введите учетные данные и нажмите "Войти"
-            <q-input outlined v-model="login" label="Логин" />
-            <q-input type="password" outlined v-model="password" label="Пароль" />
-            <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
-            <q-btn push color="primary" label="Войти" v-on:click="Autorize"/>
-        </div>
-    </div>
+
+<div class="AutorizationPage">
+        <WindowDefaultFlex
+            caption="Войти"
+            text=""
+        >
+
+            <q-input class="padding-el" outlined v-model="login" label="Логин" />
+            <q-input class="padding-el" type="password" outlined v-model="password" label="Пароль" />
+            <q-separator/>
+            <SimpleButton class="padding-el" caption="Войти" v-on:click="Autorize"></SimpleButton>
+
+        <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
+        </WindowDefaultFlex>
+</div>
+
+
 </template>
 
 <script>
@@ -15,6 +23,8 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
 import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer';
+import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
+import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 export default {
     name: "AutorizationPage",
@@ -24,7 +34,10 @@ export default {
             password: "",
         }
     },
-
+    components: {
+        WindowDefaultFlex,
+        SimpleButton
+    },
     methods: {
         async Autorize() {
 
@@ -53,10 +66,12 @@ export default {
 </script>
 
 <style scoped>
-    .center-box {
-        margin: auto;
-        text-align: center;
-        border-radius: 4px;
-        max-width: 330px;
-    }
+.wlimit {
+    width: 98%;
+    padding: 10px;
+}
+.padding-el {
+    padding: 5px;
+}
+
 </style>

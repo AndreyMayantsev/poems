@@ -1,12 +1,12 @@
 <template>
-<div >
+<div>
   <q-layout
       view="hHh lpR fFf"
       class="shadow-2 rounded-borders"
       :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
     >
 
-    <q-header v-if="!this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="bg-primary text-white">
+    <q-header v-if="!this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="text-white" style="background-color: #d19621ce;">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
@@ -18,11 +18,11 @@
       </q-toolbar>
     </q-header>
 
-    <q-page-container flex>
+      <q-page-container style="padding: 0px;">
         <router-view />
-    </q-page-container>
+      </q-page-container>
 
-    <q-footer v-if="this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="bg-secondary text-white">
+    <q-footer v-if="this.$store.getters.GET_IS_MOBILE_VIEW" reveal bordered class="text-white" style="background-color: #471C1C;">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
@@ -50,7 +50,7 @@ export default {
     },
     data() {
         return {
-            isUserAutorized: this.$store.getters.IS_USER_AUTORIZED
+            isUserAutorized: this.$store.getters.IS_USER_AUTORIZED,
         }
     },
     mounted() {
@@ -88,25 +88,81 @@ export default {
 </script>
 
 <style>
-.max-width-form {
-  max-width: 330px;
+@font-face {
+    font-family: 'Marck Script';
+    src: local('Marck Script'), local('MarckScript-Regular'), 
+    url('../assets/fonts/marckscript.woff2') format('woff2'), 
+    url('../assets/fonts/marckscript.woff') format('woff'), 
+    url('../assets/fonts/marckscript.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'LT Remark';
+    src: local('LT Remark'), local('LT Remark-Regular'), 
+    url('../assets/fonts/LTRemark.woff2') format('woff2'), 
+    url('../assets/fonts/LTRemark.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
 }
 .menu-font {
-  btn-text-color: white;
+  font-family: "LT Remark";
+  font-size: 3.8rem;
+  line-height: .9;
+  letter-spacing: 1;
+  text-decoration-style: solid;
+  cursor: pointer;
 }
-.center-box {
-  justify-content: center;
-  text-align: center;
+.text-font {
+  font-family: "LT Remark";
+  font-size: 1.5rem;
+  line-height: .9;
+  letter-spacing: 1;
+  text-decoration-style: solid;
+  cursor: pointer;
 }
-
+.header-font {
+  font-family: "Marck Script";
+  font-size: 3.8rem;
+  line-height: .9;
+  letter-spacing: 0;
+  text-decoration-style: solid;
+  cursor: pointer;
+}
+.header-font-mini {
+  font-family: "Marck Script";
+  font-size: 1.8rem;
+  line-height: .9;
+  letter-spacing: 0;
+  text-decoration-style: solid;
+  cursor: pointer;
+}
+.backgroung-color-default {
+  background-color: #ddc19d;
+}
 .header {
-  height: 6%
+  height: 6vh;
 }
 .footer {
   height: 5%
 }
-.wrapper {
-  height: 88%;
-  min-height: 300px;
+.height-wrapper-100 {
+  height: 90vh;
 }
+.auto-margin {
+  margin: auto;
+}
+.flb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flb-v {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.padding-default {
+    padding: 8px;
+} 
 </style>

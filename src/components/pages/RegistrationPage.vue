@@ -1,22 +1,26 @@
 <template>
-    <div class="RegistrationPage">
-        <div class="q-gutter-md center-box">
-            Для регистрации введите учетные данные и нажмите "Регистрация"
-            <q-input outlined v-model="login" label="Логин" />
-            <q-input type="email" outlined v-model="email" label="Электронная почта" />
-            <q-input type="password" outlined v-model="password" label="Пароль" />
-            <q-input type="password" outlined v-model="password_verify" label="Повторите пароль" />
-            <span class="text-caption">Нажимая "Регистрация" Вы соглашаетесь с соглашением, ну тут как всегда =)</span>
-            <q-btn push color="primary" label="Регистрация" v-on:click="Registration"/>
-        </div>
-    </div>    
+<div class="RegistrationPage">
+    <WindowDefaultFlex
+            caption="Регистрация"
+            text="Заполните форму регистрации: "
+        >
+
+            <q-input outlined v-model="login" label="Логин" class="padding-el"/>
+            <!--<q-input type="email" outlined v-model="email" label="Электронная почта" class="padding-el"/>-->
+            <q-input type="password" outlined v-model="password" label="Пароль" class="padding-el"/>
+            <q-input type="password" outlined v-model="password_verify" label="Повторите пароль" class="padding-el"/>
+            <q-separator/>
+            <SimpleButton class="padding-el" caption="Зарегистрироваться" v-on:click="Registration"></SimpleButton>
+    </WindowDefaultFlex>
+</div>
 </template>
 
 <script>
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
 import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer'; 
-
+import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
+import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
 export default {
     name: "RegistrationPage",
@@ -28,7 +32,10 @@ export default {
             password_verify: ""
         }
     },
-
+    components: {
+        WindowDefaultFlex,
+        SimpleButton
+    },
     methods: {
         async Registration() {
             let authInfo = {
@@ -58,10 +65,7 @@ export default {
 </script>
 
 <style scoped>
-    .center-box {
-        margin: auto;
-        text-align: center;
-        border-radius: 4px;
-        max-width: 330px;
-    }
+.padding-el {
+    padding: 5px;
+}
 </style>
