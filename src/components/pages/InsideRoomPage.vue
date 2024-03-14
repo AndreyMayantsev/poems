@@ -8,7 +8,7 @@
             text=""
         >
             <q-card class="padding-default" style="background-color: #dfc096;">
-                            <div>Приветсвуем в игре №{{ this.room.data.id }} </div>   
+                            <div class="text-font">Приветсвуем в игре №{{ this.room.data.id }} </div>   
                             <q-separator/>
                                 <!-- USERS IN ROOM AVATARS -->
                                 <div class="flb padding-default">
@@ -85,21 +85,21 @@
                                     /><br><br>
                                     <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
                                     <q-btn push color="primary" label="Стих" v-on:click="EndPoem()"/>
-
                                 </div>
 
                                 <!-- GAME MY TURN -->
-                                <div v-if="this.gameState == this.gameStates.GAME_GOES_MY_TURN"><p>Ходите!</p>
+                                <div v-if="this.gameState == this.gameStates.GAME_GOES_MY_TURN">
                                     <!-- Poems messages as a chat -->    
-                                    <div class="q-pa-md">
-                                        <q-chat-message
-                                            name="Предыдущий игрок: "
-                                            :text="this.nowPoemStrings"
-                                        />
+
+                                    <div class="previous-message">
+                                        <div v-for="string in this.nowPoemStrings">
+                                            <span class="previous-message-font">{{ string }}</span>
+                                        </div>
                                     </div>
-                                    <div class="flb">    
-                                        <q-separator/>
-                                        <textarea v-model="message" rows="2" cols="18"></textarea>
+                                    <p></p>                                        
+                                    <div class="flb" style="align-items: stretch">    
+                                        
+                                        <textarea v-model="message" rows="2" cols="18" style="width:88%; background-color: #dbcab4;"></textarea>
                                         <q-btn color="primary" icon="check" label="" v-on:click="SendMessage()" />
                                     </div>
                                 </div>
@@ -146,7 +146,7 @@ export default {
                 }
             },
             gameStates: gameStates,
-            nowPoemStrings: [],
+            nowPoemStrings: ["*** ***** *****","* **** *** ********","Бывает проснешься как птица", "Крылатой пружиной на взводе,"],
             endedPoem: [],
             progressStepTimeMin: 0,
             progressStepTimeMax: 0,
@@ -286,7 +286,10 @@ export default {
             console.log("Time now: " + this.progressStepTime);
             //one_percent
         },
-
+        async letsStart() {
+            let started = await HttpRequestFactory.makeRequest(requestType.StartRoom, this.$route.params.id);
+            logger.writeLogInfo("Игра началась в: " + JSON.stringify(started))
+        }
     }
 }
 
@@ -307,5 +310,20 @@ export default {
     border-color: #e0953e;
     border-width: 2px;
 }
-
+.previous-message {
+	border:4px solid #9e64218e;
+	border-radius:10px;
+	height:auto;
+	width:99%;
+    background-color: #dbcab4;
+	position:relative;
+    padding: 5px;
+}
+.previous-message-font {
+  font-family: "Marck Script";
+  font-size: 1.4rem;
+  line-height: .6;
+  letter-spacing: .1;
+  text-decoration-style: solid;
+}
 </style>

@@ -9,6 +9,7 @@ import { HttpSendMessageRequest } from "./HttpSendMessageRequest";
 import { HttpEnterRoomRequest } from "./HttpEnterRoomRequest";
 import { HttpEndPoemRequest } from "./HttpEndPoemRequest";
 import { HttpLeaveRoomRequest } from "./HttpLeaveRoom";
+import { HttpStartRoomRequest } from "./HttpStartRoomRequest";
 import { ConsoleLogger } from "../../Logger/ConsoleLogger";
 
 export class HttpRequestFactory {
@@ -65,6 +66,10 @@ export class HttpRequestFactory {
                 }
                 case requestType.LeaveRoom: {
                     HttpRequestObject = new HttpLeaveRoomRequest();
+                    break;
+                }
+                case requestType.StartRoom: {
+                    HttpRequestObject = new HttpStartRoomRequest();
                     break;
                 }
                 default: {
