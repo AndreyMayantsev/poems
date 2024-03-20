@@ -31,12 +31,11 @@ export default {
     }
   },
   async created() {
-
+    
     // ----------------------
     // Initialize application
     // ----------------------
     let logger = new ConsoleLogger("APP init");
-
     logger.writeLogInfo("=== Start Application ===");
     
     // Preparing device type and set it to store

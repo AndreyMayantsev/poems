@@ -2,13 +2,13 @@
     <div class="RoomsListPage">
         <WindowDefaultFlex
             caption="Выбор комнаты"
-            text="Войдите в комнату для начала"
+            text=""
         >
         <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
                         <div class="">
                             <div class="q-gutter-sm">
                                 <div class="q-ma-md">
-                                    <q-separator/>
+                                    
                                     <q-scroll-area style="margin: 0; height: 55vh;">
                                     <div v-for="room in rooms" :key="room.id" >
                                         <RoomBanner 
@@ -22,8 +22,7 @@
                                         </RoomBanner>
                                     </div>
                                 </q-scroll-area>
-                                <q-separator/>
-                            </div>
+                             </div>
                             </div>
                         </div>
         </WindowDefaultFlex>

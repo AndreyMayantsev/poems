@@ -1,6 +1,6 @@
 <template>
     <div class="RoomBanner">
-        <q-btn class="center-box" push>
+        <q-btn class="room-banner" push>
                 <q-badge floating color="orange">{{ getDate(created_at) }}</q-badge>
                     <div v-if="this.finish_type=='moves'">   
                         <img class="border-image "
@@ -59,13 +59,8 @@ export default {
 </script>
 
 <style scoped>
-    .center-box {
-        max-width: 300px;
-        width: 290px;
-        height: 70px;
-        padding: 2px;
-        margin-top: 6px;
-        margin-left: 3px;
+    .room-banner {
+        width: 88%;
     }
     .border-image {
         border-radius: 10px; 

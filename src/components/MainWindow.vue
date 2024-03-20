@@ -121,6 +121,14 @@ export default {
   text-decoration-style: solid;
   cursor: pointer;
 }
+.text-font-mini {
+  font-family: "LT Remark";
+  font-size: 1.0rem;
+  line-height: .9;
+  letter-spacing: 1;
+  text-decoration-style: solid;
+  cursor: pointer;
+}
 .header-font {
   font-family: "Marck Script";
   font-size: 3.8rem;

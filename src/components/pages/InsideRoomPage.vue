@@ -8,7 +8,11 @@
             text=""
         >
             <q-card class="padding-default" style="background-color: #dfc096;">
-                            <div class="text-font">Приветсвуем в игре №{{ this.room.data.id }} </div>   
+                            <div class="text-font-mini">Приветсвуем в игре №{{ this.room.data.id }} </div>   
+                            <div v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN ||
+                                    this.gameState == this.gameStates.GAME_GOES_MY_TURN">
+                                    <q-linear-progress stripe rounded size="18px" :value="this.gameProgressInPercent" color="primary" class="q-mt-sm" />
+                            </div>
                             <q-separator/>
                                 <!-- USERS IN ROOM AVATARS -->
                                 <div class="flb padding-default">
@@ -50,9 +54,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            <q-separator/>
+                            
                             <div class="">
-
                                 <!-- GAME CREATED -->
                                 <div v-if="this.gameState == this.gameStates.GAME_CREATED"><p>Новая игра</p>
                                     <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
@@ -98,7 +101,6 @@
                                     </div>
                                     <p></p>                                        
                                     <div class="flb" style="align-items: stretch">    
-                                        
                                         <textarea v-model="message" rows="2" cols="18" style="width:88%; background-color: #dbcab4;"></textarea>
                                         <q-btn color="primary" icon="check" label="" v-on:click="SendMessage()" />
                                     </div>
@@ -148,6 +150,8 @@ export default {
             gameStates: gameStates,
             nowPoemStrings: ["*** ***** *****","* **** *** ********","Бывает проснешься как птица", "Крылатой пружиной на взводе,"],
             endedPoem: [],
+            gameProgressInPercent: 0.9,
+            //test
             progressStepTimeMin: 0,
             progressStepTimeMax: 0,
             progressStepTime: 8
@@ -179,6 +183,7 @@ export default {
 
             logger.writeLogInfo("[GAME STATE]: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
             this.setStepTime();
+            this.calculatePercent();
         } catch(error) {
             logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
@@ -289,6 +294,19 @@ export default {
         async letsStart() {
             let started = await HttpRequestFactory.makeRequest(requestType.StartRoom, this.$route.params.id);
             logger.writeLogInfo("Игра началась в: " + JSON.stringify(started))
+        },
+        // Calculate percent of game for view in progressBar
+        calculatePercent() {
+            if (this.room.data.finish_type == "moves") {    
+                let maxTurns = this.room.data.finish_moves_cond;
+                let nowTurn = this.room.data.messages_count;
+                this.gameProgressInPercent = ( nowTurn / (maxTurns / 100) ) / 100;
+            } else {
+                let nowTime = Date.now();
+                let maxTime = Date.parse(this.room.data.created_at) + this.room.data.finish_time_cond;
+                this.gameProgressInPercent = ( nowTime / (maxTime / 100) ) / 100;
+                console.log("Дата: " + nowTime + " | " + maxTime + " = " +  this.gameProgressInPercent)
+            }
         }
     }
 }
@@ -320,10 +338,10 @@ export default {
     padding: 5px;
 }
 .previous-message-font {
-  font-family: "Marck Script";
-  font-size: 1.4rem;
-  line-height: .6;
-  letter-spacing: .1;
-  text-decoration-style: solid;
+    font-family: "Marck Script";
+    font-size: 1.4rem;
+    line-height: .6;
+    letter-spacing: .1;
+    text-decoration-style: solid;
 }
 </style>
