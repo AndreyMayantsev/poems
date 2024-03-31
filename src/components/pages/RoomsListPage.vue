@@ -9,9 +9,9 @@
                             <div class="q-gutter-sm">
                                 <div class="q-ma-md">
                                     
-                                    <q-scroll-area style="margin: 0; height: 55vh;">
+                                    <q-scroll-area style="height: 65vh;">
                                     <div v-for="room in rooms" :key="room.id" >
-                                        <RoomBanner 
+                                        <RoomBanner style="padding: 5px"
                                             :created_at = "room.created_at" 
                                             :places = "room.places" 
                                             :users_rooms = "room.room_users.length" 

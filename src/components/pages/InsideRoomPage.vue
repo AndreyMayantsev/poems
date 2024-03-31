@@ -108,9 +108,10 @@
 
                                 <!-- GAME ENDED -->
                                 <div v-if="this.gameState == this.gameStates.GAME_ENDED">
-                                    <p>Игра завершена</p>
-                                    <q-scroll-area style="height: 40vh;">
-                                        
+                                    <q-scroll-area style="height: 50vh;">
+                                        <div v-for="string in this.finishedPoem" class="header-font-micro">
+                                            <span >{{ string }}</span>
+                                        </div>
                                     </q-scroll-area>
                                 </div>
                             </div>
@@ -129,7 +130,7 @@ import { requestType } from '../../Core-prod/api/dataTypes';
 import { ConsoleLogger } from '../../Core-prod/Logger/ConsoleLogger';
 import { GameProcessor, gameStates } from '../../Core-prod/gameProcesses/GameProcesses';
 import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
-//import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
+
 
 let logger = new ConsoleLogger("INSIDE ROOM");
 
@@ -149,12 +150,9 @@ export default {
             },
             gameStates: gameStates,
             nowPoemStrings: ["*** ***** *****","* **** *** ********","Бывает проснешься как птица", "Крылатой пружиной на взводе,"],
-            endedPoem: [],
+            finishedPoem: [],
             gameProgressInPercent: 0.9,
-            //test
-            progressStepTimeMin: 0,
-            progressStepTimeMax: 0,
-            progressStepTime: 8
+            progressStepTime: 0.4
         }
     },
     components: {
@@ -182,8 +180,9 @@ export default {
             });
 
             logger.writeLogInfo("[GAME STATE]: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
-            this.setStepTime();
-            this.calculatePercent();
+            //this.setStepTime();
+            this.gameProgressInPercent = GameProcessor.calculateGameProgressPercent(this.room.data);
+            this.EndPoem();
         } catch(error) {
             logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
@@ -207,6 +206,8 @@ export default {
                 logger.writeLogInfo("This game state is: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
                 this.gameState = GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID);
                 this.composeRoomUsers();
+                this.gameProgressInPercent = GameProcessor.calculateGameProgressPercent(this.room.data);
+                this.EndPoem();
             } catch(error) {
                 logger.writeLogError("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
             }
@@ -226,7 +227,8 @@ export default {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EndPoem, this.room.data.id);
                 logger.writeLogInfo("[EndPoem]: " + JSON.stringify(answer));
-                this.RefreshRoom()
+                this.finishedPoem = answer.data.data.poem.split("\n");
+                logger.writeLogInfo(this.finishedPoem);
             } catch(error) {
                 logger.writeLogError("[EndPoem] RoomsList not loaded. Server returns an error: " + error)
             }
@@ -289,24 +291,10 @@ export default {
             console.log("Time min / max: " + this.progressStepTimeMin + " / " + this.progressStepTimeMax);
             this.progressStepTime = date.getTime();
             console.log("Time now: " + this.progressStepTime);
-            //one_percent
         },
         async letsStart() {
             let started = await HttpRequestFactory.makeRequest(requestType.StartRoom, this.$route.params.id);
             logger.writeLogInfo("Игра началась в: " + JSON.stringify(started))
-        },
-        // Calculate percent of game for view in progressBar
-        calculatePercent() {
-            if (this.room.data.finish_type == "moves") {    
-                let maxTurns = this.room.data.finish_moves_cond;
-                let nowTurn = this.room.data.messages_count;
-                this.gameProgressInPercent = ( nowTurn / (maxTurns / 100) ) / 100;
-            } else {
-                let nowTime = Date.now();
-                let maxTime = Date.parse(this.room.data.created_at) + this.room.data.finish_time_cond;
-                this.gameProgressInPercent = ( nowTime / (maxTime / 100) ) / 100;
-                console.log("Дата: " + nowTime + " | " + maxTime + " = " +  this.gameProgressInPercent)
-            }
         }
     }
 }

@@ -9,7 +9,6 @@
             <!--<q-input type="email" outlined v-model="email" label="Электронная почта" class="padding-el"/>-->
             <q-input type="password" outlined v-model="password" label="Пароль" class="padding-el"/>
             <q-input type="password" outlined v-model="password_verify" label="Повторите пароль" class="padding-el"/>
-            <q-separator/>
             <SimpleButton class="padding-el" caption="Зарегистрироваться" v-on:click="Registration"></SimpleButton>
     </WindowDefaultFlex>
 </div>

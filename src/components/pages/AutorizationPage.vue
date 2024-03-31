@@ -8,7 +8,6 @@
 
             <q-input class="padding-el" outlined v-model="login" label="Логин" />
             <q-input class="padding-el" type="password" outlined v-model="password" label="Пароль" />
-            <q-separator/>
             <SimpleButton class="padding-el" caption="Войти" v-on:click="Autorize"></SimpleButton>
 
         <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>

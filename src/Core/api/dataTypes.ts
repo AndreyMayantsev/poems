@@ -36,7 +36,9 @@ export type GetRoomResponse = {
     "rows_visible": number,
     "finish_type": string,
     "finish_time_cond": number,
-    "finish_moves_cond": number
+    "finish_moves_cond": number,
+    "messages_count": number,
+    "created_at": string
 }
 
 export type ServerResponseType<D> = {

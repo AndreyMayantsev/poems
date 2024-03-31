@@ -1,4 +1,5 @@
 import { ConsoleLogger } from "../Logger/ConsoleLogger";
+import { GetRoomResponse } from "../api/dataTypes";
 
 export enum gameStates {
     GAME_CREATED,
@@ -60,5 +61,17 @@ export class GameProcessor {
 
     }
 
+    // Calculate percent of game for view in progressBar
+    public static calculateGameProgressPercent(room: GetRoomResponse) {
+        if (room.finish_type == "moves") {    
+            let maxTurns = room.finish_moves_cond;
+            let nowTurn = room.messages_count;
+            return ( nowTurn / (maxTurns / 100) ) / 100;
+        } else {
+            let nowTime = Date.now();
+            let maxTime = Date.parse(room.created_at) + room.finish_time_cond;
+            return ( nowTime / (maxTime / 100) ) / 100;
+        }
+    }
 
 }

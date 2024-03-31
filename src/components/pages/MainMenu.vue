@@ -1,14 +1,14 @@
 <template  v-on:enter-a-game="enterAGame()">
-    <WindowDefault caption="Привет!" text="Создайте новую поэму или присоеденитесь к написанию существующей">
+    <WindowDefaultFlex caption="Привет!" text="Создайте новую поэму или присоеденитесь к написанию существующей">
         <MenuButton caption="Присоедениться" v-on:click="enterAGame()"></MenuButton>
         <MenuButton caption="Создать новую поэму" v-on:click="enterAGame()"></MenuButton>
-    </WindowDefault>
+    </WindowDefaultFlex>
 
 </template>
 
 <script>
 import MenuButton from '../uiElements/buttons/MenuButton.vue'
-import WindowDefault from '../uiElements/window/WindowDefault.vue';
+import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
 
 export default {
     name: "MainMenu",
@@ -19,7 +19,7 @@ export default {
     },
     components: {
         MenuButton,
-        WindowDefault
+        WindowDefaultFlex
     },
     methods: {
         enterAGame() {
