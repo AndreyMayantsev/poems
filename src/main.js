@@ -39,8 +39,9 @@ app.use(Quasar, {
 });
 console.log("BASE_URL >> " + process.env.VUE_APP_BASE_URL);
 console.log("WS >> " + process.env.VUE_APP_WEBSOCKET_HOST + " / " + process.env.VUE_APP_WEBSOCKET_PORT)
+
 window.Pusher = require('pusher-js');
-console.log("PUSHER: " + process.env.VUE_APP_PUSHER_KEY);
+
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.VUE_APP_PUSHER_KEY,

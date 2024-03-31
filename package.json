@@ -6,19 +6,17 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "watch": "tsc -w"
+    "watch": "npx tsc -w"
   },
   "dependencies": {
-    "@phantasweng/vue-echo": "^0.2.1",
     "@quasar/extras": "^1.16.6",
     "axios": "^1.6.5",
     "core-js": "^3.6.5",
     "laravel-echo": "^1.15.3",
     "material-design-icons-iconfont": "^6.4.1",
-    "pusher-js": "^8.3.0",
+    "pusher-js": "^8.4.0-rc2",
     "quasar": "^2.11.9",
-    "tsc": "^2.0.4",
-    "vue": "^3.2.41",
+    "vue": "^3.4.21",
     "vue-router": "^4.1.6",
     "vuex": "^4.1.0"
   },
