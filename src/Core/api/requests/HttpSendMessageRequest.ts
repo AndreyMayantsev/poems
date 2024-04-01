@@ -2,7 +2,7 @@ import { SendMessageResponse, ServerResponseType } from "../dataTypes";
 import { isAxis } from "./IsRequest";
 import { Configure } from "../../Сonfigure";
 import { HttpRequestInterface } from "./HttpRequestInterface";
-import getCookie from '../getCookie';
+import { sessionID } from "./seesionID";
 
 export class HttpSendMessageRequest implements HttpRequestInterface {
 
@@ -16,7 +16,7 @@ export class HttpSendMessageRequest implements HttpRequestInterface {
             headers: {
                 'Content-Type': 'application/json',
                 'X-Develop-Mode': 'yes',
-                'Authorization': getCookie("Token"),
+                'Authorization': sessionID.getSessionID(),
             },
             data: {
                 ...rdata

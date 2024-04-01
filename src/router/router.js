@@ -7,6 +7,7 @@ import CreateRoomPage from '../components/pages/CreateRoomPage.vue'
 import InsideRoomPage from '../components/pages/InsideRoomPage.vue'
 import RoomsListPage from '../components/pages/RoomsListPage.vue'
 import MainWindow from '../components/MainWindow.vue'
+import FinishedGamePage from '../components/pages/FinishedGamePage.vue'
 import ErrorPage from '../components/pages/ErrorPage.vue'
 import NotFound from '../components/pages/404.vue'
 import NoInternetConnection from '../components/pages/NoInternetConnection.vue'
@@ -73,6 +74,22 @@ export default createRouter({
             path: '/rooms/:id', 
             name: 'insideroom', 
             component: InsideRoomPage,
+            beforeEnter: (to, from, next) => {
+                if(localStorage.getItem('auth')) {
+                    next()
+                } else {
+                    if(localStorage.getItem('network')) {
+                        next({ name: "auth"})
+                    } else {
+                        next({ name: "nointernetconnection"})
+                    }
+                }
+            }  
+        },
+        { 
+            path: '/rooms/:id/finish', 
+            name: 'finishedgame', 
+            component: FinishedGamePage,
             beforeEnter: (to, from, next) => {
                 if(localStorage.getItem('auth')) {
                     next()

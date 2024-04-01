@@ -181,4 +181,7 @@ export default {
 .padding-default {
     padding: 8px;
 } 
+.padding-half {
+    padding: 4px;
+} 
 </style>

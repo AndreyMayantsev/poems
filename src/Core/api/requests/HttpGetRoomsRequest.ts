@@ -2,7 +2,7 @@ import { GetRoomsResponse, RoomsListGetRequest, ServerResponseType } from "../da
 import { isAxis } from "./IsRequest";
 import { Configure } from "../../Сonfigure";
 import { HttpRequestInterface } from "./HttpRequestInterface";
-import getCookie from '../getCookie';
+import { sessionID } from "./seesionID";
 
 export class HttpGetRoomsRequest implements HttpRequestInterface {
 
@@ -19,7 +19,7 @@ export class HttpGetRoomsRequest implements HttpRequestInterface {
             headers: {
                 'Content-Type': 'application/json',
                 'X-Develop-Mode': 'yes',
-                'Authorization': getCookie("Token"),
+                'Authorization': sessionID.getSessionID(),
             }
         }
         let req = await isAxis(axiosConfig).then((response)=> {

@@ -12,7 +12,6 @@ import { requestType } from './Core-prod/api/dataTypes';
 import { HttpRequestFactory } from './Core-prod/api/requests/HttpRequestFactory';
 import { ConsoleLogger } from './Core-prod/Logger/ConsoleLogger';
 import { CheckDeviceType } from './Core-prod/CheckDeviceType';
-import { CookiesDelete } from './Core-prod/api/getCookie';
 
 
 export default {
@@ -53,9 +52,9 @@ export default {
     } else {
         if(testAuth.code && testAuth.code === 401) {
             logger.writeLogWarning("Проверка авторизации ПРОВАЛЕНА! Код: " + testAuth.code);
-            localStorage.removeItem('userID');
-            localStorage.removeItem('auth');
-            CookiesDelete();
+            // localStorage.removeItem('userID');
+            // localStorage.removeItem('auth');
+            this.$store.commit('LOGOUT');
             this.$router.push({ name:'auth' });
         } else {
           this.$router.push({ name: "nointernetconnection" });
