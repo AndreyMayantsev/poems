@@ -52,7 +52,7 @@ export default {
                 console.log("Correct Auth request recieved!");
                 this.$store.commit('LOGIN', response);
                 console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.GET_ID));
-                this.$router.push({ name:'roomslist'});
+                this.$router.push({ name:'menu'});
             } else {
                 console.log("ОШИБКА АВТОРИЗАЦИИ");
             }

@@ -50,7 +50,7 @@ export default {
                     showNotifyToast(NotifyTypes.INFO, "Авторизация успешна!");
                     console.log("Correct Auth request recieved!");
                     this.$store.commit('LOGIN', _authResult);
-                    this.$router.push({ name:'roomslist'});
+                    this.$router.push({ name:'menu'});
                 } else {
                     console.log("ОШИБКА РЕГИСТРАЦИИ: " + JSON.stringify(_authResult.message) );
                 }  
