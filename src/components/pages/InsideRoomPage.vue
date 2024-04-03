@@ -87,7 +87,6 @@
                                     size="5em"
                                     /><br><br>
                                     <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
-                                    <q-btn push color="primary" label="Стих" v-on:click="EndPoem()"/>
                                 </div>
 
                                 <!-- GAME MY TURN -->

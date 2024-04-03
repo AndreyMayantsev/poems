@@ -1,7 +1,12 @@
 <template  v-on:enter-a-game="enterAGame()">
     <WindowDefaultFlex caption="Привет!" text="Создайте новую поэму или присоеденитесь к написанию существующей">
-        <MenuButton caption="Присоедениться" v-on:click="enterAGame()"></MenuButton>
-        <MenuButton caption="Создать новую поэму" v-on:click="enterAGame()"></MenuButton>
+        <img src="@/assets/menu_mini_300.png">
+
+        <MenuButton caption="Присоедениться" v-on:click="RoomsList()"></MenuButton>
+        <MenuButton caption="Создать новую поэму" v-on:click="NewRoomPage()"></MenuButton>
+        <br>
+        <q-separator></q-separator>
+        <p>Версия 0.1</p>
     </WindowDefaultFlex>
 
 </template>
@@ -22,8 +27,11 @@ export default {
         WindowDefaultFlex
     },
     methods: {
-        enterAGame() {
-            console.log('Получено событие входа в игру');
+        RoomsList() {
+            this.$router.push({ name: 'roomslist'});
+        },
+        NewRoomPage() {
+            this.$router.push({ name: 'createroom'});
         }
     }
 }
