@@ -164,7 +164,11 @@ export default {
             logger.writeLogInfo("CREATED HOOK: " + JSON.stringify(this.room));
             this.gameState = GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID);
             this.composeRoomUsers();
-            
+            if (this.gameState === this.gameStates.GAME_ENDED) {
+                logger.writeLogInfo("GAME ENDED, PUSH TO FINISH PAGE " + this.gameState);
+                this.$router.push({ name: 'finishedgame', params: { id:this.room.id }});
+            }
+
             // --- join websocket --- //
 
             let roomChannel = "poem_room_" + this.room.data.id +  "_user_" + this.$store.getters.GET_ID;
@@ -179,9 +183,7 @@ export default {
             });
 
             logger.writeLogInfo("[GAME STATE]: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
-            //this.setStepTime();
             this.gameProgressInPercent = GameProcessor.calculateGameProgressPercent(this.room.data);
-            this.EndPoem();
         } catch(error) {
             logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
@@ -202,11 +204,15 @@ export default {
                 let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
                 this.room = Room.data;
                 logger.writeLogInfo("[REFRESH ROOM]: " + JSON.stringify(this.room));
-                logger.writeLogInfo("This game state is: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
+                
                 this.gameState = GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID);
+                logger.writeLogInfo("This game state is: " + this.gameState);
                 this.composeRoomUsers();
                 this.gameProgressInPercent = GameProcessor.calculateGameProgressPercent(this.room.data);
-                this.EndPoem();
+                if (this.gameState === this.gameStates.GAME_ENDED) {
+                    logger.writeLogInfo("GAME ENDED, PUSH TO FINISH PAGE " + this.gameState);
+                    this.$router.push({ name: 'finishedgame', params: { id:this.room.id }});
+                }
             } catch(error) {
                 logger.writeLogError("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
             }
