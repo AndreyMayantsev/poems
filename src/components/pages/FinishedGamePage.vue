@@ -11,7 +11,7 @@
 
                                 <q-separator/>
                                 <div class="">
-                                        <q-scroll-area style="height: 50vh;">
+                                        <q-scroll-area style="height: 60vh;">
                                             <div v-for="string in this.finishedPoem" class="header-font-micro">
                                                 <span >{{ string }}</span>
                                             </div>
@@ -67,7 +67,7 @@
                     }
                 },
                 gameStates: gameStates,
-                nowPoemStrings: ["*** ***** *****","* **** *** ********","Бывает проснешься как птица", "Крылатой пружиной на взводе,"],
+                nowPoemStrings: ["*** ***** *****","* **** *** ********"],
                 finishedPoem: [],
                 gameProgressInPercent: 0.9,
                 progressStepTime: 0.4

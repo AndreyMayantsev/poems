@@ -7,15 +7,15 @@
             caption="В игре!"
             text=""
         >
-            <q-card class="padding-default" style="background-color: #dfc096;">
+            <q-card class="padding-half" style="background-color: #dfc096;">
                             <div class="text-font-mini">Приветсвуем в игре №{{ this.room.data.id }} </div>   
                             <div v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN ||
                                     this.gameState == this.gameStates.GAME_GOES_MY_TURN">
-                                    <q-linear-progress stripe rounded size="18px" :value="this.gameProgressInPercent" color="primary" class="q-mt-sm" />
+                                    <q-linear-progress stripe rounded size="15px" :value="this.gameProgressInPercent" color="primary" class="q-mt-sm" />
                             </div>
                             <q-separator/>
                                 <!-- USERS IN ROOM AVATARS -->
-                                <div class="flb padding-default">
+                                <div class="flb">
                                     <div v-for="user in this.roomUsers">
                                         <div v-if="user.playing_now">
                                             <q-circular-progress
@@ -81,13 +81,18 @@
 
                                 <!-- GAME ANOTHER PLAYER TURN -->
                                 <div class="" v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN">
-                                    <p>Ход другого игрока: {{ this.room.data.current_user_id }}</p>
-                                    <q-spinner-clock
-                                    color="primary"
-                                    size="5em"
-                                    /><br><br>
-                                    <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
+                                    <span>Ход другого игрока: {{ this.room.data.current_user_id }}</span>
+                                    <div class="previous-message">
+                                        <q-scroll-area :tabindex="100" style="height: 50vh;">
+                                        <div v-for="string in this.nowPoemStrings">
+                                            <span class="previous-message-font">{{ string }}</span>
+                                        </div>
+                                        </q-scroll-area>
+                                        <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
+                                    </div>
+                                    <br>
                                     
+                                    <br>
                                 </div>
 
                                 <!-- GAME MY TURN -->
@@ -95,9 +100,11 @@
                                     <!-- Poems messages as a chat -->    
 
                                     <div class="previous-message">
+                                        <q-scroll-area :tabindex="100" style="height: 55vh;">
                                         <div v-for="string in this.nowPoemStrings">
                                             <span class="previous-message-font">{{ string }}</span>
                                         </div>
+                                        </q-scroll-area>
                                     </div>
                                     <p></p>                                        
                                     <div class="flb" style="align-items: stretch">    
@@ -108,7 +115,7 @@
 
                                 <!-- GAME ENDED -->
                                 <div v-if="this.gameState == this.gameStates.GAME_ENDED">
-                                    <q-scroll-area style="height: 50vh;">
+                                    <q-scroll-area style="height: 60vh;">
                                         <div v-for="string in this.finishedPoem" class="header-font-micro">
                                             <span >{{ string }}</span>
                                         </div>
@@ -149,7 +156,7 @@ export default {
                 }
             },
             gameStates: gameStates,
-            nowPoemStrings: ["*** ***** *****","* **** *** ********","Бывает проснешься как птица", "Крылатой пружиной на взводе,"],
+            nowPoemStrings: ["Пока никто не написал"],
             finishedPoem: [],
             gameProgressInPercent: 0.9,
             progressStepTime: 0.4
@@ -182,10 +189,12 @@ export default {
                     this.nowPoemStrings = ev.message.split("\n");
                 }
             });
-
+            if (this.gameState === this.gameStates.GAME_GOES_MY_TURN || this.gameState === this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN) {
+                this.TextRoom();
+            }
             logger.writeLogInfo("[GAME STATE]: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
             this.gameProgressInPercent = GameProcessor.calculateGameProgressPercent(this.room.data);
-            this.TextRoom();
+
         } catch(error) {
             logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
@@ -214,6 +223,9 @@ export default {
                 if (this.gameState === this.gameStates.GAME_ENDED) {
                     logger.writeLogInfo("GAME ENDED, PUSH TO FINISH PAGE " + this.gameState);
                     this.$router.push({ name: 'finishedgame', params: { id:this.room.id }});
+                }
+                if (this.gameState === this.gameStates.GAME_GOES_MY_TURN || this.gameState === this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN) {
+                    this.TextRoom();
                 }
             } catch(error) {
                 logger.writeLogError("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
@@ -306,7 +318,9 @@ export default {
         async TextRoom() {
             let poemText = await HttpRequestFactory.makeRequest(requestType.TextRoom, this.$route.params.id);
             logger.writeLogInfo("TEXT: " + JSON.stringify(poemText));
-            this.nowPoemStrings = poemText.data.data.split("\n");
+            if(poemText) {
+                this.nowPoemStrings = poemText.data.data.split("\n");
+            }    
         }
     }
 }
