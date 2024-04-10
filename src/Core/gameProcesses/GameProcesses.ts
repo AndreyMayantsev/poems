@@ -20,7 +20,7 @@ export class GameProcessor {
         let currentUserInGame = false;
 
         for (let user in gameData.players) {
-            if (gameData.players[user] == myId) {
+            if (gameData.players[user] === myId) {
                 logger.writeLogInfo("Im in game, myId " + myId + " current_user " + gameData.players[user]);
                 currentUserInGame = true;
                 break;
@@ -34,12 +34,12 @@ export class GameProcessor {
 
         let playersInGame = gameData.players.length;
 
-        if(playersInGame == 0) {
+        if(playersInGame === 0) {
             logger.writeLogInfo("Game created");
             return gameStates.GAME_CREATED; 
         }
         if(playersInGame < gameData.places && currentUserInGame) {
-            logger.writeLogInfo("Game awsits another players");
+            logger.writeLogInfo("Game awaits another players");
             return gameStates.GAME_AWAIT_ANOTHER_PLAYERS; 
         }
         if(playersInGame < gameData.places && !currentUserInGame) {
@@ -50,11 +50,11 @@ export class GameProcessor {
             logger.writeLogInfo("Game goes, my turn " + gameData.current_user_id + " | " + myId);
             return gameStates.GAME_GOES_MY_TURN; 
         }
-        if(playersInGame == gameData.places && gameData.current_user_id != myId && gameData.finish_moves_cond > gameData.messages_count) {
+        if(playersInGame === gameData.places && gameData.current_user_id != myId && gameData.finish_moves_cond > gameData.messages_count) {
             logger.writeLogInfo("Game goes, another users turn " + gameData.current_user_id + " | " + myId);
             return gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN; 
         }
-        if(gameData.finish_moves_cond == gameData.messages_count) {
+        if(gameData.finish_moves_cond === gameData.messages_count) {
             logger.writeLogInfo("Game ended");
             return gameStates.GAME_ENDED; 
         }
@@ -63,7 +63,7 @@ export class GameProcessor {
 
     // Calculate percent of game for view in progressBar
     public static calculateGameProgressPercent(room: GetRoomResponse) {
-        if (room.finish_type == "moves") {    
+        if (room.finish_type === "moves") {    
             let maxTurns = room.finish_moves_cond;
             let nowTurn = room.messages_count;
             return ( nowTurn / (maxTurns / 100) ) / 100;

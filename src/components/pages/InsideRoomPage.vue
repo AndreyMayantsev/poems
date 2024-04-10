@@ -76,7 +76,7 @@
                                     color="primary"
                                     size="5em"
                                     /><br><br>
-                                    <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
+                                    <q-btn push color="primary" label="Присоединиться" v-on:click="EnterRoom()"/>
                                 </div>  
 
                                 <!-- GAME ANOTHER PLAYER TURN -->
@@ -87,6 +87,7 @@
                                     size="5em"
                                     /><br><br>
                                     <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
+                                    
                                 </div>
 
                                 <!-- GAME MY TURN -->
@@ -184,6 +185,7 @@ export default {
 
             logger.writeLogInfo("[GAME STATE]: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
             this.gameProgressInPercent = GameProcessor.calculateGameProgressPercent(this.room.data);
+            this.TextRoom();
         } catch(error) {
             logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
@@ -300,6 +302,11 @@ export default {
         async letsStart() {
             let started = await HttpRequestFactory.makeRequest(requestType.StartRoom, this.$route.params.id);
             logger.writeLogInfo("Игра началась в: " + JSON.stringify(started))
+        },
+        async TextRoom() {
+            let poemText = await HttpRequestFactory.makeRequest(requestType.TextRoom, this.$route.params.id);
+            logger.writeLogInfo("TEXT: " + JSON.stringify(poemText));
+            this.nowPoemStrings = poemText.data.data.split("\n");
         }
     }
 }
