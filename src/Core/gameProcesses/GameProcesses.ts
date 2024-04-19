@@ -1,6 +1,7 @@
 import { ConsoleLogger } from "../Logger/ConsoleLogger";
 import { GetRoomResponse } from "../api/dataTypes";
 
+
 export enum gameStates {
     GAME_CREATED,
     GAME_AWAIT_ANOTHER_PLAYERS,
@@ -72,6 +73,37 @@ export class GameProcessor {
             let maxTime = Date.parse(room.created_at) + room.finish_time_cond;
             return ( nowTime / (maxTime / 100) ) / 100;
         }
+    }
+
+    // Compose players list
+    public static composeRoomUsers(room: GetRoomResponse) {
+        let usersList = {
+            last_message_at: room.last_message_at,
+            data:[]
+        }
+
+        logger.writeLogInfo("Максимально пользователей " + room.places);
+        logger.writeLogInfo("Пользователи в игре " + room.players)
+        for(let user in room.players) {
+            let _tmpUser = {
+                id: room.players[user],
+                in_game: true,
+                playing_now: room.players[user] == room.current_user_id ? true : false
+            }
+            logger.writeLogInfo("REAL USER " + JSON.stringify(_tmpUser));
+            usersList.data.push(_tmpUser);
+        }
+        for(let i = 1; i < room.places - room.players.length + 1; i++) {
+            let _tmpUser = {
+                id: 0,
+                in_game: false,
+                playing_now: false
+             }
+            usersList.data.push(_tmpUser);
+        }
+        logger.writeLogInfo("Список пользователей " + JSON.stringify(usersList));
+
+        return usersList;
     }
 
 }

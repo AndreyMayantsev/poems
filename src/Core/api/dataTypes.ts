@@ -30,6 +30,7 @@ export type GetRoomsResponse = {
 }
 
 export type GetRoomResponse = {
+    "current_user_id": number,
     "room_id": number,
     "is_public": boolean,
     "places": number,
@@ -38,7 +39,9 @@ export type GetRoomResponse = {
     "finish_time_cond": number,
     "finish_moves_cond": number,
     "messages_count": number,
-    "created_at": string
+    "created_at": string,
+    "last_message_at": string,
+    "players": []
 }
 
 export type ServerResponseType<D> = {
