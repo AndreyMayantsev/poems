@@ -271,7 +271,6 @@ export default {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EnterRoom, this.room.data.id);
                 logger.writeLogInfo("[ENTER ROOM]: " + JSON.stringify(answer));
                 this.RefreshRoom();
-                this.composeRoomUsers();
             } catch(error) {
                 logger.writeLogError("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)
             }
@@ -321,7 +320,7 @@ export default {
         async GetTextRoom() {
             let poemText = await HttpRequestFactory.makeRequest(requestType.TextRoom, this.$route.params.id);
             logger.writeLogInfo("TEXT: " + JSON.stringify(poemText));
-            if(poemText) {
+            if(poemText && poemText.data.data) {
                 this.nowPoemStrings = poemText.data.data.split("\n");
             }    
         }
