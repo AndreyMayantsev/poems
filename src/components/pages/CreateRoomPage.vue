@@ -151,8 +151,9 @@ export default {
             }
             console.log("Пытаюсь создать комнату с данными: " + JSON.stringify(createroom));
             let answer = await HttpRequestFactory.makeRequest(requestType.MakeRoom, createroom);
-            this.$router.push({name: "roomslist"});
-            console.log("makeRoom: " + JSON.stringify(answer));
+            console.log("MakeRoom: " + JSON.stringify(answer));
+            let makedRoom = answer.data.data.id;
+            this.$router.push({name: "insideroom", params: { id: makedRoom }});
         }
     }
 }
