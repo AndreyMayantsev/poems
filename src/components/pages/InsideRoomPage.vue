@@ -2,12 +2,12 @@
 
 <div class="InsideRoomPage">
 
-    <div class="window-content">
+    <div class="">
         <WindowDefaultFlex
             caption="В игре!"
             text=""
         >
-            <q-card class="padding-half window-content" style="background-color: #dfc096;">
+            <q-card class="padding-default" style="background-color: #dfc096;">
                             <div class="text-font-mini">Приветсвуем в игре №{{ this.room.data.id }} </div>   
                             <div v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN ||
                                     this.gameState == this.gameStates.GAME_GOES_MY_TURN">
@@ -17,7 +17,7 @@
                             </div>
                             <q-separator/>
                             <Avatars :roomusers="this.roomUsers"></Avatars>
-                            <div class="window-content">
+                            <div class="">
 
                                 <!-- GAME CREATED -->
                                 <div v-if="this.gameState == this.gameStates.GAME_CREATED"><p>Новая игра</p>
@@ -245,39 +245,6 @@ export default {
             logger.writeLogInfo("Date in getDate(): " + str);
             return date.toLocaleString('ru', this.options)
         },
-        // composeRoomUsers() {
-        //     let _usersList = []
-        //     logger.writeLogInfo("Максимально пользователей " + this.room.data.places);
-        //     logger.writeLogInfo("Пользователи в игре " + this.room.data.players)
-        //     for(let user in this.room.data.players) {
-        //         let _tmpUser = {
-        //             id: this.room.data.players[user],
-        //             in_game: true,
-        //             playing_now: this.room.data.players[user] == this.room.data.current_user_id ? true : false
-        //         }
-        //         logger.writeLogInfo("REAL USER " + JSON.stringify(_tmpUser));
-        //         _usersList.push(_tmpUser);
-        //     }
-        //     for(let i = 1; i < this.room.data.places - this.room.data.players.length + 1; i++) {
-        //         let _tmpUser = {
-        //             id: 0,
-        //             in_game: false,
-        //             playing_now: false
-        //          }
-        //         _usersList.push(_tmpUser);
-        //     }
-        //     logger.writeLogInfo("Список пользователей " + JSON.stringify(_usersList));
-        //     this.roomUsers = _usersList;
-        // },
-        // setStepTime() {
-        //     const dateAt = new Date(this.room.data.updated_at);
-        //     const date = new Date();
-        //     this.progressStepTimeMin = dateAt.getTime();
-        //     this.progressStepTimeMax = this.progressStepTimeMin + (this.room.data.move_duration * 1000);
-        //     console.log("Time min / max: " + this.progressStepTimeMin + " / " + this.progressStepTimeMax);
-        //     this.progressStepTime = date.getTime();
-        //     console.log("Time now: " + this.progressStepTime);
-        // },
         async letsStart() {
             let started = await HttpRequestFactory.makeRequest(requestType.StartRoom, this.$route.params.id);
             logger.writeLogInfo("Игра началась в: " + JSON.stringify(started))
