@@ -82,15 +82,14 @@ export class GameProcessor {
             data:[]
         }
 
-        logger.writeLogInfo("Максимально пользователей " + room.places);
-        logger.writeLogInfo("Пользователи в игре " + room.players)
+        logger.writeLogInfo("Максимально пользователей: " + room.places);
+        logger.writeLogInfo("Пользователи в игре: " + room.players)
         for(let user in room.players) {
             let _tmpUser = {
                 id: room.players[user],
                 in_game: true,
                 playing_now: room.players[user] == room.current_user_id ? true : false
             }
-            logger.writeLogInfo("REAL USER " + JSON.stringify(_tmpUser));
             usersList.data.push(_tmpUser);
         }
         for(let i = 1; i < room.places - room.players.length + 1; i++) {
@@ -101,7 +100,7 @@ export class GameProcessor {
              }
             usersList.data.push(_tmpUser);
         }
-        logger.writeLogInfo("Список пользователей " + JSON.stringify(usersList));
+        logger.writeLogInfo("Список пользователей: " + JSON.stringify(usersList));
 
         return usersList;
     }

@@ -5,25 +5,23 @@
             text=""
         >
         <q-btn class="glossy" color="secondary" label=" + Создать новую комнату" v-on:click="this.$router.push({name: 'createroom'})"/>
-                        <div class="">
-                            <div class="q-gutter-sm">
-                                <div class="q-ma-md">
-                                    
-                                    <q-scroll-area style="height: 65vh;">
-                                    <div v-for="room in rooms" :key="room.id" >
-                                        <RoomBanner style="padding: 5px"
-                                            :created_at = "room.created_at" 
-                                            :places = "room.places" 
-                                            :users_rooms = "room.room_users.length" 
-                                            :finish_type = "room.finish_type" 
-                                            :room_id = "room.id" 
-                                            v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"
-                                        >                
-                                        </RoomBanner>
-                                    </div>
-                                </q-scroll-area>
-                             </div>
-                            </div>
+                    <p></p>
+                        <div class="rooms-list">
+                                    <q-scroll-area 
+                                    :class='{"scroll-mobile": this.$store.getters.GET_IS_MOBILE_VIEW, "scroll-desktop": !this.$store.getters.GET_IS_MOBILE_VIEW}'
+                                    >
+                                        <div v-for="room in rooms" :key="room.id" >
+                                            <RoomBanner style="padding: 5px"
+                                                :created_at = "room.created_at" 
+                                                :places = "room.places" 
+                                                :users_rooms = "room.room_users.length" 
+                                                :finish_type = "room.finish_type" 
+                                                :room_id = "room.id" 
+                                                v-on:click="$router.push({ name: 'insideroom', params: { id:room.id }})"
+                                            >                
+                                            </RoomBanner>
+                                        </div>
+                                    </q-scroll-area>
                         </div>
         </WindowDefaultFlex>
     </div>
@@ -80,5 +78,17 @@ export default {
 </script>
 
 <style scoped>
-
+.rooms-list {
+	border:4px solid #9e64218e;
+	border-radius:10px;
+    background-color: #dbcab4;
+	position: relative;
+    padding: 5px;
+}
+.scroll-desktop {
+    height: 45vh;
+}
+.scroll-mobile {
+    height: 75vh;
+}
 </style>

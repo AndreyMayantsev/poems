@@ -2,12 +2,12 @@
 
 <div class="InsideRoomPage">
 
-    <div class="">
+    <div class="window-content">
         <WindowDefaultFlex
             caption="В игре!"
             text=""
         >
-            <q-card class="padding-half" style="background-color: #dfc096;">
+            <q-card class="padding-half window-content" style="background-color: #dfc096;">
                             <div class="text-font-mini">Приветсвуем в игре №{{ this.room.data.id }} </div>   
                             <div v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN ||
                                     this.gameState == this.gameStates.GAME_GOES_MY_TURN">
@@ -17,47 +17,8 @@
                             </div>
                             <q-separator/>
                             <Avatars :roomusers="this.roomUsers"></Avatars>
-                                <!-- USERS IN ROOM AVATARS 
-                                <div class="flb">
-                                    <div v-for="user in this.roomUsers">
-                                        <div v-if="user.playing_now">
-                                            <q-circular-progress
-                                                :value="this.progressStepTime"
-                                                show-value
-                                                class="text-light-blue q-ma-md"
-                                                size="40px"
-                                                color="orange"
-                                                >
-                                                <q-avatar
-                                                    size="34px"  
-                                                    class="overlapping"     
-                                                    color="primary"                           
-                                                    >
-                                                {{ user.id }}
-                                                </q-avatar>
-                                            </q-circular-progress>    
-                                        </div>
-                                        <div v-if="user.in_game & !user.playing_now">
-                                            <q-avatar
-                                            size="34px"
-                                            class="overlapping"
-                                            >
-                                            {{ user.id }}
-                                            </q-avatar>
-                                        </div>
-                                        <div v-if="!user.in_game">
-                                            <q-avatar
-                                            size="32px"
-                                            class="overlapping"
-                                            icon="star"
-                                            >
-                                            +
-                                            </q-avatar>                           
-                                        </div>
-                                    </div>
-                                </div>
-                            -->
-                            <div class="">
+                            <div class="window-content">
+
                                 <!-- GAME CREATED -->
                                 <div v-if="this.gameState == this.gameStates.GAME_CREATED"><p>Новая игра</p>
                                     <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
@@ -84,7 +45,10 @@
                                 <!-- GAME ANOTHER PLAYER TURN -->
                                 <div class="" v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN">
                                     <div class="previous-message">
-                                        <q-scroll-area :tabindex="100" style="height: 50vh;">
+                                        <q-scroll-area 
+                                        :tabindex="100"
+                                        :class='{"scroll-mobile": this.$store.getters.GET_IS_MOBILE_VIEW, "scroll-desktop": !this.$store.getters.GET_IS_MOBILE_VIEW}'
+                                        >
                                         <div v-for="string in this.nowPoemStrings">
                                             <span class="previous-message-font">{{ string }}</span>
                                         </div>
@@ -98,10 +62,11 @@
 
                                 <!-- GAME MY TURN -->
                                 <div v-if="this.gameState == this.gameStates.GAME_GOES_MY_TURN">
-                                    <!-- Poems messages as a chat -->    
-
                                     <div class="previous-message">
-                                        <q-scroll-area :tabindex="100" style="height: 55vh;">
+                                        <q-scroll-area 
+                                        :tabindex="100"
+                                        :class='{"scroll-mobile": this.$store.getters.GET_IS_MOBILE_VIEW, "scroll-desktop": !this.$store.getters.GET_IS_MOBILE_VIEW}'
+                                        >
                                         <div v-for="string in this.nowPoemStrings">
                                             <span class="previous-message-font">{{ string }}</span>
                                         </div>
@@ -330,6 +295,13 @@ export default {
 </script>
 
 <style scoped>
+.scroll-desktop {
+    height: 33vh;
+}
+.scroll-mobile {
+    height: 56vh;
+}
+
 .other-avatars-style {
     margin: 3px;
     padding: auto;
@@ -347,10 +319,8 @@ export default {
 .previous-message {
 	border:4px solid #9e64218e;
 	border-radius:10px;
-	height:auto;
-	width:99%;
     background-color: #dbcab4;
-	position:relative;
+	position: relative;
     padding: 5px;
 }
 .previous-message-font {

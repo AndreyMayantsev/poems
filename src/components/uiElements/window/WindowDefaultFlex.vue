@@ -1,7 +1,7 @@
 <template>
     <div class="WindowDefaultFlex height-100-mobile flb">
-        <div class="window-layout flb"
-        :class='{"fill-page-for-mobile": this.$store.getters.GET_IS_MOBILE_VIEW}'
+        <div class="window-layout"
+        :class='{"fill-page-for-mobile": this.$store.getters.GET_IS_MOBILE_VIEW, "standart-page-for-desktop": !this.$store.getters.GET_IS_MOBILE_VIEW}'
         >
             <div class="flb-v" style="justify-content: space-between">
                 <!-- Animated header -->
@@ -14,7 +14,7 @@
                 <div class="text-font">{{ this.text }}</div>
                 <!-- Slot for another content -->
                 <p></p>
-                <div style="">
+                <div style="height: 90%;">
                     <slot></slot>
                 </div>
             </div>
@@ -66,6 +66,10 @@ export default {
     height: 100%;
     width: 100%;
 }
+.standart-page-for-desktop {
+    height: 70%;
+    width: 45%;
+}
 .window-layout {  
     text-align: center;
     background-color: #dbcab3;
@@ -73,7 +77,7 @@ export default {
     padding: 12px;
     box-sizing: border-box;
     box-shadow: 0 0 8px rgba(173, 136, 32, 0.5);
-    min-width: 350px;
+    min-width: 38vw;
     max-width: 500px;
 }
 .window-header {  

@@ -184,4 +184,8 @@ export default {
 .padding-half {
     padding: 4px;
 } 
+.scrolling-height {
+    height: 36vh;
+    min-height: 300px;
+}
 </style>
