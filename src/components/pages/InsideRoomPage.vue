@@ -102,6 +102,7 @@ import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFact
 import { requestType } from '../../Core-prod/api/dataTypes';
 import { ConsoleLogger } from '../../Core-prod/Logger/ConsoleLogger';
 import { GameProcessor, gameStates } from '../../Core-prod/gameProcesses/GameProcesses';
+import { ActiveGame } from '../../Core-prod/gameProcesses/ActiveGame'
 import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
 import Avatars from '../uiElements/Avatars.vue';
 
@@ -225,6 +226,7 @@ export default {
                 let answer = await HttpRequestFactory.makeRequest(requestType.LeaveRoom, this.room.data.id);
                 logger.writeLogInfo("[LeaveRoom]: " + JSON.stringify(answer));
                 if (answer.data.success == true) {
+                    ActiveGame.unsetActiveGame(this.$store.getters.GET_ID);
                     this.$router.push({ name: "roomslist" });
                 }
             } catch(error) {
@@ -235,6 +237,7 @@ export default {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EnterRoom, this.room.data.id);
                 logger.writeLogInfo("[ENTER ROOM]: " + JSON.stringify(answer));
+                ActiveGame.setActiveGame(this.$store.getters.GET_ID, this.room.data.id);
                 this.RefreshRoom();
             } catch(error) {
                 logger.writeLogError("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)

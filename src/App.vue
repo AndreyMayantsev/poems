@@ -49,11 +49,13 @@ export default {
     if(testAuth.success) {
         logger.writeLogInfo("Проверка авторизации прошла успешно!");
         this.$store.commit( 'ON_LOAD_USER_AUTORIZED_BY_COOKIES', localStorage.getItem('userID'));
+        // let myActiveGame = ActiveGame.getActiveGame(this.$store.getters.GET_ID);
+        // if (myActiveGame) {
+        //     this.$router.push({ name: 'insideroom', params: { id: myActiveGame }});
+        // }
     } else {
         if(testAuth.code && testAuth.code === 401) {
             logger.writeLogWarning("Проверка авторизации ПРОВАЛЕНА! Код: " + testAuth.code);
-            // localStorage.removeItem('userID');
-            // localStorage.removeItem('auth');
             this.$store.commit('LOGOUT');
             this.$router.push({ name:'auth' });
         } else {

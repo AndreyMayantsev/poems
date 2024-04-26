@@ -22,6 +22,7 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
 import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer';
+import { ActiveGame } from '../../Core-prod/gameProcesses/ActiveGame';
 import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
 import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
@@ -56,8 +57,11 @@ export default {
             } else {
                 console.log("ОШИБКА АВТОРИЗАЦИИ");
             }
-            
-            console.log("Added user with ID: " + this.$store.getters.GET_ID)
+            let myActiveGame = ActiveGame.getActiveGame(this.$store.getters.GET_ID);
+            if (myActiveGame) {
+                this.$router.push({ name: 'insideroom', params: { id: myActiveGame }});
+            }
+            console.log("Активная игра пользователя: " + ActiveGame.getActiveGame(this.$store.getters.GET_ID));
         }
     }
 }

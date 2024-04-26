@@ -21,7 +21,7 @@ export class GameProcessor {
         let currentUserInGame = false;
 
         for (let user in gameData.players) {
-            if (gameData.players[user] === myId) {
+            if (gameData.players[user] == myId) {
                 logger.writeLogInfo("Im in game, myId " + myId + " current_user " + gameData.players[user]);
                 currentUserInGame = true;
                 break;

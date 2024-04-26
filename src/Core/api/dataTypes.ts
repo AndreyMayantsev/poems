@@ -103,4 +103,3 @@ export enum requestType {
     TextRoom  
 }
 
-console.log(requestType);
