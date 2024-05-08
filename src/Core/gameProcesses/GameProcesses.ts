@@ -79,6 +79,7 @@ export class GameProcessor {
     public static composeRoomUsers(room: GetRoomResponse) {
         let usersList = {
             last_message_at: room.last_message_at,
+            move_duration: room.move_duration,
             data:[]
         }
 

@@ -16,7 +16,10 @@
                                     </q-linear-progress>
                             </div>
                             <q-separator/>
-                            <Avatars :roomusers="this.roomUsers"></Avatars>
+                            <div v-if="this.loaded == true">
+                                <Avatars :roomusers="this.roomUsers"></Avatars>
+                            </div>
+                                
                             <div class="">
 
                                 <!-- GAME CREATED -->
@@ -127,7 +130,7 @@ export default {
             nowPoemStrings: ["Пока никто не написал"],
             finishedPoem: [],
             gameProgressInPercent: 0.9,
-
+            loaded: false
         }
     },
     components: {
@@ -158,12 +161,13 @@ export default {
                     this.nowPoemStrings = ev.message.split("\n");
                 }
             });
+
             if (this.gameState === this.gameStates.GAME_GOES_MY_TURN || this.gameState === this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN) {
                 this.GetTextRoom();
             }
             logger.writeLogInfo("[GAME STATE]: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
             this.gameProgressInPercent = GameProcessor.calculateGameProgressPercent(this.room.data);
-
+            this.loaded = true;
         } catch(error) {
             logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
@@ -196,6 +200,7 @@ export default {
                 if (this.gameState === this.gameStates.GAME_GOES_MY_TURN || this.gameState === this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN) {
                     this.GetTextRoom();
                 }
+                this.loaded = true;
             } catch(error) {
                 logger.writeLogError("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
             }

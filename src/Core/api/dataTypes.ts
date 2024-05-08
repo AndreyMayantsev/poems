@@ -39,6 +39,7 @@ export type GetRoomResponse = {
     "finish_time_cond": number,
     "finish_moves_cond": number,
     "messages_count": number,
+    "move_duration": number,
     "created_at": string,
     "last_message_at": string,
     "players": []
