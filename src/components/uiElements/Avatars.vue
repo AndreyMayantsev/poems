@@ -55,48 +55,55 @@ export default {
         
     data() {
         return {
-            progressStepTime: 80,
-            roomUsers: []
+            progressStepTime: 1,
+            lastMessageTime: 0,
+            timer: null
         }
     },
     created() {
         console.log('AVATARS: ' + JSON.stringify(this.roomusers));    
         this.setStepTime()
+        this.lastMessageTime = new Date(this.roomusers.last_message_at).getTime();
    
     },
     mounted() {
         console.log('AVATARS: ' + JSON.stringify(this.roomusers));    
         this.setStepTime()
-        this.countDown() 
+        this.timer = this.countDown();
+        console.log("Starting timer: " + this.timer);
     },
     activated() {
 
     },
+    unmounted() {
+        console.log("Stoping timer " + this.timer);
+        clearInterval(this.timer);
+    },
     methods: {
         setStepTime() {
-            const last_message_time = new Date(this.roomusers.last_message_at).getTime();
             const now_time = new Date().getTime();
-            const max_message_time = new Date(last_message_time).getTime() + (this.roomusers.move_duration * 1000);
-            console.log("TIME = [ min | now | max ]: " + last_message_time + " | " + now_time + " | " + max_message_time);
-            let percent = (max_message_time - last_message_time) / 100
-            console.log("PERCENT CALC = " + percent + " | " + (now_time - last_message_time));
-            let pr_percent = ( now_time - last_message_time ) / percent;
-            console.log("prPERCENT = " + pr_percent);
-
-            return pr_percent
-
+            const max_message_time = new Date(this.lastMessageTime).getTime() + (this.roomusers.move_duration * 60000);
+            console.log("Время последнего хода: " + this.lastMessageTime);
+            console.log("Текущее время: " + now_time);
+            console.log("Время окончания хода: " + max_message_time + " + " + this.roomusers.move_duration * 60000);
+            let percent = (max_message_time - this.lastMessageTime) / 100
+            this.progressStepTime = 100 - (( now_time - this.lastMessageTime ) / percent);
         },
         countDown() {
             // TODO
+            // Как то сообразить обновлеиие процента после хода
             // Отключать таймер при выходе из комнаты
             // Правильно расчитывать процент окончания хода
             // Учитывать часовой пояс (?)
-            return setTimeout(() => {
-                if (this.setStepTime() <= 100) {
-                    this.countDown();
-                }                
-                console.log("--- timer ---: ");
-            }, 6000);      
+            return setInterval(() => {
+                if (this.progressStepTime >= 0) {
+                    this.setStepTime();
+                    //this.countDown();
+                    console.log("--- timer ---: " + this.progressStepTime);
+                } else {
+                    clearInterval(this.timer);
+                }                 
+            }, 10000);      
         }
     }
 
