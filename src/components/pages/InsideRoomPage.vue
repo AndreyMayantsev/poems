@@ -11,9 +11,8 @@
                             <div class="text-font-mini">Приветсвуем в игре №{{ this.room.data.id }} </div>   
                             <div v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN ||
                                     this.gameState == this.gameStates.GAME_GOES_MY_TURN">
-                                    <q-linear-progress stripe rounded size="20px" :value="this.gameProgressInPercent" color="primary" class="q-mt-sm" >
-                                        
-                                    </q-linear-progress>
+                                <q-linear-progress stripe rounded size="20px" :value="this.gameProgressInPercent" color="primary" class="q-mt-sm" >
+                                </q-linear-progress>
                             </div>
                             <q-separator/>
                             <div v-if="this.loaded == true">
@@ -75,11 +74,13 @@
                                         </div>
                                         </q-scroll-area>
                                     </div>
-                                    <p></p>                                        
+                                    <p></p>   
+                                    <form>                                     
                                     <div class="flb" style="align-items: stretch">    
                                         <textarea v-model="message" rows="2" cols="18" style="width:88%; background-color: #dbcab4;"></textarea>
                                         <q-btn color="primary" icon="check" label="" v-on:click="SendMessage()" />
                                     </div>
+                                    </form>
                                 </div>
 
                                 <!-- GAME ENDED -->

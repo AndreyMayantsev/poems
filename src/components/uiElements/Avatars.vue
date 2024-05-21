@@ -62,18 +62,15 @@ export default {
     },
     created() {
         console.log('AVATARS: ' + JSON.stringify(this.roomusers));    
-        this.setStepTime()
-        this.lastMessageTime = new Date(this.roomusers.last_message_at).getTime();
-   
+        this.timer = this.countDown();
     },
     mounted() {
         console.log('AVATARS: ' + JSON.stringify(this.roomusers));    
-        this.setStepTime()
-        this.timer = this.countDown();
+        this.setStepTime();
         console.log("Starting timer: " + this.timer);
     },
     activated() {
-
+        this.setStepTime();
     },
     unmounted() {
         console.log("Stoping timer " + this.timer);
@@ -81,6 +78,7 @@ export default {
     },
     methods: {
         setStepTime() {
+            this.lastMessageTime = new Date(this.roomusers.last_message_at).getTime();
             const now_time = new Date().getTime();
             const max_message_time = new Date(this.lastMessageTime).getTime() + (this.roomusers.move_duration * 60000);
             console.log("Время последнего хода: " + this.lastMessageTime);
@@ -91,7 +89,7 @@ export default {
         },
         countDown() {
             // TODO
-            // Как то сообразить обновлеиие процента после хода
+            // Как то сообразить обновлеиие процента после хода 
             // Отключать таймер при выходе из комнаты
             // Правильно расчитывать процент окончания хода
             // Учитывать часовой пояс (?)
@@ -100,6 +98,7 @@ export default {
                     this.setStepTime();
                     //this.countDown();
                     console.log("--- timer ---: " + this.progressStepTime);
+                    console.log("--- users ---: " + JSON.stringify(this.roomusers));
                 } else {
                     clearInterval(this.timer);
                 }                 
