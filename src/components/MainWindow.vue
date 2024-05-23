@@ -12,7 +12,7 @@
           <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
           <q-btn v-if="!this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Войти" v-on:click="toTheAuthPage()"/>
           <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Комнаты" v-on:click="toTheRooms()"/>
-          <q-btn v-if="this.$store.getters.GET_DEBUG_MODE" flat rounded class="menu-font" label="Тесты" v-on:click="toTheTestPage()"/>
+          <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Меню" v-on:click="toTheTestPage()"/>
           <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Выход" v-on:click="LogOut()"/>
         </q-toolbar-title>
       </q-toolbar>
@@ -28,7 +28,7 @@
           <q-avatar v-if="this.$store.getters.IS_USER_AUTORIZED" size="38px" color="orange">{{ this.$store.getters.GET_ID }}</q-avatar>
           <q-btn v-if="!this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Войти" v-on:click="toTheAuthPage()"/>
           <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Комнаты" v-on:click="toTheRooms()"/>
-          <q-btn v-if="this.$store.getters.GET_DEBUG_MODE" flat rounded class="menu-font" label="Тесты" v-on:click="toTheTestPage()"/>
+          <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Меню" v-on:click="toTheTestPage()"/>
           <q-btn v-if="this.$store.getters.IS_USER_AUTORIZED" flat rounded class="menu-font" label="Выход" v-on:click="LogOut()"/>
         </q-toolbar-title>
       </q-toolbar>
@@ -68,7 +68,7 @@ export default {
             }
         },
         toTheTestPage() {
-            this.$router.push({ name: 'testpage'});
+            this.$router.push({ name: 'menu'});
         },
         toTheAuthPage() {
             this.$router.push({ name: 'auth'});
@@ -121,6 +121,14 @@ export default {
   text-decoration-style: solid;
   cursor: pointer;
 }
+.text-font-mini {
+  font-family: "LT Remark";
+  font-size: 1.0rem;
+  line-height: .9;
+  letter-spacing: 1;
+  text-decoration-style: solid;
+  cursor: pointer;
+}
 .header-font {
   font-family: "Marck Script";
   font-size: 3.8rem;
@@ -133,6 +141,14 @@ export default {
   font-family: "Marck Script";
   font-size: 1.8rem;
   line-height: .9;
+  letter-spacing: 0;
+  text-decoration-style: solid;
+  cursor: pointer;
+}
+.header-font-micro {
+  font-family: "Marck Script";
+  font-size: 1.2rem;
+  line-height: 1;
   letter-spacing: 0;
   text-decoration-style: solid;
   cursor: pointer;
@@ -165,4 +181,11 @@ export default {
 .padding-default {
     padding: 8px;
 } 
+.padding-half {
+    padding: 4px;
+} 
+.scrolling-height {
+    height: 36vh;
+    min-height: 300px;
+}
 </style>

@@ -4,7 +4,7 @@
 
     <WindowDefaultFlex
             caption="Новая игра"
-            text="Введите настройки для новой игры"
+            text=""
         >
             <q-separator/>
             <q-card>
@@ -19,7 +19,6 @@
                                     <q-tab name="moves" label="Ходы" />
                                     <q-tab name="time" label="Время" />
                                 </q-tabs>
-                            <q-separator/>
                             <q-tab-panels v-model="finish_type" animated>
                             <q-tab-panel name="moves">
                                 <img class="border-image "
@@ -58,7 +57,6 @@
                                     :max="60"
                                     />
                                     <q-badge>Количество ходов: {{ finish_moves_cond }}</q-badge>
-                                    <q-separator/>
                                 </div>
                                 <div class="q-px-lg q-pt-md">
                                 <SimpleButton class="padding-el" caption="Создать" v-on:click="makeRoom"></SimpleButton>
@@ -101,7 +99,7 @@
                                     :max="180"
                                     />
                                     <q-badge>Длительность игры (минут): {{ finish_time_cond }}</q-badge>
-                                    <q-separator/>
+                                    
                                 </div>
                                 <div class="q-px-lg q-pt-md">
                                 <SimpleButton class="padding-el" caption="Создать" v-on:click="makeRoom"></SimpleButton>
@@ -151,8 +149,9 @@ export default {
             }
             console.log("Пытаюсь создать комнату с данными: " + JSON.stringify(createroom));
             let answer = await HttpRequestFactory.makeRequest(requestType.MakeRoom, createroom);
-            this.$router.push({name: "roomslist"});
-            console.log("makeRoom: " + JSON.stringify(answer));
+            console.log("MakeRoom: " + JSON.stringify(answer));
+            let makedRoom = answer.data.data.id;
+            this.$router.push({name: "insideroom", params: { id: makedRoom }});
         }
     }
 }
@@ -173,6 +172,6 @@ export default {
         height: 48px
     }
 .padding-el {
-    padding: 5px;
+    padding: 1px;
 }
 </style>

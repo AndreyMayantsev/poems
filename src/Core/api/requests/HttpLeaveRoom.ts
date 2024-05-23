@@ -2,7 +2,7 @@ import { EndPoemResponse, ServerResponseType } from "../dataTypes";
 import { isAxis } from "./IsRequest";
 import { Configure } from "../../Сonfigure";
 import { HttpRequestInterface } from "./HttpRequestInterface";
-import getCookie from '../getCookie';
+import { sessionID } from "./seesionID";
 
 export class HttpLeaveRoomRequest implements HttpRequestInterface {
 
@@ -16,7 +16,7 @@ export class HttpLeaveRoomRequest implements HttpRequestInterface {
             headers: {
                 'Content-Type': 'application/json',
                 'X-Develop-Mode': 'yes',
-                'Authorization': getCookie("Token"),
+                'Authorization': sessionID.getSessionID(),
             }
         }
         let req = await isAxis(axiosConfig).then((response)=> {

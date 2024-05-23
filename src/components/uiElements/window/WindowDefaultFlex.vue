@@ -1,23 +1,24 @@
 <template>
     <div class="WindowDefaultFlex height-100-mobile flb">
-    <div class="window-layout flb"
-        
-    :class='{"fill-page-for-mobile": this.$store.getters.GET_IS_MOBILE_VIEW}'
-    >
-        <div class="flb-v">
-            <div class="window-header" style="align-items: flex-start;">
-                <transition name="headerani">    
-                    <p v-if="show" class="header-font">{{ this.caption }}</p>
-                </transition>
-            </div> 
-            
-            <div class="text-font">{{ this.text }}</div>
-            <div>
-            <p></p>
-                 <slot></slot>
+        <div class="window-layout"
+        :class='{"fill-page-for-mobile": this.$store.getters.GET_IS_MOBILE_VIEW, "standart-page-for-desktop": !this.$store.getters.GET_IS_MOBILE_VIEW}'
+        >
+            <div class="flb-v" style="justify-content: space-between">
+                <!-- Animated header -->
+                <div class="window-header" style="align-items: flex-start;">
+                        <transition name="headerani">    
+                            <p v-if="show" class="header-font">{{ this.caption }}</p>
+                        </transition>
+                </div> 
+                <!-- Additionl text -->    
+                <div class="text-font">{{ this.text }}</div>
+                <!-- Slot for another content -->
+                <p></p>
+                <div style="height: 90%;">
+                    <slot></slot>
+                </div>
             </div>
         </div>
-    </div>
     </div>    
     
 </template>
@@ -55,7 +56,7 @@ export default {
 }
 .flb-v {
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
 	align-items: center;
 }
 .height-100 {
@@ -65,6 +66,10 @@ export default {
     height: 100%;
     width: 100%;
 }
+.standart-page-for-desktop {
+    height: 70%;
+    width: 45%;
+}
 .window-layout {  
     text-align: center;
     background-color: #dbcab3;
@@ -72,7 +77,7 @@ export default {
     padding: 12px;
     box-sizing: border-box;
     box-shadow: 0 0 8px rgba(173, 136, 32, 0.5);
-    min-width: 350px;
+    min-width: 38vw;
     max-width: 500px;
 }
 .window-header {  
@@ -90,7 +95,7 @@ export default {
 }
 .text-font {
   font-family: "LT Remark";
-  font-size: 1rem;
+  font-size: .8rem;
   line-height: 1;
   letter-spacing: 1;
   text-decoration-style: solid;

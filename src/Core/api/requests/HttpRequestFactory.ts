@@ -9,6 +9,8 @@ import { HttpSendMessageRequest } from "./HttpSendMessageRequest";
 import { HttpEnterRoomRequest } from "./HttpEnterRoomRequest";
 import { HttpEndPoemRequest } from "./HttpEndPoemRequest";
 import { HttpLeaveRoomRequest } from "./HttpLeaveRoom";
+import { HttpStartRoomRequest } from "./HttpStartRoomRequest";
+import { HttpTextRoomRequest } from "./HttpTextRoomRequest"
 import { ConsoleLogger } from "../../Logger/ConsoleLogger";
 
 export class HttpRequestFactory {
@@ -23,8 +25,6 @@ export class HttpRequestFactory {
                 let HttpRequestObject = HttpRequestFactory.FactorySwitcher(rtype);
                 let answer = await HttpRequestObject.makeHttpRequest(rdata, id);
 
-                //ConsoleLogger.writeLogInfo("<= makeRequest answer data: " + JSON.stringify(answer));
-                
                 return answer;
     }
 
@@ -65,6 +65,14 @@ export class HttpRequestFactory {
                 }
                 case requestType.LeaveRoom: {
                     HttpRequestObject = new HttpLeaveRoomRequest();
+                    break;
+                }
+                case requestType.StartRoom: {
+                    HttpRequestObject = new HttpStartRoomRequest();
+                    break;
+                }
+                case requestType.TextRoom: {
+                    HttpRequestObject = new HttpTextRoomRequest();
                     break;
                 }
                 default: {

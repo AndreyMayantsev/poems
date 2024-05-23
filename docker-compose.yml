@@ -2,6 +2,7 @@ version: '2.2'
 
 services:
   server:
+    container_name: poems_server
     build:
       context: .
       dockerfile: 'docker/server/.Dockerfile'
@@ -12,6 +13,7 @@ services:
     ports:
       - "8080:8080"
   tsc:
+    container_name: poems_tsc
     build:
       context: .
       dockerfile: 'docker/tsc/.Dockerfile'

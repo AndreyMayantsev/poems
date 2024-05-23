@@ -8,7 +8,6 @@
 
             <q-input class="padding-el" outlined v-model="login" label="Логин" />
             <q-input class="padding-el" type="password" outlined v-model="password" label="Пароль" />
-            <q-separator/>
             <SimpleButton class="padding-el" caption="Войти" v-on:click="Autorize"></SimpleButton>
 
         <span>Я не <a href="#" v-on:click="$router.push({ name:'register'})">зарегистрирован</a> в игре</span>
@@ -23,6 +22,7 @@
 import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFactory'
 import { requestType } from '../../Core-prod/api/dataTypes'
 import { showNotifyToast, NotifyTypes } from '../../Core-prod/UI/Notifyer';
+import { ActiveGame } from '../../Core-prod/gameProcesses/ActiveGame';
 import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
 import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
 
@@ -53,12 +53,15 @@ export default {
                 console.log("Correct Auth request recieved!");
                 this.$store.commit('LOGIN', response);
                 console.log("[AUTH_FORM_LOGIN_RESULT]: " + JSON.stringify(this.$store.getters.GET_ID));
-                this.$router.push({ name:'roomslist'});
+                this.$router.push({ name:'menu'});
             } else {
                 console.log("ОШИБКА АВТОРИЗАЦИИ");
             }
-            
-            console.log("Added user with ID: " + this.$store.getters.GET_ID)
+            let myActiveGame = ActiveGame.getActiveGame(this.$store.getters.GET_ID);
+            if (myActiveGame) {
+                this.$router.push({ name: 'insideroom', params: { id: myActiveGame }});
+            }
+            console.log("Активная игра пользователя: " + ActiveGame.getActiveGame(this.$store.getters.GET_ID));
         }
     }
 }

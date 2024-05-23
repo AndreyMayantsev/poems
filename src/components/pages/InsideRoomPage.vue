@@ -8,49 +8,17 @@
             text=""
         >
             <q-card class="padding-default" style="background-color: #dfc096;">
-                            <div>Приветсвуем в игре №{{ this.room.data.id }} </div>   
+                            <div class="text-font-mini">Приветсвуем в игре №{{ this.room.data.id }} </div>   
+                            <div v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN ||
+                                    this.gameState == this.gameStates.GAME_GOES_MY_TURN">
+                                <q-linear-progress stripe rounded size="20px" :value="this.gameProgressInPercent" color="primary" class="q-mt-sm" >
+                                </q-linear-progress>
+                            </div>
                             <q-separator/>
-                                <!-- USERS IN ROOM AVATARS -->
-                                <div class="flb padding-default">
-                                    <div v-for="user in this.roomUsers">
-                                        <div v-if="user.playing_now">
-                                            <q-circular-progress
-                                                :value="this.progressStepTime"
-                                                show-value
-                                                class="text-light-blue q-ma-md"
-                                                size="40px"
-                                                color="orange"
-                                                >
-                                                <q-avatar
-                                                    size="32px"  
-                                                    class="overlapping"                                 
-                                                    >
-                                                    <img :src="`https://cdn.quasar.dev/img/avatar1.jpg`">
-                                                    {{ user }}
-                                                </q-avatar>
-                                            </q-circular-progress>    
-                                        </div>
-                                        <div v-if="user.in_game & !user.playing_now">
-                                            <q-avatar
-                                            size="32px"
-                                            class="overlapping"
-                                            >
-                                            <img :src="`https://cdn.quasar.dev/img/avatar3.jpg`">
-                                            {{ user }}
-                                            </q-avatar>
-                                        </div>
-                                        <div v-if="!user.in_game">
-                                            <q-avatar
-                                            size="32px"
-                                            class="overlapping"
-                                            icon="star"
-                                            >
-                                            +
-                                            </q-avatar>                           
-                                        </div>
-                                    </div>
-                                </div>
-                            <q-separator/>
+                            <div v-if="this.loaded == true">
+                                <Avatars :roomusers="this.roomUsers"></Avatars>
+                            </div>
+                                
                             <div class="">
 
                                 <!-- GAME CREATED -->
@@ -73,42 +41,54 @@
                                     color="primary"
                                     size="5em"
                                     /><br><br>
-                                    <q-btn push color="primary" label="Присоедениться" v-on:click="EnterRoom()"/>
+                                    <q-btn push color="primary" label="Присоединиться" v-on:click="EnterRoom()"/>
                                 </div>  
 
                                 <!-- GAME ANOTHER PLAYER TURN -->
                                 <div class="" v-if="this.gameState == this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN">
-                                    <p>Ход другого игрока: {{ this.room.data.current_user_id }}</p>
-                                    <q-spinner-clock
-                                    color="primary"
-                                    size="5em"
-                                    /><br><br>
-                                    <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
-                                    <q-btn push color="primary" label="Стих" v-on:click="EndPoem()"/>
-
+                                    <div class="previous-message">
+                                        <q-scroll-area 
+                                        :tabindex="100"
+                                        :class='{"scroll-mobile": this.$store.getters.GET_IS_MOBILE_VIEW, "scroll-desktop": !this.$store.getters.GET_IS_MOBILE_VIEW}'
+                                        >
+                                        <div v-for="string in this.nowPoemStrings">
+                                            <span class="previous-message-font">{{ string }}</span>
+                                        </div>
+                                        </q-scroll-area>
+                                        <q-btn push color="primary" label="Покинуть комнату" v-on:click="LeaveRoom()"/>
+                                    </div>
+                                    <br>
+                                    
+                                    <br>
                                 </div>
 
                                 <!-- GAME MY TURN -->
-                                <div v-if="this.gameState == this.gameStates.GAME_GOES_MY_TURN"><p>Ходите!</p>
-                                    <!-- Poems messages as a chat -->    
-                                    <div class="q-pa-md">
-                                        <q-chat-message
-                                            name="Предыдущий игрок: "
-                                            :text="this.nowPoemStrings"
-                                        />
+                                <div v-if="this.gameState == this.gameStates.GAME_GOES_MY_TURN">
+                                    <div class="previous-message">
+                                        <q-scroll-area 
+                                        :tabindex="100"
+                                        :class='{"scroll-mobile": this.$store.getters.GET_IS_MOBILE_VIEW, "scroll-desktop": !this.$store.getters.GET_IS_MOBILE_VIEW}'
+                                        >
+                                        <div v-for="string in this.nowPoemStrings">
+                                            <span class="previous-message-font">{{ string }}</span>
+                                        </div>
+                                        </q-scroll-area>
                                     </div>
-                                    <div class="flb">    
-                                        <q-separator/>
-                                        <textarea v-model="message" rows="2" cols="18"></textarea>
+                                    <p></p>   
+                                    <form>                                     
+                                    <div class="flb" style="align-items: stretch">    
+                                        <textarea v-model="message" rows="2" cols="18" style="width:88%; background-color: #dbcab4;"></textarea>
                                         <q-btn color="primary" icon="check" label="" v-on:click="SendMessage()" />
                                     </div>
+                                    </form>
                                 </div>
 
                                 <!-- GAME ENDED -->
                                 <div v-if="this.gameState == this.gameStates.GAME_ENDED">
-                                    <p>Игра завершена</p>
-                                    <q-scroll-area style="height: 40vh;">
-                                        
+                                    <q-scroll-area style="height: 60vh;">
+                                        <div v-for="string in this.finishedPoem" class="header-font-micro">
+                                            <span >{{ string }}</span>
+                                        </div>
                                     </q-scroll-area>
                                 </div>
                             </div>
@@ -126,8 +106,10 @@ import { HttpRequestFactory } from '../../Core-prod/api/requests/HttpRequestFact
 import { requestType } from '../../Core-prod/api/dataTypes';
 import { ConsoleLogger } from '../../Core-prod/Logger/ConsoleLogger';
 import { GameProcessor, gameStates } from '../../Core-prod/gameProcesses/GameProcesses';
+import { ActiveGame } from '../../Core-prod/gameProcesses/ActiveGame'
 import WindowDefaultFlex from '../uiElements/window/WindowDefaultFlex.vue';
-//import SimpleButton from '../uiElements/buttons/SimpleButton.vue';
+import Avatars from '../uiElements/Avatars.vue';
+
 
 let logger = new ConsoleLogger("INSIDE ROOM");
 
@@ -146,15 +128,15 @@ export default {
                 }
             },
             gameStates: gameStates,
-            nowPoemStrings: [],
-            endedPoem: [],
-            progressStepTimeMin: 0,
-            progressStepTimeMax: 0,
-            progressStepTime: 8
+            nowPoemStrings: ["Пока никто не написал"],
+            finishedPoem: [],
+            gameProgressInPercent: 0.9,
+            loaded: false
         }
     },
     components: {
-        WindowDefaultFlex
+        WindowDefaultFlex,
+        Avatars
     },
     async created() {
         try {
@@ -162,8 +144,12 @@ export default {
             this.room = Room.data;
             logger.writeLogInfo("CREATED HOOK: " + JSON.stringify(this.room));
             this.gameState = GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID);
-            this.composeRoomUsers();
-            
+            this.roomUsers = GameProcessor.composeRoomUsers(this.room.data);
+            if (this.gameState === this.gameStates.GAME_ENDED) {
+                logger.writeLogInfo("GAME ENDED, PUSH TO FINISH PAGE " + this.gameState);
+                this.$router.push({ name: 'finishedgame', params: { id:this.room.id }});
+            }
+
             // --- join websocket --- //
 
             let roomChannel = "poem_room_" + this.room.data.id +  "_user_" + this.$store.getters.GET_ID;
@@ -177,8 +163,12 @@ export default {
                 }
             });
 
+            if (this.gameState === this.gameStates.GAME_GOES_MY_TURN || this.gameState === this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN) {
+                this.GetTextRoom();
+            }
             logger.writeLogInfo("[GAME STATE]: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
-            this.setStepTime();
+            this.gameProgressInPercent = GameProcessor.calculateGameProgressPercent(this.room.data);
+            this.loaded = true;
         } catch(error) {
             logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
         }
@@ -199,9 +189,19 @@ export default {
                 let Room = await HttpRequestFactory.makeRequest(requestType.RoomGet, this.$route.params.id);
                 this.room = Room.data;
                 logger.writeLogInfo("[REFRESH ROOM]: " + JSON.stringify(this.room));
-                logger.writeLogInfo("This game state is: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
+                
                 this.gameState = GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID);
-                this.composeRoomUsers();
+                logger.writeLogInfo("This game state is: " + this.gameState);
+                this.roomUsers = GameProcessor.composeRoomUsers(this.room.data);
+                this.gameProgressInPercent = GameProcessor.calculateGameProgressPercent(this.room.data);
+                if (this.gameState === this.gameStates.GAME_ENDED) {
+                    logger.writeLogInfo("GAME ENDED, PUSH TO FINISH PAGE " + this.gameState);
+                    this.$router.push({ name: 'finishedgame', params: { id:this.room.id }});
+                }
+                if (this.gameState === this.gameStates.GAME_GOES_MY_TURN || this.gameState === this.gameStates.GAME_GOES_ANOTHER_PLAYERS_TURN) {
+                    this.GetTextRoom();
+                }
+                this.loaded = true;
             } catch(error) {
                 logger.writeLogError("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
             }
@@ -221,7 +221,8 @@ export default {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EndPoem, this.room.data.id);
                 logger.writeLogInfo("[EndPoem]: " + JSON.stringify(answer));
-                this.RefreshRoom()
+                this.finishedPoem = answer.data.data.poem.split("\n");
+                logger.writeLogInfo(this.finishedPoem);
             } catch(error) {
                 logger.writeLogError("[EndPoem] RoomsList not loaded. Server returns an error: " + error)
             }
@@ -231,6 +232,7 @@ export default {
                 let answer = await HttpRequestFactory.makeRequest(requestType.LeaveRoom, this.room.data.id);
                 logger.writeLogInfo("[LeaveRoom]: " + JSON.stringify(answer));
                 if (answer.data.success == true) {
+                    ActiveGame.unsetActiveGame(this.$store.getters.GET_ID);
                     this.$router.push({ name: "roomslist" });
                 }
             } catch(error) {
@@ -241,8 +243,8 @@ export default {
             try {
                 let answer = await HttpRequestFactory.makeRequest(requestType.EnterRoom, this.room.data.id);
                 logger.writeLogInfo("[ENTER ROOM]: " + JSON.stringify(answer));
+                ActiveGame.setActiveGame(this.$store.getters.GET_ID, this.room.data.id);
                 this.RefreshRoom();
-                this.composeRoomUsers();
             } catch(error) {
                 logger.writeLogError("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)
             }
@@ -252,47 +254,30 @@ export default {
             logger.writeLogInfo("Date in getDate(): " + str);
             return date.toLocaleString('ru', this.options)
         },
-        composeRoomUsers() {
-            let _usersList = []
-            logger.writeLogInfo("Максимально пользователей " + this.room.data.places);
-            logger.writeLogInfo("Пользователи в игре " + this.room.data.players)
-            for(let user in this.room.data.players) {
-                let _tmpUser = {
-                    id: this.room.data.players[user],
-                    in_game: true,
-                    playing_now: this.room.data.players[user] == this.room.data.current_user_id ? true : false
-                }
-                logger.writeLogInfo("REAL USER " + JSON.stringify(_tmpUser));
-                _usersList.push(_tmpUser);
-            }
-            for(let i = 1; i < this.room.data.places - this.room.data.players.length + 1; i++) {
-                let _tmpUser = {
-                    id: 0,
-                    in_game: false,
-                    playing_now: false
-                 }
-                _usersList.push(_tmpUser);
-            }
-            logger.writeLogInfo("Список пользователей " + JSON.stringify(_usersList));
-            this.roomUsers = _usersList;
+        async letsStart() {
+            let started = await HttpRequestFactory.makeRequest(requestType.StartRoom, this.$route.params.id);
+            logger.writeLogInfo("Игра началась в: " + JSON.stringify(started))
         },
-        setStepTime() {
-            const dateAt = new Date(this.room.data.updated_at);
-            const date = new Date();
-            this.progressStepTimeMin = dateAt.getTime();
-            this.progressStepTimeMax = this.progressStepTimeMin + (this.room.data.move_duration * 1000);
-            console.log("Time min / max: " + this.progressStepTimeMin + " / " + this.progressStepTimeMax);
-            this.progressStepTime = date.getTime();
-            console.log("Time now: " + this.progressStepTime);
-            //one_percent
-        },
-
+        async GetTextRoom() {
+            let poemText = await HttpRequestFactory.makeRequest(requestType.TextRoom, this.$route.params.id);
+            logger.writeLogInfo("TEXT: " + JSON.stringify(poemText));
+            if(poemText && poemText.data.data) {
+                this.nowPoemStrings = poemText.data.data.split("\n");
+            }    
+        }
     }
 }
 
 </script>
 
 <style scoped>
+.scroll-desktop {
+    height: 33vh;
+}
+.scroll-mobile {
+    height: 56vh;
+}
+
 .other-avatars-style {
     margin: 3px;
     padding: auto;
@@ -307,5 +292,18 @@ export default {
     border-color: #e0953e;
     border-width: 2px;
 }
-
+.previous-message {
+	border:4px solid #9e64218e;
+	border-radius:10px;
+    background-color: #dbcab4;
+	position: relative;
+    padding: 5px;
+}
+.previous-message-font {
+    font-family: "Marck Script";
+    font-size: 1.4rem;
+    line-height: .6;
+    letter-spacing: .1;
+    text-decoration-style: solid;
+}
 </style>

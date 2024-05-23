@@ -1,4 +1,6 @@
 #!/bin/sh
 
-npm install typescript --save-dev
+npm uninstall tsc
+npm install -D typescript
+
 npm run watch

@@ -35,7 +35,6 @@ function structNotify(messages: any) {
     try {
         let _messages = JSON.parse(messages);
         let _message: string = "";
-        console.log("_MESSAGES: " + _messages + " LENGTH: " + _messages.length);
         if(typeof _messages === "string") {
             return _messages
         }

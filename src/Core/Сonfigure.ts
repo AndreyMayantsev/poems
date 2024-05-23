@@ -1,4 +1,3 @@
-
 export const Configure = {
 
     // VERSION
@@ -12,7 +11,7 @@ export const Configure = {
     // AND OTHER ROUTES
     // MODIFY THIS 
 
-    BASE_URL : "http://127.0.0.1:80", 
+    BASE_URL : "http://" + process.env.VUE_APP_BASE_URL, 
     URL_USER_REGISTER : "/api/user/register/",
     URL_USER_LOGIN : "/api/user/login/",
     URL_MAKE_ROOM : "/api/room/", 

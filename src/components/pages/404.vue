@@ -1,5 +1,5 @@
 <template>
-    <div class="NotFound">
+    <div class="NotFound window-content">
         <WindowDefaultFlex
             caption="Ошибка!"
             text=""

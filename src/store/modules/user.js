@@ -1,4 +1,4 @@
-import { CookiesDelete } from '../../Core-prod/api/getCookie'
+import { sessionID } from '../../Core-prod/api/requests/seesionID'
 
 export const moduleUser = {
 
@@ -13,15 +13,13 @@ export const moduleUser = {
     mutations: { 
 
         LOGIN(state, payload) {
-            console.log("Module LOGIN called!")
             state._raw = payload;
             state.isUserAutorized = true;
             state.UserID = payload.data.data.user_id;
             state.UserName = "Тестовый Иван Иванович"
-            console.log('[Store.User]: ' + JSON.stringify(payload) + ' | ' + state.UserID + ' | ' + state.UserName);
             localStorage.setItem('auth', 'true');
             localStorage.setItem('userID', "" + payload.data.data.user_id);
-            document.cookie = encodeURIComponent("Token") + " = " + encodeURIComponent("Bearer " + payload.data.data.token);
+            sessionID.setSessionID(payload.data.data.token);
         },
         
         LOGOUT(state) {
@@ -31,8 +29,7 @@ export const moduleUser = {
             state._raw = {}
             localStorage.removeItem('auth');
             localStorage.removeItem('userID');
-            CookiesDelete();
-            CookiesDelete();
+            sessionID.removeSessionId();
         },        
         
         ON_LOAD_USER_AUTORIZED_BY_COOKIES(state, payload) {
