@@ -107,7 +107,7 @@ export default {
 }
 .menu-font {
   font-family: "LT Remark";
-  font-size: 3.8rem;
+  font-size: small;
   line-height: .9;
   letter-spacing: 1;
   text-decoration-style: solid;
@@ -115,7 +115,7 @@ export default {
 }
 .text-font {
   font-family: "LT Remark";
-  font-size: 1.5rem;
+  font-size: small;
   line-height: .9;
   letter-spacing: 1;
   text-decoration-style: solid;
@@ -123,7 +123,7 @@ export default {
 }
 .text-font-mini {
   font-family: "LT Remark";
-  font-size: 1.0rem;
+  font-size: small;
   line-height: .9;
   letter-spacing: 1;
   text-decoration-style: solid;
@@ -147,7 +147,7 @@ export default {
 }
 .header-font-micro {
   font-family: "Marck Script";
-  font-size: 1.2rem;
+  font-size: 1.2;
   line-height: 1;
   letter-spacing: 0;
   text-decoration-style: solid;

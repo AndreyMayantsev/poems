@@ -83,31 +83,13 @@
                 logger.writeLogInfo("CREATED HOOK: " + JSON.stringify(this.room));
                 this.gameState = GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID);
                 this.composeRoomUsers();
-                
-                // // --- join websocket --- //
-    
-                // let roomChannel = "poem_room_" + this.room.data.id +  "_user_" + this.$store.getters.GET_ID;
-                // logger.writeLogInfo("[WS] Подписываемся на канал: " + roomChannel);
-                // window.Echo.channel(roomChannel)
-                // .listen(".App\\Websockets\\Events\\RoomMessage", (ev)=> {
-                //     console.log("Получено: " + JSON.stringify(ev));
-                //     this.RefreshRoom();
-                //     if(ev.message != null) {
-                //         this.nowPoemStrings = ev.message.split("\n");
-                //     }
-                // });
-    
-                // logger.writeLogInfo("[GAME STATE]: " + GameProcessor.checkGameState(this.room.data, this.$store.getters.GET_ID));
-                // //this.setStepTime();
-                // this.gameProgressInPercent = GameProcessor.calculateGameProgressPercent(this.room.data);
                 this.EndPoem();
             } catch(error) {
                 logger.writeLogError("[InsideRoom.Created] Room not loaded. Server returns an error: " + error);
             }
         },
         activated() {
-            // this.data.userIsPlayer = false;
-            // this.data.room.data = {}
+
         },
         mounted() {
     
@@ -130,17 +112,6 @@
                     logger.writeLogError("[InsideRoom.RefreshRoom] Room not loaded. Server returns an error: " + error);
                 }
             },
-            // async SendMessage() {
-            //     let messageBody = { message: this.message };
-            //     try {
-            //         let answer = await HttpRequestFactory.makeRequest(requestType.SendMessage, messageBody, this.room.data.id);
-            //         this.message = "";
-            //         logger.writeLogInfo("[SendMessage]: " + JSON.stringify(answer));
-            //         this.RefreshRoom()
-            //     } catch(error) {
-            //         logger.writeLogError("[SendMessage] RoomsList not loaded. Server returns an error: " + error)
-            //     }
-            // },
             async EndPoem() {
                 try {
                     let answer = await HttpRequestFactory.makeRequest(requestType.EndPoem, this.room.data.id);
@@ -151,32 +122,6 @@
                     logger.writeLogError("[EndPoem] RoomsList not loaded. Server returns an error: " + error)
                 }
             },
-            // async LeaveRoom() {
-            //     try {
-            //         let answer = await HttpRequestFactory.makeRequest(requestType.LeaveRoom, this.room.data.id);
-            //         logger.writeLogInfo("[LeaveRoom]: " + JSON.stringify(answer));
-            //         if (answer.data.success == true) {
-            //             this.$router.push({ name: "roomslist" });
-            //         }
-            //     } catch(error) {
-            //         logger.writeLogError("[LeaveRoom] RoomsList not loaded. Server returns an error: " + error)
-            //     }
-            // },
-            // async EnterRoom() {
-            //     try {
-            //         let answer = await HttpRequestFactory.makeRequest(requestType.EnterRoom, this.room.data.id);
-            //         logger.writeLogInfo("[ENTER ROOM]: " + JSON.stringify(answer));
-            //         this.RefreshRoom();
-            //         this.composeRoomUsers();
-            //     } catch(error) {
-            //         logger.writeLogError("[EnterRoom] RoomsList not loaded. Server returns an error: " + error)
-            //     }
-            // },
-            // getDate(str) {
-            //     var date = new Date(str);
-            //     logger.writeLogInfo("Date in getDate(): " + str);
-            //     return date.toLocaleString('ru', this.options)
-            // },
             composeRoomUsers() {
                 let _usersList = []
                 logger.writeLogInfo("Максимально пользователей " + this.room.data.places);

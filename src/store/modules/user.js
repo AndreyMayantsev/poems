@@ -11,7 +11,6 @@ export const moduleUser = {
     }),
 
     mutations: { 
-
         LOGIN(state, payload) {
             state._raw = payload;
             state.isUserAutorized = true;
